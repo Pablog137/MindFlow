@@ -4,13 +4,13 @@ export default function Hero() {
     return (
         <>
             <div className="text-white grid grid-cols-12 justify-center">
-                <div className="col-span-12 mt-40 flex justify-center items-center">
-                    <h1 className="text-6xl text-center gradient font-bold">
+                <div className="col-span-12 mt-20 md:mt-40 flex justify-center items-center">
+                    <h1 className="text-4xl md:text-6xl  text-center gradient font-bold">
                         Organize your work <br /> and life
                     </h1>
                 </div>
-                <div className="col-span-12 flex justify-center items-center mt-12">
-                    <h5 className="text-xl  text-center font-medium">
+                <div className="col-span-12 flex justify-center items-center mt-12 p-3">
+                    <h5 className="text-lg md:text-xl text-center font-medium">
                         Become focused, organized, and calm with MindFlow. The
                         world’s #1 <br /> task manager and to-do list app.
                     </h5>
