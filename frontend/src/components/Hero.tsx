@@ -1,0 +1,26 @@
+import "../styles/components/Hero.css";
+
+export default function Hero() {
+    return (
+        <>
+            <div className="text-white grid grid-cols-12 justify-center">
+                <div className="col-span-12 mt-40 flex justify-center items-center">
+                    <h1 className="text-6xl text-center gradient font-bold">
+                        Organize your work <br /> and life
+                    </h1>
+                </div>
+                <div className="col-span-12 flex justify-center items-center mt-12">
+                    <h5 className="text-xl  text-center font-medium">
+                        Become focused, organized, and calm with MindFlow. The
+                        world’s #1 <br /> task manager and to-do list app.
+                    </h5>
+                </div>
+                <div className="col-span-12 flex justify-center items-center mt-12">
+                    <button className="bg-purple-500 text-white font-semibold px-4 py-2 rounded-md">
+                        Start for free
+                    </button>
+                </div>
+            </div>
+        </>
+    );
+}
