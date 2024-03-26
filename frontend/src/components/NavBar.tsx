@@ -39,16 +39,13 @@ export default function NavBar() {
                     </div>
 
                     <ul
-                        className={`space-x-4 md:flex hidden col-span-9 text-gray-400 font-bold ${
+                        className={`space-x-4 md:flex hidden col-span-9 text-gray-400 font-semibold ${
                             menuOpen ? "hidden" : ""
                         }`}
                     >
                         {links.map((link, index) => (
                             <li key={index}>
-                                <a
-                                    href={link.url}
-                                    className="hover:text-blue-500"
-                                >
+                                <a href={link.url} className="hover:text-white">
                                     {link.name}
                                 </a>
                             </li>
@@ -79,7 +76,7 @@ export default function NavBar() {
                                 </li>
                             ))}
                             <li className="bg-gray-100">
-                                <a className="block px-4 py-2 cursor-pointer text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <a className="block px-4 py-2 cursor-pointer text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 ">
                                     Log in
                                 </a>
                             </li>
@@ -92,12 +89,12 @@ export default function NavBar() {
                     </div>
                 )}
 
-                <div className="col-span-4 justify-end space-x-3 items-center pe-2 hidden md:flex">
-                    <button className="text-white px-4 py-2 rounded-md">
+                <div className="col-span-4 justify-end space-x-3 items-center pe-2 hidden md:flex font-semibold">
+                    <button className="text-white hover:bg-gray-100 hover:text-black  px-4 py-2 rounded-md">
                         Log in
                     </button>
                     <div className="w-px bg-gray-400 h-10"></div>
-                    <button className="text-white px-4 py-2 rounded-md">
+                    <button className="text-white hover:bg-gray-100 hover:text-black px-4 py-2 rounded-md">
                         Sign Up
                     </button>
                 </div>

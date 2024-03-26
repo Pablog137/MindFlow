@@ -16,7 +16,7 @@ export default function Hero() {
                     </h5>
                 </div>
                 <div className="col-span-12 flex justify-center items-center mt-12">
-                    <button className="bg-purple-500 text-white font-semibold px-4 py-2 rounded-md">
+                    <button className="bg-purple-500 hover:bg-purple-700 text-white font-semibold px-4 py-2 rounded-md">
                         Start for free
                     </button>
                 </div>
