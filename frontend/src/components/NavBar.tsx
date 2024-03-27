@@ -39,7 +39,7 @@ export default function NavBar() {
                     </div>
 
                     <ul
-                        className={`space-x-4 md:flex hidden col-span-9 text-gray-400 font-semibold ${
+                        className={`space-x-4 lg:flex hidden col-span-9 text-gray-400 font-semibold ${
                             menuOpen ? "hidden" : ""
                         }`}
                     >
@@ -53,7 +53,7 @@ export default function NavBar() {
                     </ul>
                 </div>
 
-                <div className="col-span-4 justify-self-end space-x-3 items-center pe-2 md:hidden">
+                <div className="col-span-4 justify-self-end space-x-3 items-center pe-2 lg:hidden">
                     <i
                         className="fa-solid fa-bars text-white"
                         style={{ fontSize: "30px" }}
@@ -62,7 +62,7 @@ export default function NavBar() {
                 </div>
 
                 {menuOpen && (
-                    <div className="col-span-12 mt-4 md:hidden">
+                    <div className="col-span-12 mt-4 lg:hidden">
                         <ul className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-md">
                             {links.map((link, index) => (
                                 <li key={index}>
@@ -89,7 +89,7 @@ export default function NavBar() {
                     </div>
                 )}
 
-                <div className="col-span-4 justify-end space-x-3 items-center pe-2 hidden md:flex font-semibold">
+                <div className="col-span-4 justify-end space-x-3 items-center pe-2 hidden lg:flex font-semibold">
                     <button className="text-white hover:bg-gray-100 hover:text-black  px-4 py-2 rounded-md">
                         Log in
                     </button>
