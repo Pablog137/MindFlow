@@ -3,7 +3,7 @@ import "../styles/components/Hero.css";
 export default function Hero() {
     return (
         <>
-            <div className="text-white grid grid-cols-12 justify-center">
+            <div className="text-white grid grid-cols-12 justify-center mb-32">
                 <div className="col-span-12 mt-20 md:mt-40 flex justify-center items-center">
                     <h1 className="text-3xl sm:text-4xl md:text-6xl  text-center gradient font-bold">
                         Organize your work <br /> and life
