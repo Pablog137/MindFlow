@@ -7,15 +7,15 @@ export default function NavBar() {
     const links = [
         {
             name: "Features",
-            url: "#",
+            url: "#features",
         },
         {
             name: "Why MindFlow",
-            url: "#",
+            url: "#why-us",
         },
         {
             name: "Pricing",
-            url: "#",
+            url: "#pricing",
         },
     ];
 

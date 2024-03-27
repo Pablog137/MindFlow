@@ -5,14 +5,17 @@ import RatingStar from "./UI-Items/RatingStar";
 export default function WhyUs() {
     return (
         <>
-            <div className="text-white mt-10 grid grid-cols-12 justify-center">
-                <div className="col-span-12 mt-12 md:mt-40 flex justify-center items-center">
+            <div
+                className="text-white mt-10 grid grid-cols-12 justify-center"
+                id="why-us"
+            >
+                <div className="col-span-12 mt-12 md:mt-16 flex justify-center items-center">
                     <h1 className="text-2xl sm:text-3xl md:text-4xl text-center font-bold">
                         Why Choose us?
                     </h1>
                 </div>
                 <div className="col-span-12 mt-8 md:mt-16 flex justify-center items-center">
-                    <h5 className="text-md sm:text-lg md:text-xl text-center">
+                    <h5 className="text-md sm:text-lg md:text-xl text-center ps-8 pe-8">
                         With MindFlow you have everything you need to keep life
                         organized.
                     </h5>
