@@ -3,6 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import NotFound from "./pages/NotFound";
 import InProgress from "./pages/InProgress";
+import Login from "./pages/Login";
 
 export default function App() {
     return (
@@ -10,7 +11,7 @@ export default function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<LandingPage />} />
-                    <Route path="/login" element={<InProgress />} />
+                    <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<InProgress />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
