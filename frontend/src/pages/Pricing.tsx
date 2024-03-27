@@ -1,6 +1,7 @@
 import giftImg from "../assets/img/gift-64.png";
 import moneyImg from "../assets/img/money-64.png";
 import ListElement from "../components/UI-Items/ListElement";
+import { Link } from "react-router-dom";
 
 export default function Pricing() {
     return (
@@ -49,9 +50,12 @@ export default function Pricing() {
                         </ul>
                     </div>
                     <div className="flex justify-center mt-4">
-                        <button className="bg-purple-500 hover:bg-purple-700 text-white font-semibold p-3 rounded-full ">
+                        <Link
+                            to="register"
+                            className="bg-purple-500 hover:bg-purple-700 text-white font-semibold p-3 rounded-full "
+                        >
                             Choose plan
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -78,9 +82,12 @@ export default function Pricing() {
                         </ul>
                     </div>
                     <div className="flex justify-center mt-4">
-                        <button className="bg-purple-500 hover:bg-purple-700 text-white font-semibold p-3 rounded-full ">
+                        <Link
+                            to="register"
+                            className="bg-purple-500 hover:bg-purple-700 text-white font-semibold p-3 rounded-full "
+                        >
                             Choose plan
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </div>

@@ -78,9 +78,12 @@ export default function WhyUs() {
                                 dynamic charts
                             </h3>
                             <div className="flex justify-center mt-8">
-                                <button className="bg-purple-500 hover:bg-purple-700 text-white font-semibold p-3 rounded-xl">
+                                <a
+                                    href="#pricing"
+                                    className="bg-purple-500 hover:bg-purple-700 text-white font-semibold p-3 rounded-xl"
+                                >
                                     Pick your plan
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
