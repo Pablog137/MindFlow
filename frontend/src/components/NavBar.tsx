@@ -1,5 +1,6 @@
 import imagen from "../assets/img/a.png";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function NavBar() {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -76,27 +77,37 @@ export default function NavBar() {
                                 </li>
                             ))}
                             <li className="bg-gray-100">
-                                <a className="block px-4 py-2 cursor-pointer text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 ">
+                                <Link
+                                    to="/login"
+                                    className="block px-4 py-2 cursor-pointer text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                                >
                                     Log in
-                                </a>
+                                </Link>
                             </li>
                             <li className="bg-gray-100">
-                                <a className="block px-4 py-2 cursor-pointer text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <Link
+                                    to="/register"
+                                    className="block px-4 py-2 cursor-pointer text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                                >
                                     Sign up
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>
                 )}
 
                 <div className="col-span-4 justify-end space-x-3 items-center pe-2 hidden lg:flex font-semibold">
-                    <button className="text-white hover:bg-gray-100 hover:text-black  px-4 py-2 rounded-md">
-                        Log in
-                    </button>
+                    <Link to="/login">
+                        <button className="text-white hover:bg-gray-100 hover:text-black  px-4 py-2 rounded-md">
+                            Log in
+                        </button>
+                    </Link>
                     <div className="w-px bg-gray-400 h-10"></div>
-                    <button className="text-white hover:bg-gray-100 hover:text-black px-4 py-2 rounded-md">
-                        Sign Up
-                    </button>
+                    <Link to="/register">
+                        <button className="text-white hover:bg-gray-100 hover:text-black px-4 py-2 rounded-md">
+                            Sign Up
+                        </button>
+                    </Link>
                 </div>
             </div>
         </nav>
