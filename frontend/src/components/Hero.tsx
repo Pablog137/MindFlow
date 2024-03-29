@@ -6,7 +6,7 @@ export default function Hero() {
         <>
             <div className="text-white grid grid-cols-12 justify-center mb-32">
                 <div className="col-span-12 mt-20 md:mt-40 flex justify-center items-center">
-                    <h1 className="text-3xl sm:text-4xl md:text-6xl  text-center gradient font-bold">
+                    <h1 className="text-3xl sm:text-4xl md:text-6xl xl:text-7xl  text-center gradient font-bold">
                         Organize your work <br /> and life
                     </h1>
                 </div>

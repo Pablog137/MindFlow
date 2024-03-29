@@ -2,8 +2,29 @@ import giftImg from "../assets/img/gift-64.png";
 import moneyImg from "../assets/img/money-64.png";
 import ListElement from "../components/UI-Items/ListElement";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { currencies } from "../data/Currencies";
+
+const BASE_PRICE = 3.99;
 
 export default function Pricing() {
+    const [currency, setCurrency] = useState(currencies[0]);
+
+    const onChangeCurrency = (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+        const currencyFound = currencies.find(
+            (divisa) => divisa.name === e.currentTarget.value
+        );
+        if (currencyFound) {
+            setCurrency(currencyFound);
+        }
+    };
+
+    const convertPrice = (): string => {
+        return currency.symbol + (currency.value * BASE_PRICE).toFixed(2);
+    };
+
     return (
         <div
             className="text-white mt-10 grid grid-cols-12 justify-center mb-40 p-6 gap-8"
@@ -21,11 +42,16 @@ export default function Pricing() {
                 >
                     Price in
                 </label>
-                <select id="money" className="text-black p-1 rounded-md">
-                    <option value="EUR">EUR</option>
-                    <option value="USD">USD</option>
-                    <option value="AUD">AUD</option>
-                    <option value="JPY">JPY</option>
+                <select
+                    id="money"
+                    className="text-black p-1 rounded-md"
+                    onChange={onChangeCurrency}
+                >
+                    {currencies.map((divisa) => (
+                        <option key={divisa.id} value={divisa.name}>
+                            {divisa.name}
+                        </option>
+                    ))}
                 </select>
             </div>
             <div className="p-2 sm:p-0 sm:col-span-6 col-span-12 flex justify-end">
@@ -72,7 +98,7 @@ export default function Pricing() {
                             <img src={moneyImg} alt="" />
                         </div>
                         <h5 className="text-3xl md:text-4xl font-bold mt-5 mb-5 text-center">
-                            $3.99
+                            {convertPrice()}
                         </h5>
 
                         <ul className="text-gray-700 text-base">
