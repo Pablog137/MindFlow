@@ -4,15 +4,14 @@ import ListElement from "../components/UI-Items/ListElement";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { currencies } from "../data/Currencies";
+import { ChangeEvent } from "react";
 
 const BASE_PRICE = 3.99;
 
 export default function Pricing() {
     const [currency, setCurrency] = useState(currencies[0]);
 
-    const onChangeCurrency = (
-        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ) => {
+    const onChangeCurrency = (e: ChangeEvent<HTMLSelectElement>) => {
         const currencyFound = currencies.find(
             (divisa) => divisa.name === e.currentTarget.value
         );

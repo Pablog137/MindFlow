@@ -18,6 +18,10 @@ export default function NavBar() {
             name: "Pricing",
             url: "#pricing",
         },
+        {
+            name: "FAQs",
+            url: "#faqs",
+        },
     ];
 
     const toggleMenu = () => {
