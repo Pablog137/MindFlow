@@ -2,11 +2,13 @@ import logo from "../assets/img/logo-64.png";
 import useForm from "../hooks/useForm";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { setLocalStorage } from "../helpers/localstorage.ts";
 
 export default function Login() {
-    const { errors, handleChange, handleSubmit } = useForm("login");
+    const { values, errors, handleChange, handleSubmit } = useForm("login");
     const [showError, setShowError] = useState(false);
     const errorMessage = errors.email || errors.password;
+    const [serverError, setServerError] = useState("");
 
     const navigate = useNavigate();
 
@@ -14,8 +16,36 @@ export default function Login() {
         e.preventDefault();
         setShowError(true);
         const isValid = handleSubmit(e);
-        isValid && navigate("/dashboard");
+        isValid && loginAPI();
     };
+
+    const loginAPI = async () => {
+        try {
+            const res = await fetch("http://127.0.0.1:8000/api/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values),
+            });
+            const data = await res.json();
+
+            if (data.message) {
+                setServerError(data.message);
+                return;
+            }
+            setLocalStorage("token", data.token);
+            navigate("/dashboard");
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setServerError("");
+        handleChange(e);
+    };
+
     return (
         <div className="flex justify-center items-center min-h-screen">
             <div className="text-white grid place-items-center px-6">
@@ -26,6 +56,12 @@ export default function Login() {
                 {errorMessage && showError && (
                     <div className="w-full text-red-400 text-sm text-center p-3 mb-5 rounded border border-red-900 bg-red-950">
                         {errorMessage}
+                    </div>
+                )}
+
+                {serverError && (
+                    <div className="w-full text-red-400 text-sm text-center p-3 mb-5 rounded border border-red-900 bg-red-950">
+                        {serverError}
                     </div>
                 )}
 
@@ -45,7 +81,7 @@ export default function Login() {
                             name="email"
                             placeholder="Email"
                             className="bg-gray-800 p-2 rounded w-full mt-2"
-                            onChange={handleChange}
+                            onChange={onChangeInput}
                         />
                     </div>
                     <div className="col-span-12">
@@ -69,7 +105,7 @@ export default function Login() {
                             name="password"
                             placeholder="Password"
                             className="bg-gray-800 p-2 rounded w-full mt-2"
-                            onChange={handleChange}
+                            onChange={onChangeInput}
                         />
                     </div>
                     <div className="col-span-12 flex justify-center p-0 py-2">

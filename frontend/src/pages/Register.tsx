@@ -4,13 +4,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {
-    const { errors, handleChange, handleSubmit } = useForm("register");
+    const { values, errors, handleChange, handleSubmit } = useForm("register");
     const [showError, setShowError] = useState(false);
     const errorMessage =
         errors.name ||
         errors.email ||
         errors.password ||
         errors.password_confirmation;
+    const [serverError, setServerError] = useState("");
 
     const navigate = useNavigate();
 
@@ -18,7 +19,33 @@ export default function Register() {
         e.preventDefault();
         setShowError(true);
         const isValid = handleSubmit(e);
-        isValid && navigate("/dashboard");
+        isValid && registerAPI();
+    };
+
+    const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setServerError("");
+        handleChange(e);
+    };
+
+    const registerAPI = async () => {
+        try {
+            const res = await fetch("http://127.0.0.1:8000/api/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values),
+            });
+            const data = await res.json();
+
+            if (data.errors) {
+                setServerError(data.errors[0]);
+                return;
+            }
+            navigate("/login");
+        } catch (error) {
+            console.error(error);
+        }
     };
     return (
         <div className="flex justify-center items-center min-h-screen">
@@ -32,6 +59,13 @@ export default function Register() {
                         {errorMessage}
                     </div>
                 )}
+
+                {serverError && (
+                    <div className="w-full text-red-400 text-sm text-center p-3 mb-5 rounded border border-red-900 bg-red-950">
+                        {serverError}
+                    </div>
+                )}
+
                 <form
                     action=""
                     noValidate
@@ -48,7 +82,7 @@ export default function Register() {
                             name="name"
                             placeholder="Name"
                             className="bg-gray-800 p-2 rounded w-full mt-2"
-                            onChange={handleChange}
+                            onChange={onChangeInput}
                         />
                     </div>
                     <div className="col-span-12">
@@ -61,7 +95,7 @@ export default function Register() {
                             name="email"
                             placeholder="Email"
                             className="bg-gray-800 p-2 rounded w-full mt-2"
-                            onChange={handleChange}
+                            onChange={onChangeInput}
                         />
                     </div>
                     <div className="col-span-12">
@@ -77,7 +111,7 @@ export default function Register() {
                             name="password"
                             placeholder="Password"
                             className="bg-gray-800 p-2 rounded w-full mt-2"
-                            onChange={handleChange}
+                            onChange={onChangeInput}
                         />
                     </div>
                     <div className="col-span-12">
@@ -96,7 +130,7 @@ export default function Register() {
                             name="password_confirmation"
                             placeholder="Repeat password"
                             className="bg-gray-800 p-2 rounded w-full mt-2"
-                            onChange={handleChange}
+                            onChange={onChangeInput}
                         />
                     </div>
                     <div className="col-span-12 flex justify-center p-0 py-2">
