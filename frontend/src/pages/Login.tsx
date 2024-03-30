@@ -3,7 +3,7 @@ import useForm from "../hooks/useForm";
 import { useState } from "react";
 
 export default function Login() {
-    const { errors, handleChange, handleSubmit } = useForm();
+    const { errors, handleChange, handleSubmit } = useForm("login");
     const [showError, setShowError] = useState(false);
     const errorMessage = errors.email || errors.password;
 
