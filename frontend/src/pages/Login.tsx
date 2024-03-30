@@ -3,12 +3,14 @@ import useForm from "../hooks/useForm";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setLocalStorage } from "../helpers/localstorage.ts";
+import Spinner from "../components/Spinner.tsx";
 
 export default function Login() {
     const { values, errors, handleChange, handleSubmit } = useForm("login");
     const [showError, setShowError] = useState(false);
     const errorMessage = errors.email || errors.password;
     const [serverError, setServerError] = useState("");
+    const [showSpinner, setShowSpinner] = useState(false);
 
     const navigate = useNavigate();
 
@@ -21,6 +23,7 @@ export default function Login() {
 
     const loginAPI = async () => {
         try {
+            setShowSpinner(true);
             const res = await fetch(
                 import.meta.env.VITE_SERVER + "/api/login",
                 {
@@ -32,7 +35,7 @@ export default function Login() {
                 }
             );
             const data = await res.json();
-
+            setShowSpinner(false);
             if (data.message) {
                 setServerError(data.message);
                 return;
@@ -131,6 +134,7 @@ export default function Login() {
                         </p>
                     </div>
                 </form>
+                <div className="mt-10">{showSpinner && <Spinner />}</div>
             </div>
         </div>
     );

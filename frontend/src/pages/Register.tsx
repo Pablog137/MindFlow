@@ -2,6 +2,7 @@ import logo from "../assets/img/logo-64.png";
 import useForm from "../hooks/useForm";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../components/Spinner.tsx";
 
 export default function Register() {
     const { values, errors, handleChange, handleSubmit } = useForm("register");
@@ -12,6 +13,7 @@ export default function Register() {
         errors.password ||
         errors.password_confirmation;
     const [serverError, setServerError] = useState("");
+    const [showSpinner, setShowSpinner] = useState(false);
 
     const navigate = useNavigate();
 
@@ -29,6 +31,7 @@ export default function Register() {
 
     const registerAPI = async () => {
         try {
+            setShowSpinner(true);
             const res = await fetch(
                 import.meta.env.VITE_SERVER + "/api/register",
                 {
@@ -40,7 +43,7 @@ export default function Register() {
                 }
             );
             const data = await res.json();
-
+            setShowSpinner(false);
             if (data.errors) {
                 setServerError(data.errors[0]);
                 return;
@@ -156,6 +159,7 @@ export default function Register() {
                         </p>
                     </div>
                 </form>
+                <div className="mt-10">{showSpinner && <Spinner />}</div>
             </div>
         </div>
     );
