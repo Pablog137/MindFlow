@@ -42,7 +42,7 @@ const useForm = (formType: FormType) => {
         validate(name, value, errors);
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>): boolean => {
         e.preventDefault();
 
         // Validar todos los campos antes de enviar el formulario
@@ -50,13 +50,9 @@ const useForm = (formType: FormType) => {
 
         // Solo enviar el formulario si no hay errores
         if (Object.keys(errors).length === 0) {
-            console.log("Formulario válido");
-            console.log(values);
-            // Aquí puedes enviar el formulario
-        } else {
-            console.log("Formulario inválido");
-            console.log(errors);
+            return true;
         }
+        return false;
     };
 
     const validateForm = () => {

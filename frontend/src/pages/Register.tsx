@@ -1,6 +1,7 @@
 import logo from "../assets/img/logo-64.png";
 import useForm from "../hooks/useForm";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
     const { errors, handleChange, handleSubmit } = useForm("register");
@@ -11,10 +12,13 @@ export default function Register() {
         errors.password ||
         errors.password_confirmation;
 
+    const navigate = useNavigate();
+
     const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setShowError(true);
-        handleSubmit(e);
+        const isValid = handleSubmit(e);
+        isValid && navigate("/dashboard");
     };
     return (
         <div className="flex justify-center items-center min-h-screen">

@@ -2,9 +2,9 @@ import LandingPage from "./pages/LandingPage";
 import { BrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import NotFound from "./pages/NotFound";
-// import InProgress from "./pages/InProgress";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import InProgress from "./pages/InProgress";
 
 export default function App() {
     return (
@@ -14,6 +14,7 @@ export default function App() {
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/dashboard" element={<InProgress />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </BrowserRouter>
