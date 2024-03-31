@@ -21,14 +21,13 @@ export default function Dashboard() {
     //         .catch((error) => console.error("Logout error:", error));
     // };
 
-
     const isMdScreen = window.innerWidth >= 768;
     const [collapse, setCollapse] = useState(!isMdScreen);
 
     // For default value we check the size value of the screen and then we set the collapse value
     useEffect(() => {
         const handleResize = () => {
-            const isMdScreen = window.innerWidth >= 768;
+            const isMdScreen = window.innerWidth <= 768;
             setCollapse(!isMdScreen);
         };
 
@@ -42,7 +41,6 @@ export default function Dashboard() {
     const handleCollapse = () => {
         setCollapse(!collapse);
     };
-
 
     return (
         <div className="grid grid-cols-12">
