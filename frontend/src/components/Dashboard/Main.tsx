@@ -1,10 +1,18 @@
 import logo from "../../assets/img/logo-32.png";
 
-export default function Main() {
+export default function Main({ handleCollapse, collapse }) {
     return (
-        <div className="col-span-10 p-6">
+        <div
+            className={`${
+                collapse ? "col-span-8 md:col-span-9 lg:col-span-10" : "col-span-12"
+            } p-10 bg-[#1A1A1A] h-screen`}
+        >
+            <i
+                className="fa-solid fa-down-left-and-up-right-to-center text-white text-xl"
+                onClick={handleCollapse}
+            ></i>
             <div className="flex items-center justify-center mt-20 ">
-                <h1 className="text-white mr-4 text-4xl font-bold  text-center">
+                <h1 className="text-white mr-4 text-3xl md:text-4xl lg:text-5xl font-bold  text-center">
                     Welcome to Mind Flow!
                 </h1>
                 <img
