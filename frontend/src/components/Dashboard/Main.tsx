@@ -1,4 +1,4 @@
-import logo from "../../assets/img/logo-64.png";
+import logo from "../../assets/img/logo-32.png";
 
 export default function Main() {
     return (
@@ -7,7 +7,14 @@ export default function Main() {
                 <h1 className="text-white mr-4 text-4xl font-bold  text-center">
                     Welcome to Mind Flow!
                 </h1>
-                <img src={logo} alt="" />
+                <img
+                    src={logo}
+                    alt=""
+                    style={{
+                        width: "45px",
+                        height: "45px",
+                    }}
+                />
             </div>
             <div className="p-12">
                 <h3 className="text-white text-xl text-center">
