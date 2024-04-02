@@ -1,0 +1,9 @@
+.height {
+    height: calc(100vh - 64px);
+}
+@media (max-width: 768px) { /* Ajusta el valor 768px según tus necesidades */
+    .flex-column {
+        flex-direction: column;
+        align-items: center;
+    }
+}

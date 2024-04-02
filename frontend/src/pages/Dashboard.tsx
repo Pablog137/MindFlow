@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Navbar from "../components/Dashboard/Navbar";
 import Aside from "../components/Dashboard/Aside";
+import logo from "../assets/img/logo-64.png";
+import "../styles/pages/Dashboard.css";
 
 export default function Dashboard() {
     const [isAsideOpen, setIsAsideOpen] = useState(false);
@@ -18,31 +20,34 @@ export default function Dashboard() {
         <>
             <Navbar isAsideOpen={isAsideOpen} toggleAside={toggleAside} />
 
-            <div className="grid grid-cols-12 bg-[#161922]">
+            <div className="grid grid-cols-12">
                 <div className={colsAside}>
                     <Aside isAsideOpen={isAsideOpen} />
                 </div>
-                <div className={`text-white p-6 ${colMain}`}>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Asperiores, officia, sunt earum commodi hic quaerat sit quae
-                    deserunt alias explicabo dolorem. Accusantium et accusamus
-                    ea odit, fugit ab deleniti expedita! Corporis doloribus
-                    dolorem sit, quod recusandae sapiente modi ab neque
-                    voluptatem consectetur voluptas totam, magnam nobis adipisci
-                    aperiam delectus odio? Perferendis ea exercitationem libero
-                    beatae doloribus cum esse inventore delectus! Nobis sequi
-                    obcaecati ex rerum similique ab minima aspernatur quos,
-                    accusamus velit! Officiis voluptatem distinctio reiciendis
-                    labore sed! Molestias debitis officia natus, vel voluptate
-                    cupiditate. Amet, praesentium odio? Asperiores, excepturi.
-                    Suscipit, amet velit a autem iure blanditiis magni odit.
-                    Incidunt nobis odit iusto est doloribus vel consequuntur
-                    perspiciatis dolor quam eligendi inventore quaerat rem eos
-                    soluta, natus voluptate. Atque, fugit! Atque quasi doloribus
-                    dolorum corporis animi impedit. Inventore necessitatibus
-                    voluptates beatae consequuntur doloribus odio harum eum
-                    vitae. Id, sint ad? Natus vel placeat, eveniet deserunt
-                    dolorum reprehenderit aut quibusdam hic?
+                <div
+                    className={`text-white  bg-[#161922] px-6 md:px-12 pt-20 md:pt-40 flex flex-col items-center height ${colMain}`}
+                >
+                    <div className="flex items-center text-center">
+                        <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl mr-4">
+                            Welcome to Mind Flow!
+                        </h1>
+                        <img
+                            src={logo}
+                            alt="logo"
+                            className="hidden lg:block lg:w-16 "
+                        />
+                    </div>
+                    <div className="mt-14">
+                        <h5 className="text-xl md:text-2xl lg:text-3xl text-center">
+                            Make a note of something or use a template
+                        </h5>
+                    </div>
+                    <div className="border-b border-white w-full mt-20"></div>
+                    <div className="flex justify-center mt-10">
+                        <button className="bg-purple-400 hover:bg-purple-700 text-white font-semibold px-8 py-2 rounded-md">
+                            New note
+                        </button>
+                    </div>
                 </div>
             </div>
         </>
