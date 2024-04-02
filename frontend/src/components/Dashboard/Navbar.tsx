@@ -1,41 +1,66 @@
-import ElementNav from "../../components/Dashboard/ElementNav";
-import { listElements } from "../../data/navs";
-import user from "../../assets/img/user.png";
+import logo from "../../assets/img/logo-32.png";
 
-export default function Navbar() {
-    const getUserName = () => {
-        return "Pablog137";
-    };
+export default function Navbar({ isAsideOpen, toggleAside }) {
     return (
-        <div className="col-span-4 md:col-span-3 lg:col-span-2 bg-[#F3F4F6] h-screen">
-            <div className="flex justify-center items-center flex-col bg-gray-300 py-3">
-                <img
-                    src={user}
-                    alt="user"
-                    className="w-16 h-16 rounded-full mb-4"
-                />
-                <p>{getUserName()}</p>
-            </div>
-            <nav className="bg-[#F3F4F6] pt-4 ">
-                <ul>
-                    <li className="flex items-center justify-start hover:bg-blue-300">
-                        <button className="flex items-center w-full py-3 px-5">
-                            <i className="fa-solid fa-magnifying-glass mr-4 text-gray-800"></i>
-                            <p>Search</p>
+        <nav className="w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+            <div className="px-3 py-3 lg:px-5 lg:pl-3">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-start rtl:justify-end">
+                        <button
+                            onClick={toggleAside}
+                            className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                        >
+                            <span className="sr-only">Open sidebar</span>
+                            <svg
+                                className="w-6 h-6"
+                                aria-hidden="true"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    clipRule="evenodd"
+                                    fillRule="evenodd"
+                                    d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
+                                ></path>
+                            </svg>
                         </button>
-                    </li>
-                    {listElements.map((element, index) => {
-                        return (
-                            <ElementNav
-                                key={index}
-                                text={element.text}
-                                icon={element.icon}
-                                link={element.link}
-                            />
-                        );
-                    })}
-                </ul>
-            </nav>
-        </div>
+                        <a className="flex ms-2 md:me-24">
+                            <img src={logo} className="h-8 me-3" alt="Logo" />
+                            <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
+                                MindFlow
+                            </span>
+                        </a>
+                    </div>
+                    <div className="flex items-center">
+                        <div className="flex items-center ms-3">
+                            <div>
+                                <button
+                                    type="button"
+                                    className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                                    aria-expanded="false"
+                                    data-dropdown-toggle="dropdown-user"
+                                >
+                                    <span className="sr-only">
+                                        Open user menu
+                                    </span>
+                                    <img
+                                        className="w-8 h-8 rounded-full"
+                                        src="https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=612x612&w=0&k=20&c=dhV2p1JwmloBTOaGAtaA3AW1KSnjsdMt7-U_3EZElZ0="
+                                        alt="user photo"
+                                    />
+                                </button>
+                            </div>
+                            <div
+                                className={`z-50 ${
+                                    isAsideOpen ? "block" : "hidden"
+                                } my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600`}
+                                id="dropdown-user"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
     );
 }

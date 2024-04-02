@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 // import InProgress from "./pages/InProgress";
 import Dashboard from "./pages/Dashboard";
+import TodoList from "./pages/TodoList";
 
 export default function App() {
     return (
@@ -16,6 +17,7 @@ export default function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="todo-list" element={<TodoList />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </BrowserRouter>
