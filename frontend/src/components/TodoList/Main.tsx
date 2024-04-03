@@ -1,6 +1,6 @@
 import Aside from "../../components/Dashboard/Aside";
 import TodoList from "./TodoList";
-import { useState } from "react";
+import { useState, createContext } from "react";
 
 type Props = {
     isAsideOpen: boolean;
@@ -32,18 +32,23 @@ const initialTasks: Task[] = [
     },
 ];
 
+interface TaskContext {
+    tasks: Task[];
+    addTask: (task: Task) => void;
+    removeTask: (id: string | number) => void;
+    editTask: (id: string | number, task: Task) => void;
+}
+
+export const TaskContext = createContext<TaskContext>({} as TaskContext);
+
 export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     const [tasks, setTasks] = useState<Task[]>(initialTasks);
 
-    const todoTasks = tasks.filter((task) => task.status === "To do");
-    const doingTasks = tasks.filter((task) => task.status === "Doing");
-    const doneTasks = tasks.filter((task) => task.status === "Done");
-    const addTask = (task: Task) => {
-        setTasks([...tasks, task]);
-    };
-    const removeTask = (id: string | number) => {
+    const addTask = (task: Task) => setTasks([...tasks, task]);
+
+    const removeTask = (id: string | number) =>
         setTasks(tasks.filter((task) => task.id !== id));
-    };
+
     const editTask = (id: string | number, task: Task) => {
         setTasks(
             tasks.map((t) => {
@@ -57,36 +62,22 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
 
     return (
         <>
-            <div className="grid grid-cols-12 ">
-                <div className={colsAside}>
-                    <Aside isAsideOpen={isAsideOpen} />
+            <TaskContext.Provider
+                value={{ tasks, addTask, removeTask, editTask }}
+            >
+                <div className="grid grid-cols-12 ">
+                    <div className={colsAside}>
+                        <Aside isAsideOpen={isAsideOpen} />
+                    </div>
+                    <div
+                        className={`grid grid-cols-12 gap-5 text-white bg-[#161922] px-6 md:px-12 pt-10 h-full lg:h-screen  ${colMain}`}
+                    >
+                        <TodoList status="To do" tasks={tasks} />
+                        <TodoList status="Doing" tasks={tasks} />
+                        <TodoList status="Done" tasks={tasks} />
+                    </div>
                 </div>
-                <div
-                    className={`grid grid-cols-12 gap-5 text-white bg-[#161922] px-6 md:px-12 pt-10 h-full lg:h-screen  ${colMain}`}
-                >
-                    <TodoList
-                        status="To do"
-                        tasks={todoTasks}
-                        addTask={addTask}
-                        removeTask={removeTask}
-                        editTask={editTask}
-                    />
-                    <TodoList
-                        status="Doing"
-                        tasks={doingTasks}
-                        addTask={addTask}
-                        removeTask={removeTask}
-                        editTask={editTask}
-                    />
-                    <TodoList
-                        status="Done"
-                        tasks={doneTasks}
-                        addTask={addTask}
-                        removeTask={removeTask}
-                        editTask={editTask}
-                    />
-                </div>
-            </div>
+            </TaskContext.Provider>
         </>
     );
 }

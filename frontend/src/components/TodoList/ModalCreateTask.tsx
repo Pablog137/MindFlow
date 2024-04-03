@@ -1,13 +1,15 @@
 import { useState } from "react";
 import RatingStar from "./RatingStar";
 import { v4 as uuidv4 } from "uuid";
+import { TaskContext } from "./Main";
+import { useContext } from "react";
 
 type Props = {
-    addTask: (task: Task) => void;
     status: string;
 };
 
-export default function ModalCreateTask({ addTask, status }: Props) {
+export default function ModalCreateTask({ status }: Props) {
+    const { addTask } = useContext(TaskContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [priorityLevel, setPriorityLevel] = useState(1);
     const [description, setDescription] = useState("");

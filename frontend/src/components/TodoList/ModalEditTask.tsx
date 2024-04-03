@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import RatingStar from "./RatingStar";
+import { TaskContext } from "./Main";
+import { useContext } from "react";
 
 type Props = {
     toggleModal: () => void;
     isModalOpen: boolean;
     id: string | number;
     tasks: Array<Task>;
-    editTask: (id: string | number, task: Task) => void;
 };
 
 export default function ModalEditTask({
@@ -14,7 +15,6 @@ export default function ModalEditTask({
     isModalOpen,
     id,
     tasks,
-    editTask,
 }: Props) {
     useEffect(() => {
         const task = tasks.find((task) => task.id === id);
@@ -24,6 +24,8 @@ export default function ModalEditTask({
             setDueDate(task.due_date);
         }
     }, []);
+
+    const { editTask } = useContext(TaskContext);
 
     const [priorityLevel, setPriorityLevel] = useState(1);
     const [description, setDescription] = useState("");

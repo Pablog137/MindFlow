@@ -1,48 +1,30 @@
 import { useState } from "react";
 import ModalEditTask from "./ModalEditTask";
+import { TaskContext } from "./Main";
+import { useContext } from "react";
 
 type Props = {
-    priority: number;
-    description: string;
-    due_date: string;
+    task: Task;
     id: string | number;
-    removeTask: (id: string | number) => void;
     tasks: Array<Task>;
-    editTask: (id: string | number, task: Task) => void;
 };
 
 const priorityLevels = ["Easy", "Medium", "Hard"];
 const priorityColors = ["green", "yellow", "red"];
 
-export default function TodoListItem({
-    priority,
-    description,
-    due_date,
-    id,
-    removeTask,
-    tasks,
-    editTask,
-}: Props) {
+export default function TodoListItem({ task, id, tasks }: Props) {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { removeTask } = useContext(TaskContext);
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
-        // resetForm();
     };
+    const color = priorityColors[task.priority - 1];
     return (
         <div className="p-5 bg-white rounded-lg">
-            {/* <span
-                className={`font-bold text-${
-                    difficultyColors[difficulty - 1]
-                }-500`}
-            > */}
             <div className="flex justify-between items-center">
-                <span
-                    className={`font-bold text-${
-                        priorityColors[priority - 1]
-                    }-500`}
-                >
-                    {priorityLevels[priority - 1]}
+                <span className={`font-bold text-${color}-500`}>
+                    {priorityLevels[task.priority - 1]}
                 </span>
                 <button>
                     <i
@@ -52,11 +34,13 @@ export default function TodoListItem({
                 </button>
             </div>
 
-            <p className="text-xl py-6">{description}</p>
+            <p className="text-xl py-6">{task.description}</p>
             <div className="flex items-center justify-between">
                 <div className="flex items-center">
                     <i className="fa-regular fa-clock text-purple-300 mr-4 text-lg"></i>
-                    <span className="text-sm text-gray-500">{due_date}</span>
+                    <span className="text-sm text-gray-500">
+                        {task.due_date}
+                    </span>
                 </div>
                 <button>
                     <i
@@ -70,7 +54,6 @@ export default function TodoListItem({
                 isModalOpen={isModalOpen}
                 id={id}
                 tasks={tasks}
-                editTask={editTask}
             />
         </div>
     );
