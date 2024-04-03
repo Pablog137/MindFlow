@@ -2,6 +2,8 @@ type Props = {
     difficulty: number;
     description: string;
     due_date: string;
+    id: string | number;
+    removeTask: (id: string | number) => void;
 };
 
 const difficultyLevels = ["Easy", "Medium", "Hard"];
@@ -11,6 +13,8 @@ export default function TodoListItem({
     difficulty,
     description,
     due_date,
+    id,
+    removeTask,
 }: Props) {
     return (
         <div className="p-5 bg-white rounded-lg">
@@ -27,7 +31,12 @@ export default function TodoListItem({
                     <i className="fa-regular fa-clock text-purple-300 mr-4 text-lg"></i>
                     <span className="text-sm text-gray-500">{due_date}</span>
                 </div>
-                <i className="fa-solid fa-trash text-red-500 text-lg"></i>
+                <button>
+                    <i
+                        className="fa-solid fa-trash text-red-500 hover:text-red-300 hover:text-xl text-lg"
+                        onClick={() => removeTask(id)}
+                    ></i>
+                </button>
             </div>
         </div>
     );

@@ -41,6 +41,9 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     const addTask = (task: Task) => {
         setTasks([...tasks, task]);
     };
+    const removeTask = (id : string | number) => {
+        setTasks(tasks.filter((task) => task.id !== id));
+    };
 
     return (
         <>
@@ -55,16 +58,19 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                         status="To do"
                         tasks={todoTasks}
                         addTask={addTask}
+                        removeTask={removeTask}
                     />
                     <TodoList
                         status="Doing"
                         tasks={doingTasks}
                         addTask={addTask}
+                        removeTask={removeTask}
                     />
                     <TodoList
                         status="Done"
                         tasks={doneTasks}
                         addTask={addTask}
+                        removeTask={removeTask}
                     />
                 </div>
             </div>
