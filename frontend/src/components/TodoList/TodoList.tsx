@@ -1,13 +1,6 @@
 import ModalCreateTask from "./ModalCreateTask";
 import TodoListItem from "./TodoListItem";
 
-type Task = {
-    id: number | string;
-    status: string;
-    difficulty: number;
-    description: string;
-    due_date: string;
-};
 
 type Props = {
     status: string;

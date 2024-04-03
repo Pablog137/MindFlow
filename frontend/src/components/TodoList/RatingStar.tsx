@@ -1,8 +1,14 @@
+type Props = {
+    id: number;
+    changeDifficultyLevel: (id: number) => void;
+    difficultyLevel: number;
+};
+
 export default function RatingStar({
     id,
     changeDifficultyLevel,
     difficultyLevel,
-}) {
+}: Props) {
     function handleClick() {
         changeDifficultyLevel(id);
     }

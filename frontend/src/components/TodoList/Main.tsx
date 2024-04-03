@@ -7,13 +7,6 @@ type Props = {
     colsAside: string;
     colMain: string;
 };
-type Task = {
-    id: number | string;
-    status: string;
-    difficulty: number;
-    description: string;
-    due_date: string;
-};
 
 const initialTasks: Task[] = [
     {

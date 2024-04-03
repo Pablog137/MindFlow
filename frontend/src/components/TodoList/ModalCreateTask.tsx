@@ -2,13 +2,6 @@ import { useState } from "react";
 import RatingStar from "./RatingStar";
 import { useId } from "react";
 
-type Task = {
-    id: number | string;
-    status: string;
-    difficulty: number;
-    description: string;
-    due_date: string;
-};
 
 type Props = {
     addTask: (task: Task) => void;
