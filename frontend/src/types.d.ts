@@ -1,7 +1,7 @@
 type Task = {
     id: number | string;
     status: string;
-    difficulty: number;
+    priority: number;
     description: string;
     due_date: string;
 };

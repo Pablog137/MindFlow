@@ -1,23 +1,23 @@
 type Props = {
     id: number;
-    changeDifficultyLevel: (id: number) => void;
-    difficultyLevel: number;
+    changePriorityLevel: (id: number) => void;
+    priorityLevel: number;
 };
 
 export default function RatingStar({
     id,
-    changeDifficultyLevel,
-    difficultyLevel,
+    changePriorityLevel,
+    priorityLevel,
 }: Props) {
     function handleClick() {
-        changeDifficultyLevel(id);
+        changePriorityLevel(id);
     }
     return (
         <>
             <svg
                 data-id={id}
                 className={`w-5 h-5 ${
-                    difficultyLevel >= id ? "text-yellow-500" : ""
+                    priorityLevel >= id ? "text-yellow-500" : ""
                 } `}
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"

@@ -6,6 +6,7 @@ type Props = {
     tasks: Array<Task>;
     addTask: (task: Task) => void;
     removeTask: (id: string | number) => void;
+    editTask: (id: string | number, task: Task) => void;
 };
 
 export default function TodoList({
@@ -13,6 +14,7 @@ export default function TodoList({
     tasks,
     addTask,
     removeTask,
+    editTask,
 }: Props) {
     return (
         <div className="col-span-12 lg:col-span-4 bg-[#EBECF0] text-black rounded-lg p-6 border-2 border-purple-500 flex flex-col ">
@@ -23,10 +25,12 @@ export default function TodoList({
                         <TodoListItem
                             key={task.id}
                             id={task.id}
-                            difficulty={task.difficulty}
+                            priority={task.priority}
                             description={task.description}
                             due_date={task.due_date}
                             removeTask={removeTask}
+                            tasks={tasks}
+                            editTask={editTask}
                         />
                     );
                 })}

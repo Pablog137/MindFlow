@@ -1,57 +1,54 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RatingStar from "./RatingStar";
-import { v4 as uuidv4 } from "uuid";
 
 type Props = {
-    addTask: (task: Task) => void;
-    status: string;
+    toggleModal: () => void;
+    isModalOpen: boolean;
+    id: string | number;
+    tasks: Array<Task>;
+    editTask: (id: string | number, task: Task) => void;
 };
 
-export default function ModalCreateTask({ addTask, status }: Props) {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+export default function ModalEditTask({
+    toggleModal,
+    isModalOpen,
+    id,
+    tasks,
+    editTask,
+}: Props) {
+    useEffect(() => {
+        const task = tasks.find((task) => task.id === id);
+        if (task) {
+            setPriorityLevel(task.priority);
+            setDescription(task.description);
+            setDueDate(task.due_date);
+        }
+    }, []);
+
     const [priorityLevel, setPriorityLevel] = useState(1);
     const [description, setDescription] = useState("");
     const [dueDate, setDueDate] = useState("");
-
-    const toggleModal = () => {
-        setIsModalOpen(!isModalOpen);
-        resetForm();
-    };
 
     const changePriorityLevel = (difficulty: number) => {
         setPriorityLevel(difficulty);
     };
 
-    const resetForm = () => {
-        setPriorityLevel(1);
-        setDescription("");
-        setDueDate("");
-    };
-
-    const createTask = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleEdit = (e: React.FormEvent) => {
         e.preventDefault();
-        // create task
-        addTask({
-            description,
-            priority: priorityLevel,
-            due_date: dueDate,
-            status,
-            id: uuidv4(),
-        });
-        resetForm();
-        toggleModal();
+        const task = tasks.find((task) => task.id === id);
+        if (task) {
+            editTask(task.id, {
+                ...task,
+                priority: priorityLevel,
+                description,
+                due_date: dueDate,
+            });
+            toggleModal();
+        }
     };
 
     return (
         <>
-            <button
-                className="bg-purple-500 hover:bg-purple-700 text-white font-semibold px-4 py-2 rounded-md flex justify-center items-center gap-4"
-                onClick={toggleModal}
-            >
-                <i className="fa-solid fa-plus"></i>
-                <p>Add a task</p>
-            </button>
-
             {isModalOpen && (
                 <div
                     id="crud-modal"
@@ -62,7 +59,7 @@ export default function ModalCreateTask({ addTask, status }: Props) {
                     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                         <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                Create New Task
+                                Edit Task
                             </h3>
                             <button
                                 onClick={toggleModal}
@@ -87,7 +84,7 @@ export default function ModalCreateTask({ addTask, status }: Props) {
                                 <span className="sr-only">Close modal</span>
                             </button>
                         </div>
-                        <form className="p-4 md:p-5" onSubmit={createTask}>
+                        <form className="p-4 md:p-5" onSubmit={handleEdit}>
                             <div className="grid gap-4 mb-4 grid-cols-2">
                                 <div className="col-span-2 flex justify-between">
                                     <label

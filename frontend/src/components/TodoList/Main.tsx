@@ -12,21 +12,21 @@ const initialTasks: Task[] = [
     {
         id: 1,
         status: "To do",
-        difficulty: 1,
+        priority: 1,
         description: "Create a new task",
         due_date: "2022-12-31",
     },
     {
         id: 2,
         status: "Doing",
-        difficulty: 2,
+        priority: 2,
         description: "Create a new task",
         due_date: "2022-12-31",
     },
     {
         id: 3,
         status: "Done",
-        difficulty: 3,
+        priority: 3,
         description: "Create a new task",
         due_date: "2022-12-31",
     },
@@ -41,8 +41,18 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     const addTask = (task: Task) => {
         setTasks([...tasks, task]);
     };
-    const removeTask = (id : string | number) => {
+    const removeTask = (id: string | number) => {
         setTasks(tasks.filter((task) => task.id !== id));
+    };
+    const editTask = (id: string | number, task: Task) => {
+        setTasks(
+            tasks.map((t) => {
+                if (t.id === id) {
+                    return task;
+                }
+                return t;
+            })
+        );
     };
 
     return (
@@ -59,18 +69,21 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                         tasks={todoTasks}
                         addTask={addTask}
                         removeTask={removeTask}
+                        editTask={editTask}
                     />
                     <TodoList
                         status="Doing"
                         tasks={doingTasks}
                         addTask={addTask}
                         removeTask={removeTask}
+                        editTask={editTask}
                     />
                     <TodoList
                         status="Done"
                         tasks={doneTasks}
                         addTask={addTask}
                         removeTask={removeTask}
+                        editTask={editTask}
                     />
                 </div>
             </div>

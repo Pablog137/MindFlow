@@ -1,30 +1,57 @@
+import { useState } from "react";
+import ModalEditTask from "./ModalEditTask";
+
 type Props = {
-    difficulty: number;
+    priority: number;
     description: string;
     due_date: string;
     id: string | number;
     removeTask: (id: string | number) => void;
+    tasks: Array<Task>;
+    editTask: (id: string | number, task: Task) => void;
 };
 
-const difficultyLevels = ["Easy", "Medium", "Hard"];
-const difficultyColors = ["green", "yellow", "red"];
+const priorityLevels = ["Easy", "Medium", "Hard"];
+const priorityColors = ["green", "yellow", "red"];
 
 export default function TodoListItem({
-    difficulty,
+    priority,
     description,
     due_date,
     id,
     removeTask,
+    tasks,
+    editTask,
 }: Props) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const toggleModal = () => {
+        setIsModalOpen(!isModalOpen);
+        // resetForm();
+    };
     return (
         <div className="p-5 bg-white rounded-lg">
-            <span
+            {/* <span
                 className={`font-bold text-${
                     difficultyColors[difficulty - 1]
-                }-400`}
-            >
-                {difficultyLevels[difficulty - 1]}
-            </span>
+                }-500`}
+            > */}
+            <div className="flex justify-between items-center">
+                <span
+                    className={`font-bold text-${
+                        priorityColors[priority - 1]
+                    }-500`}
+                >
+                    {priorityLevels[priority - 1]}
+                </span>
+                <button>
+                    <i
+                        className="fa-regular fa-pen-to-square text-lg text-green-500 hover:text-green-600 hover:text-xl"
+                        onClick={toggleModal}
+                    ></i>
+                </button>
+            </div>
+
             <p className="text-xl py-6">{description}</p>
             <div className="flex items-center justify-between">
                 <div className="flex items-center">
@@ -38,6 +65,13 @@ export default function TodoListItem({
                     ></i>
                 </button>
             </div>
+            <ModalEditTask
+                toggleModal={toggleModal}
+                isModalOpen={isModalOpen}
+                id={id}
+                tasks={tasks}
+                editTask={editTask}
+            />
         </div>
     );
 }
