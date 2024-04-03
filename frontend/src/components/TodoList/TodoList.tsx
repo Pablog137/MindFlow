@@ -1,3 +1,4 @@
+import ModalCreateTask from "./ModalCreateTask";
 import TodoListItem from "./TodoListItem";
 
 type Props = {
@@ -13,10 +14,7 @@ export default function TodoList({ status }: Props) {
                 <TodoListItem />
             </div>
             <div className="flex justify-center pt-6">
-                <button className="bg-purple-500 hover:bg-purple-700 text-white font-semibold px-4 py-2 rounded-md flex justify-center items-center gap-4">
-                    <i className="fa-solid fa-plus"></i>
-                    <p>Add a task</p>
-                </button>
+                <ModalCreateTask />
             </div>
         </div>
     );
