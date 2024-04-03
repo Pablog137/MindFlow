@@ -1,27 +1,27 @@
-export const listElements = [
+export const elements = [
     {
-        text: "Home",
+        text: "Dashboard",
         icon: "fa-solid fa-house",
-        link: "/home",
+        url: "/dashboard",
     },
     {
         text: "Todo List",
         icon: "fa-solid fa-list-check",
-        link: "/todo-list",
+        url: "/todo-list",
     },
     {
         text: "Calendar",
         icon: "fa-solid fa-calendar",
-        link: "/calendar",
+        url: "/calendar",
     },
     {
         text: "Github",
         icon: "fa-brands fa-github",
-        link: "/github",
+        url: "/github",
     },
     {
-        text: "New note",
+        text: "New Note",
         icon: "fa-solid fa-plus",
-        link: "/new-note",
+        url: "/new-note",
     },
 ];

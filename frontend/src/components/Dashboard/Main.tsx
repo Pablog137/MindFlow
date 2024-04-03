@@ -1,6 +1,13 @@
 import Aside from "../../components/Dashboard/Aside";
 
-export default function Main({ isAsideOpen, colsAside, colMain, logo }) {
+type Props = {
+    isAsideOpen: boolean;
+    colsAside: string;
+    colMain: string;
+    logo: string;
+};
+
+export default function Main({ isAsideOpen, colsAside, colMain, logo }: Props) {
     return (
         <>
             <div className="grid grid-cols-12 ">

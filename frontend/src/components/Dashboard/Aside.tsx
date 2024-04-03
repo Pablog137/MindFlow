@@ -1,32 +1,15 @@
 import AsideElement from "./AsideElement";
+import { elements } from "../../data/navs";
 
-const elements = [
-    {
-        text: "Dashboard",
-        icon: "fa-solid fa-house",
-    },
-    {
-        text: "Todo List",
-        icon: "fa-solid fa-list-check",
-    },
-    {
-        text: "Calendar",
-        icon: "fa-solid fa-calendar",
-    },
-    {
-        text: "Github",
-        icon: "fa-brands fa-github",
-    },
-    {
-        text: "New Note",
-        icon: "fa-solid fa-plus",
-    },
-];
-export default function Aside({ isAsideOpen }) {
+type Props = {
+    isAsideOpen: boolean;
+};
+
+export default function Aside({ isAsideOpen }: Props) {
     return (
         <aside
             id="logo-sidebar"
-            className={`h-screen pt-6 transition-transform ${
+            className={`h-full pt-6 transition-transform ${
                 isAsideOpen ? "-translate-x-0" : "-translate-x-full"
             } bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 pt-10`}
             aria-label="Sidebar"
@@ -38,6 +21,7 @@ export default function Aside({ isAsideOpen }) {
                             key={index}
                             text={element.text}
                             icon={element.icon}
+                            url={element.url}
                         />
                     ))}
                 </ul>

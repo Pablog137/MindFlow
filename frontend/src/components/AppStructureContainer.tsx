@@ -3,8 +3,19 @@ import Navbar from "../components/Dashboard/Navbar";
 import logo from "../assets/img/logo-32.png";
 import "../styles/pages/Dashboard.css";
 
-export default function AppStructure({ MainComponent }) {
-    const [isAsideOpen, setIsAsideOpen] = useState(false);
+type ComponentProps = {
+    isAsideOpen: boolean;
+    colsAside: string;
+    colMain: string;
+    logo: string;
+};
+
+type Props = {
+    MainComponent: (props: ComponentProps) => JSX.Element;
+};
+
+export default function AppStructure({ MainComponent }: Props) {
+    const [isAsideOpen, setIsAsideOpen] = useState(true);
 
     const toggleAside = () => {
         setIsAsideOpen(!isAsideOpen);

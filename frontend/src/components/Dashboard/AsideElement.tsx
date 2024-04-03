@@ -1,8 +1,14 @@
-export default function AsideElement({ text, icon }) {
+type Props = {
+    text: string;
+    icon: string;
+    url: string;
+};
+
+export default function AsideElement({ text, icon, url }: Props) {
     return (
         <li className="p-2">
             <a
-                href="#"
+                href={url}
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
                 <i
