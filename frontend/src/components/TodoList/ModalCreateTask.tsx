@@ -1,11 +1,27 @@
 import { useState } from "react";
 import RatingStar from "./RatingStar";
+import { useId } from "react";
 
-export default function ModalCreateTask() {
+type Task = {
+    id: number | string;
+    status: string;
+    difficulty: number;
+    description: string;
+    due_date: string;
+};
+
+type Props = {
+    addTask: (task: Task) => void;
+    status: string;
+};
+
+export default function ModalCreateTask({ addTask, status }: Props) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [difficultyLevel, setDifficultyLevel] = useState(1);
     const [description, setDescription] = useState("");
     const [dueDate, setDueDate] = useState("");
+
+    const id = useId();
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
@@ -25,8 +41,15 @@ export default function ModalCreateTask() {
     const createTask = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // create task
-        console.log(difficultyLevel, description, dueDate);
+        addTask({
+            description,
+            difficulty: difficultyLevel,
+            due_date: dueDate,
+            status,
+            id,
+        });
         resetForm();
+        toggleModal();
     };
 
     return (
