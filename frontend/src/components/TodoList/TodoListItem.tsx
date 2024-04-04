@@ -24,14 +24,13 @@ export default function TodoListItem({ task, id, tasks }: Props) {
             isDragging: !!monitor.isDragging(),
         }),
     });
-    console.log(isDragging);
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
     };
     const color = priorityColors[task.priority - 1];
     return (
-        <div ref={drag} className="p-5 bg-white rounded-lg">
+        <div ref={drag} className={`p-5 bg-white rounded-lg ${isDragging ? "bg-blue-100" : "" }`}>
             <div className="flex justify-between items-center">
                 <span className={`font-bold text-${color}-500`}>
                     {priorityLevels[task.priority - 1]}

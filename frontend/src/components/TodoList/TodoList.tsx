@@ -14,7 +14,7 @@ export default function TodoList({ status, tasks }: Props) {
 
     const [{ isOver }, drop] = useDrop({
         accept: "CARD",
-        drop: (item) => addTaskToList(item.id, status),
+        drop: (task: Task) => addTaskToList(task.id, status),
         collect: (monitor) => ({
             isOver: !!monitor.isOver(),
         }),
@@ -33,10 +33,12 @@ export default function TodoList({ status, tasks }: Props) {
     return (
         <div
             ref={drop}
-            className="col-span-12 lg:col-span-4 bg-[#EBECF0] text-black rounded-lg p-6 border-2 border-purple-500 flex flex-col "
+            className={`col-span-12 lg:col-span-4 bg-[#EBECF0] text-black rounded-lg p-6 border-2 border-purple-500 flex flex-col  ${
+                isOver ? "bg-[#c6c8cc]" : ""
+            } `}
         >
             <h2 className="text-xl text-center font-bold pb-3">{status}</h2>
-            <div className="flex flex-col gap-2 flex-grow">
+            <div className={`flex flex-col gap-2 flex-grow`}>
                 {tasks.map(
                     (task) =>
                         task.status === status && (
