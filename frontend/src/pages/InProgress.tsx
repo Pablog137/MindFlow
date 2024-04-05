@@ -26,7 +26,7 @@ export default function InProgress() {
                 </div>
                 <p className="mt-4 text-gray-600">
                     Please check back later or return{" "}
-                    <a href="/" className="text-blue-500">
+                    <a href="/dashboard" className="text-blue-500">
                         home
                     </a>
                     .
