@@ -14,6 +14,7 @@ type Props = {
 export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     const [currentMonth, setCurrentMonth] = useState(getMonth());
     const { monthIndex } = useContext(GlobalContext);
+    const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
         setCurrentMonth(getMonth(monthIndex));
