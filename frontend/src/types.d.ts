@@ -5,3 +5,10 @@ type Task = {
     description: string;
     due_date: string;
 };
+
+type CalendarTask = {
+    id: number | string;
+    priority: number;
+    description: string;
+    date: string;
+};

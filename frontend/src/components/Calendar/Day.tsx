@@ -2,29 +2,27 @@ import dayjs from "dayjs";
 
 type Props = {
     day: dayjs.Dayjs;
-    rowIdx: number;
+    tasks: CalendarTask[];
 };
 
-export default function Day({ day, rowIdx }: Props) {
-    function getCurrentDayClass() {
-        return day.format("DD-MM-YY") === dayjs().format("DD-MM-YY")
-            ? "bg-blue-600 text-white rounded-full w-7"
-            : "";
-    }
+export default function Day({ day, tasks }: Props) {
     return (
-        <div className="text-white border border-gray-200 flex flex-col">
-            <header className="flex flex-col items-center">
-                {rowIdx === 0 && (
-                    <p className="text-sm mt-1">
-                        {day.format("ddd").toUpperCase()}
-                    </p>
-                )}
-                <p
-                    className={`text-sm p-1 my-1 text-center ${getCurrentDayClass()}`}
-                >
-                    {day.format("DD")}
+        <div className="border border-gray-200 flex flex-col p-1 min-h-20">
+            <header className="flex flex-col items- justify-start">
+                <p className={`text-md p-1 my-1 font-bold text-gray-500 ml-2`}>
+                    {day.format("D")}
                 </p>
             </header>
+            <ul>
+                {tasks.map((task) => (
+                    <li key={task.id} className="p-2">
+                        <p className="text-sm font-regular">
+                            {task.description}
+                        </p>
+                        {/* <p className="text-xs">{task.priority}</p> */}
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }

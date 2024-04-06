@@ -22,30 +22,29 @@ export default function CalendarHeader() {
     }
     return (
         <header className="py-6 flex items-center justify-center">
-            <h1 className="mr-10 text-md md:text-xl 2xl:text-3xl text-gray-500 fond-bold">
-                Calendar
-            </h1>
             <button
                 onClick={handleReset}
                 className="border rounded py-2 px-4 mr-5 text-white"
             >
                 Today
             </button>
-            <button onClick={handlePrevMonth}>
-                <span className="material-icons-outlined cursor-pointer text-gray-600 mx-2">
-                    chevron_left
-                </span>
-            </button>
-            <button onClick={handleNextMonth}>
-                <span className="material-icons-outlined cursor-pointer text-gray-600 mx-2">
-                    chevron_right
-                </span>
-            </button>
-            <h2 className="ml-4 text-md md:text-xl 2xl:text-3xl text-gray-500 font-bold">
-                {dayjs(new Date(dayjs().year(), monthIndex)).format(
-                    "MMMM YYYY"
-                )}
-            </h2>
+            <div className="flex items-center">
+                <button onClick={handlePrevMonth} className="flex items-center">
+                    <span className="material-icons-outlined cursor-pointer text-gray-600 mx-2">
+                        chevron_left
+                    </span>
+                </button>
+                <h2 className=" text-center text-md md:text-xl 2xl:text-3xl text-gray-500 font-bold">
+                    {dayjs(new Date(dayjs().year(), monthIndex)).format(
+                        "MMMM YYYY"
+                    )}
+                </h2>
+                <button onClick={handleNextMonth} className="flex items-center">
+                    <span className="material-icons-outlined cursor-pointer text-gray-600 mx-2">
+                        chevron_right
+                    </span>
+                </button>
+            </div>
         </header>
     );
 }
