@@ -8,7 +8,14 @@ type Task = {
 
 type CalendarTask = {
     id: number | string;
-    priority: number;
+    tag: TaskTag;
     description: string;
     date: string;
 };
+
+ enum TaskTag {
+    Personal = "Personal",
+    Work = "Work",
+    Study = "Study",
+    Other = "Other",
+}

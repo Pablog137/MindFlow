@@ -1,18 +1,9 @@
 import dayjs from "dayjs";
+import { TagColors } from "../../enums/enum";
 
 type Props = {
     day: dayjs.Dayjs;
     tasks: CalendarTask[];
-};
-
-type PriorityColors = {
-    [key: number]: string;
-};
-
-const priorityColors: PriorityColors = {
-    1: "bg-red-200",
-    2: "bg-yellow-200",
-    3: "bg-green-200",
 };
 
 export default function Day({ day, tasks }: Props) {
@@ -28,7 +19,7 @@ export default function Day({ day, tasks }: Props) {
                     <li key={task.id} className="p-2">
                         <p
                             className={`text-sm font-regular p-1 rounded-md ${
-                                priorityColors[task.priority]
+                                TagColors[task.tag]
                             }`}
                         >
                             {task.description}

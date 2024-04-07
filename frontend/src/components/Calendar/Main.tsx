@@ -4,6 +4,7 @@ import Month from "./Month";
 import { useContext, useState, useEffect } from "react";
 import GlobalContext from "../../context/CalendarContext";
 import Aside from "../Dashboard/Aside";
+import { TaskTag } from "../../enums/enum";
 
 type Props = {
     isAsideOpen: boolean;
@@ -14,31 +15,31 @@ type Props = {
 const initialTasks: CalendarTask[] = [
     {
         id: 1,
-        priority: 2,
+        tag: TaskTag.Work,
         description: "Complete project proposal",
         date: "2024-04-01",
     },
     {
         id: 2,
-        priority: 1,
+        tag: TaskTag.Personal,
         description: "Meeting with team",
         date: "2024-04-04",
     },
     {
         id: 3,
-        priority: 3,
+        tag: TaskTag.Study,
         description: "Review code updates",
         date: "2024-04-09",
     },
     {
         id: 4,
-        priority: 2,
+        tag: TaskTag.Other,
         description: "Prepare presentation",
         date: "2024-04-12",
     },
     {
         id: 5,
-        priority: 1,
+        tag: TaskTag.Work,
         description: "Submit quarterly report",
         date: "2024-05-16",
     },
