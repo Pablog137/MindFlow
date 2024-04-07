@@ -45,28 +45,33 @@ export default function CalendarHeader({ addTask, deleteTask }: Props) {
             >
                 Today
             </button>
-            <div className="flex items-center">
-                <button
-                    onClick={handlePrevMonth}
-                    className="flex items-center hover:border-purple-500"
-                >
-                    <span className="material-icons-outlined cursor-pointer text-purple-500 mx-2">
-                        chevron_left
-                    </span>
-                </button>
-                <h2 className=" text-center text-md md:text-xl 2xl:text-3xl text-white font-bold">
-                    {dayjs(new Date(dayjs().year(), monthIndex)).format(
-                        "MMMM YYYY"
-                    )}
-                </h2>
-                <button onClick={handleNextMonth} className="flex items-center">
-                    <span className="material-icons-outlined cursor-pointer text-purple-500 mx-2">
-                        chevron_right
-                    </span>
-                </button>
+            <div className="flex flex-col justify-center items-center">
+                <div className="flex items-center">
+                    <button
+                        onClick={handlePrevMonth}
+                        className="flex items-center hover:border-purple-500"
+                    >
+                        <span className="material-icons-outlined cursor-pointer text-purple-500 mx-2">
+                            chevron_left
+                        </span>
+                    </button>
+                    <h2 className=" text-center text-md md:text-xl 2xl:text-3xl text-white font-bold">
+                        {dayjs(new Date(dayjs().year(), monthIndex)).format(
+                            "MMMM YYYY"
+                        )}
+                    </h2>
+                    <button
+                        onClick={handleNextMonth}
+                        className="flex items-center"
+                    >
+                        <span className="material-icons-outlined cursor-pointer text-purple-500 mx-2">
+                            chevron_right
+                        </span>
+                    </button>
+                </div>
+                <DeleteTask drop={drop} />
             </div>
 
-            <DeleteTask drop={drop} />
             <AddTask addTask={addTask} />
         </header>
     );

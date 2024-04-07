@@ -1,5 +1,6 @@
 import { DragContext } from "./Main";
 import { useContext } from "react";
+import "../../styles/components/Calendar/DeleteTask.css";
 
 type Props = {
     drop: any;
@@ -19,7 +20,7 @@ const DeleteTask = ({ drop }: Props) => {
             {isDraggingInUse && (
                 <i
                     ref={drop}
-                    className={`fa-solid fa-trash p-2 text-red-400 text-2xl`}
+                    className={`fa-solid fa-trash p-2 mt-3 text-red-400 text-2xl trash-icon active`}
                 ></i>
             )}
         </div>

@@ -1,0 +1,16 @@
+.trash-icon {
+    transition: transform 0.5s ease-in-out;
+    animation: trashScale 1s infinite alternate;
+}
+
+@keyframes trashScale {
+    0% {
+        transform: scale(1); /* Tamaño original */
+    }
+    50% {
+        transform: scale(0.9); /* Reducir el tamaño al 90% */
+    }
+    100% {
+        transform: scale(1.1); /* Volver al tamaño original */
+    }
+}
