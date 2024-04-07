@@ -5,6 +5,16 @@ type Props = {
     tasks: CalendarTask[];
 };
 
+type PriorityColors = {
+    [key: number]: string;
+};
+
+const priorityColors: PriorityColors = {
+    1: "bg-red-200",
+    2: "bg-yellow-200",
+    3: "bg-green-200",
+};
+
 export default function Day({ day, tasks }: Props) {
     return (
         <div className="border border-gray-200 flex flex-col p-1 min-h-20">
@@ -16,7 +26,11 @@ export default function Day({ day, tasks }: Props) {
             <ul>
                 {tasks.map((task) => (
                     <li key={task.id} className="p-2">
-                        <p className="text-sm font-regular">
+                        <p
+                            className={`text-sm font-regular p-1 rounded-md ${
+                                priorityColors[task.priority]
+                            }`}
+                        >
                             {task.description}
                         </p>
                         {/* <p className="text-xs">{task.priority}</p> */}

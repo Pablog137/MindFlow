@@ -14,7 +14,7 @@ export default function Month({ month, tasks }: Props) {
         return tasks.filter((task) => task.date === day.format("YYYY-MM-DD"));
     };
     return (
-        <div className="bg-[#F0F0F8] rounded-lg p-4">
+        <div className="bg-[#F0F0F8] rounded-lg p-4 border-2 border-purple-500">
             <div className="grid grid-cols-5">
                 {weekDays.map((day, idx) => (
                     <div
