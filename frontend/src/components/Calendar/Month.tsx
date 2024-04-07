@@ -5,11 +5,12 @@ import { Dayjs } from "dayjs";
 type Props = {
     month: Dayjs[][];
     tasks: CalendarTask[];
+    addTasks: (id: string | number, date: string) => void;
 };
 
 const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
-export default function Month({ month, tasks }: Props) {
+export default function Month({ month, tasks, addTasks }: Props) {
     const getTasks = (day: Dayjs) => {
         return tasks.filter((task) => task.date === day.format("YYYY-MM-DD"));
     };
@@ -35,6 +36,7 @@ export default function Month({ month, tasks }: Props) {
                                     key={idx}
                                     day={day}
                                     tasks={getTasks(day)}
+                                    addTasks={addTasks}
                                 />
                             ))}
                     </React.Fragment>

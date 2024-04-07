@@ -19,7 +19,7 @@ export default function TodoListItem({ task, id, tasks }: Props) {
 
     const [{ isDragging }, drag] = useDrag({
         type: "CARD",
-        item: { id, status: task.status},
+        item: { id, status: task.status },
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
         }),
@@ -30,7 +30,10 @@ export default function TodoListItem({ task, id, tasks }: Props) {
     };
     const color = priorityColors[task.priority - 1];
     return (
-        <div ref={drag} className={`p-5 bg-white rounded-lg ${isDragging ? "bg-blue-100" : "" }`}>
+        <div
+            ref={drag}
+            className={`p-5 bg-white rounded-lg ${isDragging && "hidden"}`}
+        >
             <div className="flex justify-between items-center">
                 <span className={`font-bold text-${color}-500`}>
                     {priorityLevels[task.priority - 1]}

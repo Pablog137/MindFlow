@@ -15,7 +15,7 @@ type Props = {
 };
 
 export default function AppStructure({ MainComponent }: Props) {
-    const [isAsideOpen, setIsAsideOpen] = useState(true);
+    const [isAsideOpen, setIsAsideOpen] = useState(false);
 
     const toggleAside = () => {
         setIsAsideOpen(!isAsideOpen);

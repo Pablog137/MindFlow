@@ -2,9 +2,10 @@ import dayjs from "dayjs";
 import { useContext } from "react";
 import GlobalContext from "../../context/CalendarContext";
 import AddTask from "./AddTask";
+import DeleteTask from "./DeleteTask";
 
 type Props = {
-    addTask: (task: CalendarTask) => void;
+    addTask: (Task : CalendarTask) => void;
 };
 
 export default function CalendarHeader({ addTask }: Props) {
@@ -53,6 +54,8 @@ export default function CalendarHeader({ addTask }: Props) {
                     </span>
                 </button>
             </div>
+
+            <DeleteTask />
             <AddTask addTask={addTask} />
         </header>
     );

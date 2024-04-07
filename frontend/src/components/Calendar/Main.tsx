@@ -5,6 +5,8 @@ import { useContext, useState, useEffect } from "react";
 import GlobalContext from "../../context/CalendarContext";
 import Aside from "../Dashboard/Aside";
 import { TaskTag } from "../../enums/enum";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
 
 type Props = {
     isAsideOpen: boolean;
@@ -23,6 +25,18 @@ const initialTasks: CalendarTask[] = [
         id: 2,
         tag: TaskTag.Personal,
         description: "Meeting with team",
+        date: "2024-04-04",
+    },
+    {
+        id: 6,
+        tag: TaskTag.Other,
+        description: "Prepare for presentation today jaja okay",
+        date: "2024-04-04",
+    },
+    {
+        id: 10,
+        tag: TaskTag.Personal,
+        description: "Prepare for presentation today jaja okay",
         date: "2024-04-04",
     },
     {
@@ -54,6 +68,16 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
         setCurrentMonth(getMonth(monthIndex));
     }, [monthIndex]);
 
+    const addTasks = (id: string | number, date: string) => {
+        const newTasks = tasks.map((task) => {
+            if (task.id === id) {
+                return { ...task, date: date };
+            }
+            return task;
+        });
+        setTasks(newTasks);
+    };
+
     const addTask = (task: CalendarTask) => {
         setTasks([...tasks, task]);
     };
@@ -64,10 +88,16 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                 <div className={colsAside}>
                     <Aside isAsideOpen={isAsideOpen} />
                 </div>
-                <div className={`p-6 ${colMain} `}>
-                    <CalendarHeader addTask={addTask} />
-                    <Month month={currentMonth} tasks={tasks} />
-                </div>
+                <DndProvider backend={HTML5Backend}>
+                    <div className={`p-6 ${colMain} `}>
+                        <CalendarHeader addTask={addTask} />
+                        <Month
+                            month={currentMonth}
+                            tasks={tasks}
+                            addTasks={addTasks}
+                        />
+                    </div>
+                </DndProvider>
             </div>
         </>
     );
