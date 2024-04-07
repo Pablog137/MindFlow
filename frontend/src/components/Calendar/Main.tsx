@@ -54,9 +54,9 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
         setCurrentMonth(getMonth(monthIndex));
     }, [monthIndex]);
 
-    // const addTask = (task: CalendarTask) => {
-    //     setTasks([...tasks, task]);
-    // };
+    const addTask = (task: CalendarTask) => {
+        setTasks([...tasks, task]);
+    };
 
     return (
         <>
@@ -65,7 +65,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                     <Aside isAsideOpen={isAsideOpen} />
                 </div>
                 <div className={`p-6 ${colMain} `}>
-                    <CalendarHeader />
+                    <CalendarHeader addTask={addTask} />
                     <Month month={currentMonth} tasks={tasks} />
                 </div>
             </div>

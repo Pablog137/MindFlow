@@ -3,7 +3,11 @@ import { useContext } from "react";
 import GlobalContext from "../../context/CalendarContext";
 import AddTask from "./AddTask";
 
-export default function CalendarHeader() {
+type Props = {
+    addTask: (task: CalendarTask) => void;
+};
+
+export default function CalendarHeader({ addTask }: Props) {
     const { monthIndex, setMonthIndex } = useContext(GlobalContext);
 
     function handlePrevMonth() {
@@ -49,7 +53,7 @@ export default function CalendarHeader() {
                     </span>
                 </button>
             </div>
-            <AddTask />
+            <AddTask addTask={addTask} />
         </header>
     );
 }

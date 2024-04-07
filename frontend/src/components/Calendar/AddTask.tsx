@@ -1,9 +1,16 @@
 import { useState } from "react";
+import { TaskTag } from "../../enums/enum";
 
-export default function AddTask() {
+type Props = {
+    addTask: (task: CalendarTask) => void;
+};
+
+export default function AddTask({ addTask }: Props) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [tagText, setTagText] = useState("");
     const [tag, setTag] = useState<Tag | null>(null);
+    const [description, setDescription] = useState("");
+    const [date, setDate] = useState("");
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
@@ -37,6 +44,8 @@ export default function AddTask() {
     const resetForm = () => {
         setTag(null);
         setTagText("");
+        setDescription("");
+        setDate("");
     };
 
     const onClickTag = (tg: Tag) => {
@@ -45,6 +54,19 @@ export default function AddTask() {
         } else {
             setTag(tg);
         }
+    };
+
+    const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        addTask({
+            id: Math.floor(Math.random() * 1000),
+            // Hace un cast de tag?.Type a un valor de TaskTag
+            tag: TaskTag[tag?.Type as keyof typeof TaskTag],
+            description: description,
+            date: date,
+        });
+        toggleModal();
+        resetForm();
     };
 
     return (
@@ -91,7 +113,10 @@ export default function AddTask() {
                                 <span className="sr-only">Close modal</span>
                             </button>
                         </div>
-                        <form className="p-4 md:p-5">
+                        <form
+                            className="p-4 md:p-5"
+                            onSubmit={handleSubmitForm}
+                        >
                             <div className="grid gap-4 mb-4 grid-cols-2">
                                 <div className="col-span-2 py-2">
                                     <label
@@ -154,6 +179,10 @@ export default function AddTask() {
                                         className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Write task description here"
                                         maxLength={15}
+                                        onChange={(e) =>
+                                            setDescription(e.target.value)
+                                        }
+                                        value={description}
                                     ></textarea>
                                 </div>
                                 <div className="col-span-2">
@@ -167,6 +196,10 @@ export default function AddTask() {
                                         type="date"
                                         id="date"
                                         className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        onChange={(e) =>
+                                            setDate(e.target.value)
+                                        }
+                                        value={date}
                                     />
                                 </div>
                             </div>
