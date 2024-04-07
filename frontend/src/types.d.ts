@@ -13,9 +13,14 @@ type CalendarTask = {
     date: string;
 };
 
- enum TaskTag {
+enum TaskTag {
     Personal = "Personal",
     Work = "Work",
     Study = "Study",
     Other = "Other",
 }
+
+type DragContextType = {
+    setIsDraggingInUse: React.Dispatch<React.SetStateAction<boolean>>;
+    isDraggingInUse: boolean;
+};

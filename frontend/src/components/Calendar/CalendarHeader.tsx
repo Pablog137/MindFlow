@@ -3,12 +3,14 @@ import { useContext } from "react";
 import GlobalContext from "../../context/CalendarContext";
 import AddTask from "./AddTask";
 import DeleteTask from "./DeleteTask";
+import { useDrop } from "react-dnd";
 
 type Props = {
-    addTask: (Task : CalendarTask) => void;
+    addTask: (Task: CalendarTask) => void;
+    deleteTask: (id: string | number) => void;
 };
 
-export default function CalendarHeader({ addTask }: Props) {
+export default function CalendarHeader({ addTask, deleteTask }: Props) {
     const { monthIndex, setMonthIndex } = useContext(GlobalContext);
 
     function handlePrevMonth() {
@@ -26,6 +28,15 @@ export default function CalendarHeader({ addTask }: Props) {
                 : dayjs().month()
         );
     }
+
+    const [{ isOver }, drop] = useDrop({
+        accept: "TASK",
+        drop: (task: CalendarTask) => deleteTask(task.id),
+        collect: (monitor) => ({
+            isOver: !!monitor.isOver(),
+        }),
+    });
+
     return (
         <header className="py-6 flex items-center justify-between px-2">
             <button
@@ -55,7 +66,7 @@ export default function CalendarHeader({ addTask }: Props) {
                 </button>
             </div>
 
-            <DeleteTask />
+            <DeleteTask drop={drop} />
             <AddTask addTask={addTask} />
         </header>
     );

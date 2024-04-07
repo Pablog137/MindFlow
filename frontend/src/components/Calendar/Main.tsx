@@ -1,7 +1,7 @@
 import { getMonth } from "../../helpers/utils";
 import CalendarHeader from "./CalendarHeader";
 import Month from "./Month";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, createContext } from "react";
 import GlobalContext from "../../context/CalendarContext";
 import Aside from "../Dashboard/Aside";
 import { TaskTag } from "../../enums/enum";
@@ -59,10 +59,13 @@ const initialTasks: CalendarTask[] = [
     },
 ];
 
+export const DragContext = createContext();
+
 export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     const [currentMonth, setCurrentMonth] = useState(getMonth());
     const { monthIndex } = useContext(GlobalContext);
     const [tasks, setTasks] = useState<CalendarTask[]>(initialTasks);
+    const [isDraggingInUse, setIsDraggingInUse] = useState(false);
 
     useEffect(() => {
         setCurrentMonth(getMonth(monthIndex));
@@ -78,6 +81,11 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
         setTasks(newTasks);
     };
 
+    const deleteTask = (id: string | number) => {
+        const newTasks = tasks.filter((task) => task.id !== id);
+        setTasks(newTasks);
+    };
+
     const addTask = (task: CalendarTask) => {
         setTasks([...tasks, task]);
     };
@@ -88,16 +96,23 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                 <div className={colsAside}>
                     <Aside isAsideOpen={isAsideOpen} />
                 </div>
-                <DndProvider backend={HTML5Backend}>
-                    <div className={`p-6 ${colMain} `}>
-                        <CalendarHeader addTask={addTask} />
-                        <Month
-                            month={currentMonth}
-                            tasks={tasks}
-                            addTasks={addTasks}
-                        />
-                    </div>
-                </DndProvider>
+                <DragContext.Provider
+                    value={{ setIsDraggingInUse, isDraggingInUse }}
+                >
+                    <DndProvider backend={HTML5Backend}>
+                        <div className={`p-6 ${colMain} `}>
+                            <CalendarHeader
+                                addTask={addTask}
+                                deleteTask={deleteTask}
+                            />
+                            <Month
+                                month={currentMonth}
+                                tasks={tasks}
+                                addTasks={addTasks}
+                            />
+                        </div>
+                    </DndProvider>
+                </DragContext.Provider>
             </div>
         </>
     );
