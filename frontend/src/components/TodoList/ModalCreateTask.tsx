@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RatingStar from "./RatingStar";
 import { v4 as uuidv4 } from "uuid";
 import { TaskContext } from "./Main";
@@ -14,6 +14,13 @@ export default function ModalCreateTask({ status }: Props) {
     const [priorityLevel, setPriorityLevel] = useState(1);
     const [description, setDescription] = useState("");
     const [dueDate, setDueDate] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [feedbackMessage, setFeedbackMessage] = useState(false);
+    const [hasSubmitted, setHasSubmitted] = useState(false);
+
+    useEffect(() => {
+        if (hasSubmitted) validateForm();
+    }, [description, dueDate, hasSubmitted]);
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
@@ -28,10 +35,16 @@ export default function ModalCreateTask({ status }: Props) {
         setPriorityLevel(1);
         setDescription("");
         setDueDate("");
+        setHasSubmitted(false);
+        setFeedbackMessage(false);
     };
 
     const createTask = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setHasSubmitted(true);
+        if (!validateForm()) {
+            return;
+        }
         // create task
         addTask({
             description,
@@ -42,6 +55,17 @@ export default function ModalCreateTask({ status }: Props) {
         });
         resetForm();
         toggleModal();
+    };
+
+    const validateForm = () => {
+        if (description.trim() === "" || dueDate.trim() === "") {
+            setErrorMessage("Please fill in all the fields");
+            setFeedbackMessage(false);
+            return false;
+        }
+        setFeedbackMessage(true);
+        setErrorMessage("");
+        return true;
     };
 
     return (
@@ -96,7 +120,10 @@ export default function ModalCreateTask({ status }: Props) {
                                         htmlFor="description"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        Priority level
+                                        Priority level{" "}
+                                        <span className="text-red-700 text-sm">
+                                            *
+                                        </span>
                                     </label>
                                     <div className="flex gap-2">
                                         <RatingStar
@@ -127,7 +154,10 @@ export default function ModalCreateTask({ status }: Props) {
                                         htmlFor="description"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        Description
+                                        Description{" "}
+                                        <span className="text-red-700 text-sm">
+                                            *
+                                        </span>
                                     </label>
                                     <textarea
                                         id="description"
@@ -144,7 +174,10 @@ export default function ModalCreateTask({ status }: Props) {
                                         htmlFor="due-date"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        Due Date
+                                        Due Date{" "}
+                                        <span className="text-red-700 text-sm">
+                                            *
+                                        </span>
                                     </label>
                                     <input
                                         type="date"
@@ -157,6 +190,46 @@ export default function ModalCreateTask({ status }: Props) {
                                     />
                                 </div>
                             </div>
+                            {errorMessage && (
+                                <div
+                                    className="flex items-center justify-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+                                    role="alert"
+                                >
+                                    <svg
+                                        className="flex-shrink-0 inline w-4 h-4 me-3"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        viewBox="0 0 20 20"
+                                    >
+                                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                    </svg>
+                                    <span className="sr-only">Info</span>
+                                    <div>
+                                        <p>{errorMessage}</p>
+                                    </div>
+                                </div>
+                            )}
+
+                            {feedbackMessage && (
+                                <div
+                                    className="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800"
+                                    role="alert"
+                                >
+                                    <svg
+                                        className="flex-shrink-0 inline w-4 h-4 me-3"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        viewBox="0 0 20 20"
+                                    >
+                                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                    </svg>
+                                    <span className="sr-only">Info</span>
+                                    <div>Looks good!</div>
+                                </div>
+                            )}
+
                             <div className="flex justify-center">
                                 <button
                                     type="submit"
