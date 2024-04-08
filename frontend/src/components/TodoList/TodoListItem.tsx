@@ -3,6 +3,7 @@ import ModalEditTask from "./ModalEditTask";
 import { TaskContext } from "./Main";
 import { useContext } from "react";
 import { useDrag } from "react-dnd";
+import Tooltip from "@mui/material/Tooltip";
 
 type Props = {
     task: Task;
@@ -38,28 +39,34 @@ export default function TodoListItem({ task, id, tasks }: Props) {
                 <span className={`font-bold text-${color}-500`}>
                     {priorityLevels[task.priority - 1]}
                 </span>
-                <button>
-                    <i
-                        className="fa-regular fa-pen-to-square text-lg text-green-500 hover:text-green-600 hover:text-xl"
-                        onClick={toggleModal}
-                    ></i>
-                </button>
+                <Tooltip title="Edit" arrow>
+                    <button>
+                        <i
+                            className="fa-regular fa-pen-to-square text-lg text-green-500 hover:text-green-600 hover:text-xl"
+                            onClick={toggleModal}
+                        ></i>
+                    </button>
+                </Tooltip>
             </div>
 
             <p className="text-xl py-6">{task.description}</p>
             <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                    <i className="fa-regular fa-clock text-purple-300 mr-4 text-lg"></i>
-                    <span className="text-sm text-gray-500">
-                        {task.due_date}
-                    </span>
-                </div>
-                <button>
-                    <i
-                        className="fa-solid fa-trash text-red-500 hover:text-red-300 hover:text-xl text-lg"
-                        onClick={() => removeTask(id)}
-                    ></i>
-                </button>
+                <Tooltip title="Due date" arrow>
+                    <div className="flex items-center">
+                        <i className="fa-regular fa-clock text-purple-300 mr-4 text-lg"></i>
+                        <span className="text-sm text-gray-500">
+                            {task.due_date}
+                        </span>
+                    </div>
+                </Tooltip>
+                <Tooltip title="Delete" arrow>
+                    <button>
+                        <i
+                            className="fa-solid fa-trash text-red-500 hover:text-red-300 hover:text-xl text-lg"
+                            onClick={() => removeTask(id)}
+                        ></i>
+                    </button>
+                </Tooltip>
             </div>
             <ModalEditTask
                 toggleModal={toggleModal}
