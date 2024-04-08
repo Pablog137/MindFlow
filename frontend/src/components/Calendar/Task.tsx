@@ -1,4 +1,4 @@
-import { TagColors } from "../../enums/enum";
+import { TagColors } from "../../common/utils/enum";
 import { useDrag } from "react-dnd";
 import { DragContext } from "./Main";
 import { useContext, useEffect } from "react";

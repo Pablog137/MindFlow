@@ -3,6 +3,7 @@ import RatingStar from "./RatingStar";
 import { v4 as uuidv4 } from "uuid";
 import { TaskContext } from "./Main";
 import { useContext } from "react";
+import FORM_CONTANTS from "../../common/utils/constants";
 
 type Props = {
     status: string;
@@ -37,6 +38,7 @@ export default function ModalCreateTask({ status }: Props) {
         setDueDate("");
         setHasSubmitted(false);
         setFeedbackMessage(false);
+        setErrorMessage("");
     };
 
     const createTask = (e: React.FormEvent<HTMLFormElement>) => {
@@ -57,9 +59,20 @@ export default function ModalCreateTask({ status }: Props) {
         toggleModal();
     };
 
+    const handleResetForm = (e: React.FormEvent<EventTarget>) => {
+        e.preventDefault();
+        resetForm();
+    };
+
     const validateForm = () => {
+        const currentDate = new Date();
+        const selectedDate = new Date(dueDate);
         if (description.trim() === "" || dueDate.trim() === "") {
-            setErrorMessage("Please fill in all the fields");
+            setErrorMessage(FORM_CONTANTS.ERROR_MESSAGE_FILL_FIELDS);
+            setFeedbackMessage(false);
+            return false;
+        } else if (selectedDate < currentDate) {
+            setErrorMessage(FORM_CONTANTS.ERROR_MESSAGE_INVALID_DATE);
             setFeedbackMessage(false);
             return false;
         }
@@ -226,16 +239,24 @@ export default function ModalCreateTask({ status }: Props) {
                                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                                     </svg>
                                     <span className="sr-only">Info</span>
-                                    <div>Looks good!</div>
+                                    <div>
+                                        {FORM_CONTANTS.FEEDBACK_MESSAGE_SUCCESS}
+                                    </div>
                                 </div>
                             )}
 
-                            <div className="flex justify-center">
+                            <div className="flex justify-evenly">
                                 <button
                                     type="submit"
                                     className="text-white bg-purple-500 hover:bg-purple-700 inline-flex items-center  focus:ring-4 focus:outline-none font-semibold rounded-lg text-sm px-5 py-2.5 text-center"
                                 >
                                     Create Task
+                                </button>
+                                <button
+                                    onClick={handleResetForm}
+                                    className="text-white bg-red-400 hover:bg-red-500 inline-flex items-center  focus:ring-4 focus:outline-none font-semibold rounded-lg text-sm px-5 py-2.5 text-center"
+                                >
+                                    Reset
                                 </button>
                             </div>
                         </form>

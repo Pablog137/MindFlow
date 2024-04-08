@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { TaskTag } from "../../enums/enum";
+import { useState, useEffect } from "react";
+import { TaskTag } from "../../common/utils/enum";
+import FORM_CONTANTS from "../../common/utils/constants";
 
 type Props = {
     addTask: (task: CalendarTask) => void;
@@ -11,6 +12,13 @@ export default function AddTask({ addTask }: Props) {
     const [tag, setTag] = useState<Tag | null>(null);
     const [description, setDescription] = useState("");
     const [date, setDate] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [feedbackMessage, setFeedbackMessage] = useState(false);
+    const [hasSubmitted, setHasSubmitted] = useState(false);
+
+    useEffect(() => {
+        if (hasSubmitted) validateForm();
+    }, [description, date, tag, hasSubmitted]);
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
@@ -46,6 +54,14 @@ export default function AddTask({ addTask }: Props) {
         setTagText("");
         setDescription("");
         setDate("");
+        setHasSubmitted(false);
+        setFeedbackMessage(false);
+        setErrorMessage("");
+    };
+
+    const handleResetForm = (e: React.FormEvent<EventTarget>) => {
+        e.preventDefault();
+        resetForm();
     };
 
     const onClickTag = (tg: Tag) => {
@@ -58,6 +74,10 @@ export default function AddTask({ addTask }: Props) {
 
     const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setHasSubmitted(true);
+        if (!validateForm()) {
+            return;
+        }
         addTask({
             id: Math.floor(Math.random() * 1000),
             // Hace un cast de tag?.Type a un valor de TaskTag
@@ -67,6 +87,28 @@ export default function AddTask({ addTask }: Props) {
         });
         toggleModal();
         resetForm();
+    };
+
+    const validateForm = () => {
+        const currentDate = new Date();
+        const selectedDate = new Date(date);
+
+        if (!tag) {
+            setErrorMessage(FORM_CONTANTS.ERROR_MESSAGE_SELECT_TAG);
+            setFeedbackMessage(false);
+            return false;
+        } else if (description.trim() === "" || date.trim() === "") {
+            setErrorMessage(FORM_CONTANTS.ERROR_MESSAGE_FILL_FIELDS);
+            setFeedbackMessage(false);
+            return false;
+        } else if (selectedDate < currentDate) {
+            setErrorMessage(FORM_CONTANTS.ERROR_MESSAGE_INVALID_DATE);
+            setFeedbackMessage(false);
+            return false;
+        }
+        setFeedbackMessage(true);
+        setErrorMessage("");
+        return true;
     };
 
     return (
@@ -123,7 +165,10 @@ export default function AddTask({ addTask }: Props) {
                                         htmlFor="tag"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        Task Tag
+                                        Task Tag{" "}
+                                        <span className="text-red-700 text-sm">
+                                            *
+                                        </span>
                                     </label>
                                     <div className="flex items-center justify-center space-x-2">
                                         {tags.map((tg, idx) => (
@@ -172,7 +217,10 @@ export default function AddTask({ addTask }: Props) {
                                         htmlFor="description"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        Description
+                                        Description{" "}
+                                        <span className="text-red-700 text-sm">
+                                            *
+                                        </span>
                                     </label>
                                     <textarea
                                         id="description"
@@ -190,7 +238,10 @@ export default function AddTask({ addTask }: Props) {
                                         htmlFor="dudate"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        Date
+                                        Date{" "}
+                                        <span className="text-red-700 text-sm">
+                                            *
+                                        </span>
                                     </label>
                                     <input
                                         type="date"
@@ -203,12 +254,58 @@ export default function AddTask({ addTask }: Props) {
                                     />
                                 </div>
                             </div>
-                            <div className="flex justify-center">
+                            {errorMessage && (
+                                <div
+                                    className="flex items-center justify-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+                                    role="alert"
+                                >
+                                    <svg
+                                        className="flex-shrink-0 inline w-4 h-4 me-3"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        viewBox="0 0 20 20"
+                                    >
+                                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                    </svg>
+                                    <span className="sr-only">Info</span>
+                                    <div>
+                                        <p>{errorMessage}</p>
+                                    </div>
+                                </div>
+                            )}
+                            {feedbackMessage && (
+                                <div
+                                    className="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800"
+                                    role="alert"
+                                >
+                                    <svg
+                                        className="flex-shrink-0 inline w-4 h-4 me-3"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        viewBox="0 0 20 20"
+                                    >
+                                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                    </svg>
+                                    <span className="sr-only">Info</span>
+                                    <div>
+                                        {FORM_CONTANTS.FEEDBACK_MESSAGE_SUCCESS}
+                                    </div>
+                                </div>
+                            )}
+                            <div className="flex justify-evenly">
                                 <button
                                     type="submit"
                                     className="text-white bg-purple-500 hover:bg-purple-700 inline-flex items-center  focus:ring-4 focus:outline-none font-semibold rounded-lg text-sm px-5 py-2.5 text-center"
                                 >
                                     Create Task
+                                </button>
+                                <button
+                                    onClick={handleResetForm}
+                                    className="text-white bg-red-400 hover:bg-red-500 inline-flex items-center  focus:ring-4 focus:outline-none font-semibold rounded-lg text-sm px-5 py-2.5 text-center"
+                                >
+                                    Reset
                                 </button>
                             </div>
                         </form>

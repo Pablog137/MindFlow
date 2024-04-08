@@ -4,7 +4,7 @@ import Month from "./Month";
 import { useContext, useState, useEffect, createContext } from "react";
 import GlobalContext from "../../context/CalendarContext";
 import Aside from "../Dashboard/Aside";
-import { TaskTag } from "../../enums/enum";
+import { TaskTag } from "../../common/utils/enum";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 
