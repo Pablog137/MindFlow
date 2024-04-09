@@ -1,55 +1,12 @@
 import Aside from "../../components/Dashboard/Aside";
 import RepoCard from "./RepoCard";
+import { cards } from "../../data/github";
 
 type Props = {
     isAsideOpen: boolean;
     colsAside: string;
     colMain: string;
 };
-
-type Card = {
-    name: string;
-    lastUpdatedAt: string;
-    visibility: string;
-    issues: number;
-    commits: number;
-    languages: string[];
-};
-
-const cards: Card[] = [
-    {
-        name: "Prueba",
-        lastUpdatedAt: "2021-10-10",
-        visibility: "Public",
-        issues: 30,
-        commits: 40,
-        languages: ["Python", "JavaScript", "TypeScript"],
-    },
-    {
-        name: "Prueba",
-        lastUpdatedAt: "2021-10-10",
-        visibility: "Public",
-        issues: 30,
-        commits: 40,
-        languages: ["Python", "JavaScript", "TypeScript"],
-    },
-    {
-        name: "Prueba",
-        lastUpdatedAt: "2021-10-10",
-        visibility: "Public",
-        issues: 30,
-        commits: 40,
-        languages: ["Python", "JavaScript", "TypeScript"],
-    },
-    {
-        name: "Prueba",
-        lastUpdatedAt: "2021-10-10",
-        visibility: "Public",
-        issues: 30,
-        commits: 40,
-        languages: ["Python", "JavaScript", "TypeScript"],
-    },
-];
 
 export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     return (

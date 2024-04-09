@@ -10,6 +10,7 @@ import TodoList from "./pages/TodoList";
 // import InProgress from "./pages/InProgress";
 import Calendar from "./pages/Calendar";
 import Github from "./pages/Github";
+import GithubProject from "./components/Github Data Manager/GithubProject";
 
 export default function App() {
     return (
@@ -23,6 +24,11 @@ export default function App() {
                     <Route path="/todo-list" element={<TodoList />} />
                     <Route path="/calendar" element={<Calendar />} />
                     <Route path="/github" element={<Github />} />
+                    <Route
+                        path="github/viewRepo/:id"
+                        element={<GithubProject />}
+                    />
+
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </BrowserRouter>
