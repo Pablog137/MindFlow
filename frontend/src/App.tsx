@@ -7,8 +7,9 @@ import Register from "./pages/Register";
 // import InProgress from "./pages/InProgress";
 import Dashboard from "./pages/Dashboard";
 import TodoList from "./pages/TodoList";
-import InProgress from "./pages/InProgress";
+// import InProgress from "./pages/InProgress";
 import Calendar from "./pages/Calendar";
+import Github from "./pages/Github";
 
 export default function App() {
     return (
@@ -21,7 +22,7 @@ export default function App() {
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/todo-list" element={<TodoList />} />
                     <Route path="/calendar" element={<Calendar />} />
-                    <Route path="/github" element={<InProgress />} />
+                    <Route path="/github" element={<Github />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </BrowserRouter>
