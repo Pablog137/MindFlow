@@ -30,7 +30,6 @@ type Commit = {
     committer: string;
 };
 
-
 const icons = {
     visibility: {
         Public: "fa fa-globe",
@@ -42,12 +41,12 @@ const icons = {
 };
 export default function RepoCard({ repo }: { repo: Card }) {
     return (
-        <div className="bg-white rounded-md col-span-4 p-2 max-h-64 ">
-            <h1 className="text-black text-center text-xl font-bold">
+        <div className="bg-white rounded-md col-span-12 md:col-span-6 xl:col-span-4 p-2 max-h-96 flex flex-col justify-between ">
+            <h1 className="text-black text-center text-xl lg:text-2xl font-bold">
                 {repo.name}
             </h1>
-            <ul className="text-gray-700 font-semibold p-4 text-sm">
-                <div className="flex justify-between">
+            <ul className="text-gray-700 font-semibold px-4 pt-10 text-md lg:px-8 lg:text-lg">
+                <li className="flex justify-between pb-2">
                     <div className="flex items-center gap-2">
                         <i
                             className={`${icons.lastUpdatedAt} text-purple-300`}
@@ -55,8 +54,8 @@ export default function RepoCard({ repo }: { repo: Card }) {
                         <p>Last updated at :</p>
                     </div>
                     <span>{repo.lastUpdatedAt}</span>
-                </div>
-                <div className="flex justify-between">
+                </li>
+                <li className="flex justify-between pb-2">
                     <div className="flex items-center gap-2">
                         <i
                             className={`${
@@ -66,25 +65,25 @@ export default function RepoCard({ repo }: { repo: Card }) {
                         <p>Visibility :</p>
                     </div>
                     <span>{repo.visibility}</span>
-                </div>
-                <div className="flex justify-between">
+                </li>
+                <li className="flex justify-between pb-2">
                     <div className="flex items-center gap-2">
                         <i className={`${icons.issues} text-purple-300`}></i>
                         <p>Issues :</p>
                     </div>
                     <span>{repo.issueCount}</span>
-                </div>
-                <div className="flex justify-between">
+                </li>
+                <li className="flex justify-between pb-2">
                     <div className="flex items-center gap-2">
                         <i className={`${icons.commits} text-purple-300`}></i>
                         <p>Commits :</p>
                     </div>
                     <span>{repo.commitsCount}</span>
-                </div>
+                </li>
             </ul>
             <div className="flex justify-center mt-5">
-                <Link to={`viewRepo/${repo.id}`} state={{repo}}>
-                    <button className="bg-purple-500 text-white font-bold py-1 px-4 text-sm rounded-md">
+                <Link to={`viewRepo/${repo.id}`} state={{ repo }}>
+                    <button className="bg-purple-500 text-white font-bold py-1 lg:py-2 px-4 lg:px-8 text-md lg:text-lg rounded-md">
                         Details
                     </button>
                 </Link>

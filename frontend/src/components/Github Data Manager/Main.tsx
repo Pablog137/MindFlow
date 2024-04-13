@@ -16,7 +16,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                     <Aside isAsideOpen={isAsideOpen} />
                 </div>
                 <div
-                    className={`text-white bg-[#161922] px-8 pt-20 md:pt-40 grid grid-cols-12 gap-6 height ${colMain}`}
+                    className={`text-white bg-[#161922] px-8 pt-20 md:px-20 md:pt-40 grid grid-cols-12 gap-6 height ${colMain}`}
                 >
                     {cards.map((card, index) => (
                         <RepoCard key={index} repo={card} />
