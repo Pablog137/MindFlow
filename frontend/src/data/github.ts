@@ -1,9 +1,9 @@
 export type Card = {
     id: number;
     name: string;
-    lastUpdatedAt: string;
+    updated_at: string;
     visibility: string;
-    issueCount: number;
+    open_issues_count: number;
     commitsCount: number;
     languages: Language[];
     description: string;
