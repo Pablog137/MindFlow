@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { Card } from "../../data/github";
 import Tooltip from "@mui/material/Tooltip";
+import BasicPie from "../PieChart";
 
 type Icon = {
     [key: string]: string | { [key: string]: string };
@@ -35,6 +36,13 @@ export default function GithubIndividualProject() {
 
     const navigateToMainPage = () => {
         window.history.back();
+    };
+
+    const getTotalLines = () => {
+        return Object.values(repo.languages[0]).reduce(
+            (acc, curr) => acc + curr,
+            0
+        );
     };
 
     return (
@@ -155,7 +163,7 @@ export default function GithubIndividualProject() {
                         </li>
                     </ul>
                     <div className="text-white mt-20 text-xl grid grid-cols-12 ">
-                        <div className="col-span-12 lg:col-span-6 flex items-center flex-col mb-6 lg:mb-0">
+                        <div className="col-span-12 2xl:col-span-6 flex items-center flex-col mb-6 2xl:mb-0">
                             <h2 className="text-gray-400 text-2xl font-bold">
                                 Contributors
                             </h2>
@@ -179,26 +187,30 @@ export default function GithubIndividualProject() {
                                 )}
                             </ul>
                         </div>
-                        <div className="text-black text-xl col-span-12 lg:col-span-6 flex items-center flex-col">
+                        <div className="text-black text-xl col-span-12 2xl:col-span-6 flex items-center flex-col">
                             <h2 className="text-gray-400 text-2xl font-bold">
                                 Languages
                             </h2>
-                            <ul className="mt-5">
-                                {repoInfo?.languages.map(
-                                    (languageObj, index) => (
-                                        <li key={index}>
-                                            {Object.entries(languageObj).map(
-                                                ([language, lines]) => (
-                                                    <div key={language}>
-                                                        {language}: {lines}{" "}
-                                                        lines
-                                                    </div>
-                                                )
-                                            )}
-                                        </li>
-                                    )
-                                )}
-                            </ul>
+                            <BasicPie
+                                data={
+                                    repoInfo?.languages.map((languageObj) => {
+                                        return Object.entries(languageObj).map(
+                                            ([language, lines]) => {
+                                                return {
+                                                    label: language,
+                                                    value: (
+                                                        (lines /
+                                                            getTotalLines()) *
+                                                        100
+                                                    ).toFixed(2),
+                                                };
+                                            }
+                                        );
+                                    })[0]
+                                }
+                                width={400}
+                                height={200}
+                            />
                         </div>
                     </div>
                 </div>
