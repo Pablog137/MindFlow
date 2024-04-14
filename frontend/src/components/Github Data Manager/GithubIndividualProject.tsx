@@ -148,14 +148,16 @@ export default function GithubIndividualProject() {
                                             ></i>
                                             <p>
                                                 Commited At :{" "}
-                                                {commit.commit.committer.date}
+                                                {getFormattedDate(
+                                                    commit.commit.committer.date
+                                                )}
                                             </p>
                                         </li>
                                     </ul>
                                 ))}
                         </div>
                     </div>
-                    <div className="col-span-12 2xl:col-span-6 text-black rounded-md justify-center items-center px-6 2xl:px-12 py-12 md:py-6 bg-gray-200 text-md lg:text-lg">
+                    <div className="col-span-12 2xl:col-span-6 text-black rounded-md justify-center items-center px-6 2xl:px-10 py-12 md:py-6 bg-gray-200 text-md lg:text-lg">
                         <h1 className="text-3xl sm:text-4xl font-semibold text-center mb-6">
                             {repoInfo?.name}
                         </h1>
@@ -280,8 +282,8 @@ export default function GithubIndividualProject() {
                                                 };
                                             }
                                         )}
-                                        width={400}
-                                        height={200}
+                                        width={350}
+                                        height={180}
                                     />
                                 )}
                             </div>
@@ -292,6 +294,11 @@ export default function GithubIndividualProject() {
                             <h2 className="text-xl text-center font-bold pb-4">
                                 Last Issues
                             </h2>
+                            {issues.length === 0 && (
+                                <div className="text-center text-red-500 mt-10 text-md ">
+                                    There are no issues
+                                </div>
+                            )}
                             {issues &&
                                 issues.map((issue) => (
                                     <ul
@@ -327,7 +334,8 @@ export default function GithubIndividualProject() {
                                             ></span>
                                         </li>
                                         <li className="text-md">
-                                            Created At : {issue.created_at}
+                                            Created At :{" "}
+                                            {getFormattedDate(issue.created_at)}
                                         </li>
                                     </ul>
                                 ))}
