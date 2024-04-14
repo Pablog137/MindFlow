@@ -78,6 +78,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                                                 <RepoCard
                                                     key={index}
                                                     repo={card}
+                                                
                                                 />
                                             )
                                         )}

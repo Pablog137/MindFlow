@@ -11,6 +11,7 @@ import {
     IssueColors,
 } from "../../data/github";
 import Spinner from "../Spinner";
+import EditIssue from "./EditIssue";
 
 const icons: IconShowProject = {
     visibility: {
@@ -325,18 +326,23 @@ export default function GithubIndividualProject() {
                                                 </h3>
                                             </li>
 
-                                            <li className="text-lg font-semibold pb-4 text-center">
+                                            <li className="text-lg pb-4 text-center">
                                                 {issue.title}
                                             </li>
                                             <li className="text-md mb-2">
                                                 Status : {issue.state}
                                             </li>
                                             <li className="text-md flex items-center gap-2 mb-2">
-                                                <p>{issue.labels[0].name}</p>
+                                                <p>
+                                                    {issue.labels[0]?.name
+                                                        ? issue.labels[0]?.name
+                                                        : "Normal"}
+                                                </p>
                                                 <span
                                                     className={`${
                                                         issueColors[
-                                                            issue.labels[0].name
+                                                            issue.labels[0]
+                                                                ?.name
                                                         ]
                                                     } p-1 w-5 h-4 rounded-2xl
                                                 } flex justify-center items-center text-xs font-bold text-gray-800`}
@@ -348,6 +354,16 @@ export default function GithubIndividualProject() {
                                                     issue.created_at
                                                 )}
                                             </li>
+                                            <div className="pt-3 flex justify-between">
+                                                <EditIssue
+                                                    issue={issue}
+                                                    setIssues={setIssues}
+                                                    issues={issues}
+                                                />
+                                                <button className="bg-red-500 rounded-md px-4 py-2 text-white font-semibold text-sm">
+                                                    Delete
+                                                </button>
+                                            </div>
                                         </ul>
                                     ))}
                             </div>
