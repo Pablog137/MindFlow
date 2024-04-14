@@ -1,6 +1,5 @@
 import Aside from "../../components/Dashboard/Aside";
 import RepoCard from "./RepoCard";
-import { cards } from "../../data/github";
 import { useState, useEffect } from "react";
 
 type Props = {

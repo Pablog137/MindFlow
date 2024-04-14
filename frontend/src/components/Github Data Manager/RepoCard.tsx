@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Repo, IconRepo } from "../../data/github";
 
-const icons = {
+const icons: IconRepo = {
     visibility: {
         public: "fa fa-globe",
         private: "fa fa-lock",
@@ -10,7 +11,8 @@ const icons = {
     commits: "fa fa-code-branch",
     lastUpdatedAt: "fa-regular fa-clock",
 };
-export default function RepoCard({ repo }) {
+
+export default function RepoCard({ repo }: { repo: Repo }) {
     const [commitCount, setCommitCount] = useState(0);
     const API_TOKEN = import.meta.env.VITE_GIT_TOKEN;
 
@@ -24,6 +26,7 @@ export default function RepoCard({ repo }) {
             })
                 .then((res) => res.json())
                 .then((data) => {
+
                     if (data.message) {
                         setCommitCount(0);
                         return;
@@ -34,14 +37,20 @@ export default function RepoCard({ repo }) {
     }, []);
 
     function hasCommits() {
-        const pushedAt = new Date(repo.pushed_at);
-        const createdAt = new Date(repo.created_at);
-        return pushedAt.getTime() !== createdAt.getTime();
+        const updated_at = new Date(repo.updated_at);
+        const pushed_at = new Date(repo.pushed_at);
+        return updated_at.getTime() === pushed_at.getTime();
     }
 
     function getFormattedDate(date: string) {
         const newDate = new Date(date);
         return newDate.toISOString().split("T")[0];
+    }
+
+    function getVisibilityIcon() {
+        return icons.visibility[
+            repo.visibility as keyof typeof icons.visibility
+        ];
     }
 
     return (
@@ -62,9 +71,7 @@ export default function RepoCard({ repo }) {
                 <li className="flex justify-between pb-2">
                     <div className="flex items-center gap-2">
                         <i
-                            className={`${
-                                icons.visibility[repo.visibility]
-                            } text-purple-300`}
+                            className={`${getVisibilityIcon()} text-purple-300`}
                         ></i>
                         <p>Visibility :</p>
                     </div>

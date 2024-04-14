@@ -2,14 +2,19 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Tooltip from "@mui/material/Tooltip";
 import BasicPie from "../PieChart";
+import {
+    IconShowProject,
+    CommitShowProject,
+    ContributorShowProject,
+    IssueShowProject,
+    Language,
+    IssueColors,
+} from "../../data/github";
 
-type Icon = {
-    [key: string]: string | { [key: string]: string };
-};
-const icons: Icon = {
+const icons: IconShowProject = {
     visibility: {
-        Public: "fa fa-globe",
-        Private: "fa fa-lock",
+        public: "fa fa-globe",
+        private: "fa fa-lock",
     },
     issues: "fa fa-exclamation-circle",
     commits: "fa fa-code-branch",
@@ -18,9 +23,6 @@ const icons: Icon = {
     cloneUrl: "fa fa-copy",
 };
 
-type IssueColors = {
-    [key: string]: string;
-};
 const issueColors: IssueColors = {
     bug: "bg-red-300",
     feature: "bg-green-300",
@@ -32,88 +34,72 @@ export default function GithubIndividualProject() {
     const { state } = useLocation();
     const { repo, commitCount } = state;
     const [repoInfo] = useState(repo);
-    const [contributors, setContributors] = useState([]);
-    const [languages, setLanguages] = useState([]);
-    const [commits, setCommits] = useState([]);
-    const [issues, setIssues] = useState([]);
+    const [contributors, setContributors] = useState<ContributorShowProject[]>(
+        []
+    );
+    const [languages, setLanguages] = useState<Language[]>([]);
+    const [commits, setCommits] = useState<CommitShowProject[]>([]);
+    const [issues, setIssues] = useState<IssueShowProject[]>([]);
 
     function getFormattedDate(date: string) {
         const newDate = new Date(date);
         return newDate.toISOString().split("T")[0];
     }
 
+    async function fetchData(url: string, API_TOKEN: string): Promise<any> {
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${API_TOKEN}`,
+            },
+        });
+        const data = await response.json();
+        return data.message ? [] : data;
+    }
+
     useEffect(() => {
         const API_TOKEN = import.meta.env.VITE_GIT_TOKEN;
-        const URL = repoInfo.contributors_url;
-        fetch(URL, {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${API_TOKEN}`,
-            },
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.message) {
-                    setContributors([]);
-                    return;
-                }
-                setContributors(data);
-            });
+        const URLS = [
+            repoInfo.contributors_url,
+            repoInfo.languages_url,
+            repoInfo.commits_url.replace("{/sha}", ""),
+            repoInfo.issues_url.replace("{/number}", ""),
+        ];
 
-        const LANGUAGES_URL = repoInfo.languages_url;
-        fetch(LANGUAGES_URL, {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${API_TOKEN}`,
-            },
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.message) {
-                    setLanguages([]);
-                    return;
-                }
-                setLanguages(data);
-            });
+        async function fetchDataAndSetState() {
+            try {
+                const [
+                    contributorsData,
+                    languagesData,
+                    commitsData,
+                    issuesData,
+                ] = await Promise.all(
+                    URLS.map((url) => fetchData(url, API_TOKEN))
+                );
 
-        const URL_COMMITS = repoInfo.commits_url.replace("{/sha}", "");
-        fetch(URL_COMMITS, {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${API_TOKEN}`,
-            },
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.message) {
-                    setCommits([]);
-                    return;
-                }
-                setCommits(data);
-            });
+                setContributors(contributorsData);
+                setLanguages(languagesData);
+                setCommits(commitsData);
+                setIssues(issuesData);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
 
-        const URL_ISSUES = repoInfo.issues_url.replace("{/number}", "");
-        fetch(URL_ISSUES, {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${API_TOKEN}`,
-            },
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.message) {
-                    setIssues([]);
-                    return;
-                }
-                setIssues(data);
-            });
+        fetchDataAndSetState();
     }, []);
 
     const navigateToMainPage = () => {
         window.history.back();
     };
-    const getTotalLines = () => {
+    const getTotalLines = (): number => {
         return Object.values(languages).reduce((acc, lines) => acc + lines, 0);
+    };
+
+    const getVisibilityIcon = () => {
+        return icons.visibility[
+            repoInfo.visibility as keyof typeof icons.visibility
+        ];
     };
 
     return (
@@ -124,7 +110,7 @@ export default function GithubIndividualProject() {
             ></i>
 
             <div className="grid grid-cols-12 px-10 py-5 md:px-10 md:py-10 xl:px-14 xl:pt-20 gap-2">
-                <div className="col-span-12 lg:col-span-3 grid">
+                <div className="col-span-12 2xl:col-span-3 grid">
                     <div className="col-span-12 md:col-span-6 bg-white rounded-sm p-8 ">
                         <h2 className="text-xl text-center font-bold pb-4">
                             Last commits
@@ -138,16 +124,16 @@ export default function GithubIndividualProject() {
                                 >
                                     <li className="flex items-center pb-5">
                                         <img
-                                            src={commit.author.avatar_url}
+                                            src={commit.author?.avatar_url}
                                             alt=""
                                             style={{ width: "25px" }}
                                         />
                                         <h3 className="text-lg font-bold mx-auto">
-                                            {commit.committer.login}
+                                            {commit.author?.login}
                                         </h3>
                                     </li>
 
-                                    <li className="text-md gap-2 flex items-center mb-2">
+                                    <li className="text-md gap-2 flex items-center  mb-2">
                                         <i className="fa-regular fa-message text-green-400"></i>
                                         <span>{commit.commit.message}</span>
                                     </li>
@@ -164,7 +150,7 @@ export default function GithubIndividualProject() {
                             ))}
                     </div>
                 </div>
-                <div className="col-span-12 lg:col-span-6 text-black rounded-md justify-center items-center px-6 2xl:px-12 py-12 md:py-6 bg-gray-200 text-md lg:text-lg">
+                <div className="col-span-12 2xl:col-span-6 text-black rounded-md justify-center items-center px-6 2xl:px-12 py-12 md:py-6 bg-gray-200 text-md lg:text-lg">
                     <h1 className="text-3xl sm:text-4xl font-semibold text-center mb-6">
                         {repoInfo?.name}
                     </h1>
@@ -172,9 +158,7 @@ export default function GithubIndividualProject() {
                     <ul className="mt-6 flex flex-col gap-2">
                         <li className="flex items-center gap-2">
                             <i
-                                className={`${
-                                    icons.visibility[repoInfo.visibility]
-                                } text-purple-300 mr-1`}
+                                className={`${getVisibilityIcon()} text-purple-300 mr-1`}
                             ></i>
                             <div className="flex items-center gap-2">
                                 <p className="font-semibold text-gray-800">
@@ -276,20 +260,21 @@ export default function GithubIndividualProject() {
                                             return {
                                                 label: language,
                                                 value: (
-                                                    (lines / getTotalLines()) *
+                                                    (parseInt(lines) /
+                                                        getTotalLines()) *
                                                     100
                                                 ).toFixed(2),
                                             };
                                         }
                                     )}
-                                    width={300}
-                                    height={150}
+                                    width={400}
+                                    height={200}
                                 />
                             )}
                         </div>
                     </div>
                 </div>
-                <div className="col-span-12 lg:col-span-3 text-black grid  gap-4">
+                <div className="col-span-12 2xl:col-span-3 text-black grid  gap-4">
                     <div className="col-span-12 md:col-span-6 bg-white rounded-sm p-8 ">
                         <h2 className="text-xl text-center font-bold pb-4">
                             Last Issues
@@ -307,7 +292,7 @@ export default function GithubIndividualProject() {
                                             style={{ width: "25px" }}
                                         />
                                         <h3 className="text-lg font-bold mx-auto">
-                                            {issue.creator}
+                                            {issue.user.login}
                                         </h3>
                                     </li>
 
