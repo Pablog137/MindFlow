@@ -53,6 +53,7 @@ export type Repo = {
     created_at: string;
     pushed_at: string;
     url: string;
+    language? : string
 };
 
 export type IconRepo = {

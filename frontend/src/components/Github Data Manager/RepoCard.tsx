@@ -17,30 +17,21 @@ export default function RepoCard({ repo }: { repo: Repo }) {
     const API_TOKEN = import.meta.env.VITE_GIT_TOKEN;
 
     useEffect(() => {
-        if (!hasCommits()) {
-            fetch(`${repo.url}/commits`, {
-                headers: {
-                    Authorization: `Bearer ${API_TOKEN}`,
-                },
-                method: "GET",
-            })
-                .then((res) => res.json())
-                .then((data) => {
-
-                    if (data.message) {
-                        setCommitCount(0);
-                        return;
-                    }
-                    setCommitCount(data.length);
-                });
-        }
+        fetch(`${repo.url}/commits`, {
+            headers: {
+                Authorization: `Bearer ${API_TOKEN}`,
+            },
+            method: "GET",
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.message) {
+                    setCommitCount(0);
+                    return;
+                }
+                setCommitCount(data.length);
+            });
     }, []);
-
-    function hasCommits() {
-        const updated_at = new Date(repo.updated_at);
-        const pushed_at = new Date(repo.pushed_at);
-        return updated_at.getTime() === pushed_at.getTime();
-    }
 
     function getFormattedDate(date: string) {
         const newDate = new Date(date);
@@ -58,7 +49,7 @@ export default function RepoCard({ repo }: { repo: Repo }) {
             <h1 className="text-black text-center text-xl lg:text-2xl font-bold">
                 {repo.name}
             </h1>
-            <ul className="text-gray-700 font-semibold px-4 pt-10 text-md lg:px-8 lg:text-lg">
+            <ul className="text-gray-700 font-semibold px-4 pt-10 text-md xl:px-8 ">
                 <li className="flex justify-between pb-2">
                     <div className="flex items-center gap-2">
                         <i
