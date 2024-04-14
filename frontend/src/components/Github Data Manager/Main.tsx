@@ -3,6 +3,7 @@ import RepoCard from "./RepoCard";
 import { useState, useEffect } from "react";
 import { Repo } from "../../data/github";
 import Spinner from "../Spinner";
+import SearchRepo from "./SearchRepo";
 
 type Props = {
     isAsideOpen: boolean;
@@ -12,6 +13,9 @@ type Props = {
 
 export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     const [repositories, setRepositories] = useState<Repo[]>([]);
+    const [filteredRepositories, setFilteredRepositories] = useState<Repo[]>(
+        []
+    );
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -34,6 +38,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                     (repo: Repo) => repo.language !== null && hasCommits(repo)
                 );
                 setRepositories(reposWithData);
+                setFilteredRepositories(reposWithData);
                 setIsLoading(false);
             });
     }
@@ -50,19 +55,29 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                 <div className={colsAside}>
                     <Aside isAsideOpen={isAsideOpen} />
                 </div>
-
-                <div
-                    className={`text-white bg-[#161922] px-8 pt-20 md:px-20 md:pt-40 grid grid-cols-12 gap-6 height ${colMain}`}
-                >
+                <div className={`bg-[#161922] ${colMain}`}>
                     {isLoading ? (
-                        <div className="col-start-6 flex justify-center items-center ">
+                        <div className="col-start-6 flex justify-center items-center h-screen ">
                             <Spinner />
                         </div>
                     ) : (
-                        repositories &&
-                        repositories.map((card, index) => (
-                            <RepoCard key={index} repo={card} />
-                        ))
+                        <>
+                            <div className="text-white pt-10 md:pt-15 flex justify-center items-center">
+                                <SearchRepo
+                                    originalRepos={repositories}
+                                    setRepos={setFilteredRepositories}
+                                />
+                            </div>
+
+                            <div
+                                className={`px-8 pt-10 md:px-20 md:pt-20 grid grid-cols-12 gap-6 height `}
+                            >
+                                {filteredRepositories &&
+                                    filteredRepositories.map((card, index) => (
+                                        <RepoCard key={index} repo={card} />
+                                    ))}
+                            </div>
+                        </>
                     )}
                 </div>
             </div>

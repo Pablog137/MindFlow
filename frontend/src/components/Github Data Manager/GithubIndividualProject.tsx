@@ -113,48 +113,56 @@ export default function GithubIndividualProject() {
                 className="fa-regular fa-circle-left text-white text-xl pt-5 ps-5"
                 onClick={navigateToMainPage}
             ></i>
+
             {!isLoading ? (
                 <div className="grid grid-cols-12 px-10 py-5 md:px-10 md:py-10 xl:px-14 xl:pt-20 gap-2">
                     <div className="col-span-12 2xl:col-span-3 grid">
                         <div className="col-span-12 md:col-span-6 bg-white rounded-sm p-8 ">
-                            <h2 className="text-xl text-center font-bold pb-4">
+                            <h2 className="text-2xl text-center font-bold pb-4">
                                 Last commits
                             </h2>
+                            <div className="max-h-[75vh] overflow-y-auto">
+                                {commits &&
+                                    commits.map((commit) => (
+                                        <ul
+                                            key={commit.node_id}
+                                            className="bg-gray-100 p-6 rounded-md mb-4"
+                                        >
+                                            <li className="flex items-center pb-5">
+                                                <img
+                                                    src={
+                                                        commit.author
+                                                            ?.avatar_url
+                                                    }
+                                                    alt=""
+                                                    style={{ width: "25px" }}
+                                                />
+                                                <h3 className="text-lg font-bold mx-auto">
+                                                    {commit.author?.login}
+                                                </h3>
+                                            </li>
 
-                            {commits &&
-                                commits.map((commit) => (
-                                    <ul
-                                        key={commit.node_id}
-                                        className="bg-gray-100 p-6 rounded-md mb-4"
-                                    >
-                                        <li className="flex items-center pb-5">
-                                            <img
-                                                src={commit.author?.avatar_url}
-                                                alt=""
-                                                style={{ width: "25px" }}
-                                            />
-                                            <h3 className="text-lg font-bold mx-auto">
-                                                {commit.author?.login}
-                                            </h3>
-                                        </li>
-
-                                        <li className="text-md gap-2 flex items-center  mb-2">
-                                            <i className="fa-regular fa-message text-green-400"></i>
-                                            <span>{commit.commit.message}</span>
-                                        </li>
-                                        <li className="flex items-center gap-2">
-                                            <i
-                                                className={`${icons.createdAt} text-purple-400`}
-                                            ></i>
-                                            <p>
-                                                Commited At :{" "}
-                                                {getFormattedDate(
-                                                    commit.commit.committer.date
-                                                )}
-                                            </p>
-                                        </li>
-                                    </ul>
-                                ))}
+                                            <li className="text-md gap-2 flex items-center  mb-2">
+                                                <i className="fa-regular fa-message text-green-400"></i>
+                                                <span>
+                                                    {commit.commit.message}
+                                                </span>
+                                            </li>
+                                            <li className="flex items-center gap-2">
+                                                <i
+                                                    className={`${icons.createdAt} text-purple-400`}
+                                                ></i>
+                                                <p>
+                                                    Commited At :{" "}
+                                                    {getFormattedDate(
+                                                        commit.commit.committer
+                                                            .date
+                                                    )}
+                                                </p>
+                                            </li>
+                                        </ul>
+                                    ))}
+                            </div>
                         </div>
                     </div>
                     <div className="col-span-12 2xl:col-span-6 text-black rounded-md justify-center items-center px-6 2xl:px-10 py-12 md:py-6 bg-gray-200 text-md lg:text-lg">
@@ -291,7 +299,7 @@ export default function GithubIndividualProject() {
                     </div>
                     <div className="col-span-12 2xl:col-span-3 text-black grid  gap-4">
                         <div className="col-span-12 md:col-span-6 bg-white rounded-sm p-8 ">
-                            <h2 className="text-xl text-center font-bold pb-4">
+                            <h2 className="text-2xl text-center font-bold pb-4">
                                 Last Issues
                             </h2>
                             {issues.length === 0 && (
@@ -299,46 +307,50 @@ export default function GithubIndividualProject() {
                                     There are no issues
                                 </div>
                             )}
-                            {issues &&
-                                issues.map((issue) => (
-                                    <ul
-                                        key={issue.id}
-                                        className="bg-gray-100 p-6 rounded-md mb-4"
-                                    >
-                                        <li className="flex items-center pb-5">
-                                            <img
-                                                src={issue.user.avatar_url}
-                                                alt=""
-                                                style={{ width: "25px" }}
-                                            />
-                                            <h3 className="text-lg font-bold mx-auto">
-                                                {issue.user.login}
-                                            </h3>
-                                        </li>
+                            <div className="max-h-[75vh] overflow-y-auto">
+                                {issues &&
+                                    issues.map((issue) => (
+                                        <ul
+                                            key={issue.id}
+                                            className="bg-gray-100 p-6 rounded-md mb-4"
+                                        >
+                                            <li className="flex items-center pb-5">
+                                                <img
+                                                    src={issue.user.avatar_url}
+                                                    alt=""
+                                                    style={{ width: "25px" }}
+                                                />
+                                                <h3 className="text-lg font-bold mx-auto">
+                                                    {issue.user.login}
+                                                </h3>
+                                            </li>
 
-                                        <li className="text-lg font-semibold pb-4 text-center">
-                                            {issue.title}
-                                        </li>
-                                        <li className="text-md mb-2">
-                                            Status : {issue.state}
-                                        </li>
-                                        <li className="text-md flex items-center gap-2 mb-2">
-                                            <p>{issue.labels[0].name}</p>
-                                            <span
-                                                className={`${
-                                                    issueColors[
-                                                        issue.labels[0].name
-                                                    ]
-                                                } p-1 w-5 h-4 rounded-2xl
+                                            <li className="text-lg font-semibold pb-4 text-center">
+                                                {issue.title}
+                                            </li>
+                                            <li className="text-md mb-2">
+                                                Status : {issue.state}
+                                            </li>
+                                            <li className="text-md flex items-center gap-2 mb-2">
+                                                <p>{issue.labels[0].name}</p>
+                                                <span
+                                                    className={`${
+                                                        issueColors[
+                                                            issue.labels[0].name
+                                                        ]
+                                                    } p-1 w-5 h-4 rounded-2xl
                                                 } flex justify-center items-center text-xs font-bold text-gray-800`}
-                                            ></span>
-                                        </li>
-                                        <li className="text-md">
-                                            Created At :{" "}
-                                            {getFormattedDate(issue.created_at)}
-                                        </li>
-                                    </ul>
-                                ))}
+                                                ></span>
+                                            </li>
+                                            <li className="text-md">
+                                                Created At :{" "}
+                                                {getFormattedDate(
+                                                    issue.created_at
+                                                )}
+                                            </li>
+                                        </ul>
+                                    ))}
+                            </div>
                         </div>
                     </div>
                 </div>
