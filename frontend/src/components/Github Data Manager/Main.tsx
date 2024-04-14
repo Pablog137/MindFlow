@@ -68,15 +68,25 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                                     setRepos={setFilteredRepositories}
                                 />
                             </div>
-
-                            <div
-                                className={`px-8 pt-10 md:px-20 md:pt-20 grid grid-cols-12 gap-6 height `}
-                            >
-                                {filteredRepositories &&
-                                    filteredRepositories.map((card, index) => (
-                                        <RepoCard key={index} repo={card} />
-                                    ))}
-                            </div>
+                            {filteredRepositories.length > 0 ? (
+                                <div
+                                    className={`px-8 pt-10 md:px-20 md:pt-20 grid grid-cols-12 gap-6 height `}
+                                >
+                                    {filteredRepositories &&
+                                        filteredRepositories.map(
+                                            (card, index) => (
+                                                <RepoCard
+                                                    key={index}
+                                                    repo={card}
+                                                />
+                                            )
+                                        )}
+                                </div>
+                            ) : (
+                                <h1 className="text-red-500 text-2xl h-screen text-center mt-40">
+                                    There are not results :(
+                                </h1>
+                            )}
                         </>
                     )}
                 </div>

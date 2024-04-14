@@ -53,7 +53,7 @@ export type Repo = {
     created_at: string;
     pushed_at: string;
     url: string;
-    language? : string
+    language?: string;
 };
 
 export type IconRepo = {
@@ -65,7 +65,6 @@ export type IconRepo = {
     commits: string;
     lastUpdatedAt: string;
 };
-
 
 // Show Details Project
 
@@ -93,7 +92,6 @@ export type CommitShowProject = {
         avatar_url: string;
     };
 };
-
 
 export type ContributorShowProject = {
     login: string;

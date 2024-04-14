@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Repo } from "../../data/github";
+import { MouseEventHandler } from "react";
 
 type Props = {
     originalRepos: Repo[];
@@ -9,6 +10,7 @@ type Props = {
 export default function SearchRepo({ originalRepos, setRepos }: Props) {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [searchValue, setSearchValue] = useState("");
+    const [filterValue, setFilterValue] = useState("All categories");
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
@@ -30,18 +32,60 @@ export default function SearchRepo({ originalRepos, setRepos }: Props) {
         setRepos(searchResults);
     };
 
+    const onChangeFilter: MouseEventHandler<HTMLButtonElement> = (e) => {
+        const newValue = e.currentTarget.value;
+        setFilterValue(newValue);
+        filterData(newValue);
+    };
+
+    const filterData = (value: string) => {
+        let filteredData;
+        switch (value) {
+            case "Private":
+                filteredData = originalRepos.filter(
+                    (repo) => repo.visibility === "private"
+                );
+                break;
+            case "Public":
+                filteredData = originalRepos.filter(
+                    (repo) => repo.visibility === "public"
+                );
+                break;
+            case "Updated recently":
+                filteredData = getRecentlyUpdatedRepos(originalRepos);
+                break;
+            default:
+                filteredData = originalRepos;
+                break;
+        }
+
+        setRepos(filteredData);
+    };
+    const getRecentlyUpdatedRepos = (repos: Repo[]) => {
+        const sortedRepos = repos.sort(compareByLastUpdated);
+        const recentlyUpdatedRepos = sortedRepos.slice(0, 3);
+
+        return recentlyUpdatedRepos;
+    };
+    const compareByLastUpdated = (repoA: Repo, repoB: Repo): number => {
+        const lastUpdatedA = new Date(repoA.updated_at);
+        const lastUpdatedB = new Date(repoB.updated_at);
+
+        return lastUpdatedB - lastUpdatedA;
+    };
+
     return (
         <form className="max-w-lg mx-auto" onSubmit={onSubmitForm}>
             <div className="flex">
                 <button
                     id="dropdown-button"
                     data-dropdown-toggle="dropdown"
-                    className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200   dark:text-white dark:border-gray-600"
+                    className="flex-shrink-0 w-44 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200   dark:text-white dark:border-gray-600"
                     type="button"
                     onClick={toggleDropdown}
                     aria-expanded={dropdownOpen}
                 >
-                    All categories{" "}
+                    {filterValue}
                     <svg
                         className="w-2.5 h-2.5 ms-2.5"
                         aria-hidden="true"
@@ -69,10 +113,25 @@ export default function SearchRepo({ originalRepos, setRepos }: Props) {
                         className="py-2 text-sm text-gray-700 dark:text-gray-200"
                         aria-labelledby="dropdown-button"
                     >
+                        {filterValue !== "All categories" && (
+                            <li>
+                                <button
+                                    type="button"
+                                    value="Private"
+                                    className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                    onClick={onChangeFilter}
+                                >
+                                    All categories
+                                </button>
+                            </li>
+                        )}
+
                         <li>
                             <button
                                 type="button"
+                                value="Private"
                                 className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                onClick={onChangeFilter}
                             >
                                 Private
                             </button>
@@ -80,6 +139,8 @@ export default function SearchRepo({ originalRepos, setRepos }: Props) {
                         <li>
                             <button
                                 type="button"
+                                value="Public"
+                                onClick={onChangeFilter}
                                 className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                             >
                                 Public
@@ -88,6 +149,8 @@ export default function SearchRepo({ originalRepos, setRepos }: Props) {
                         <li>
                             <button
                                 type="button"
+                                value="Updated recently"
+                                onClick={onChangeFilter}
                                 className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                             >
                                 Updated recently
