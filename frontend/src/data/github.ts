@@ -110,6 +110,7 @@ export type IssueShowProject = {
         avatar_url: string;
         login: string;
     };
+    number: number;
 };
 
 export type IssueColors = {

@@ -12,6 +12,7 @@ import {
 } from "../../data/github";
 import Spinner from "../Spinner";
 import EditIssue from "./EditIssue";
+import CloseIssue from "./CloseIssue";
 
 const icons: IconShowProject = {
     visibility: {
@@ -361,10 +362,12 @@ export default function GithubIndividualProject() {
                                                     issues={issues}
                                                     repoName={repoInfo.name}
                                                 />
-                                                <i
-                                                    className="fa-solid fa-trash text-red-500 hover:text-red-300 hover:text-xl text-lg"
-                                                    aria-hidden="true"
-                                                ></i>
+                                                <CloseIssue
+                                                    issue={issue}
+                                                    setIssues={setIssues}
+                                                    issues={issues}
+                                                    repoName={repoInfo.name}
+                                                />
                                             </div>
                                         </ul>
                                     ))}
