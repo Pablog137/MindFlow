@@ -5,9 +5,15 @@ type Props = {
     issue: IssueShowProject;
     setIssues: (issue: IssueShowProject[]) => void;
     issues: IssueShowProject[];
+    repoName: string;
 };
 
-export default function EditIssue({ issue, setIssues, issues }: Props) {
+export default function EditIssue({
+    issue,
+    setIssues,
+    issues,
+    repoName,
+}: Props) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [title, setTitle] = useState(issue.title);
 
@@ -20,19 +26,32 @@ export default function EditIssue({ issue, setIssues, issues }: Props) {
         setTitle(issue.title);
     };
 
-    const editIssue = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleOnSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (title.trim() !== "") {
-            const newIssue = { ...issue, title };
-            const updatedIssues = issues.map((i) => {
-                if (issue.id === i.id) {
-                    return newIssue;
-                }
-                return i;
-            });
-            setIssues(updatedIssues);
-            setIsModalOpen(false);
-        }
+        if (title.trim() === "" || issue.title === title) return;
+        const updatedIssues = issues.map((i) => {
+            if (i.id === issue.id) {
+                return { ...i, title: title };
+            }
+            return i;
+        });
+        setIssues(updatedIssues);
+        setIsModalOpen(false);
+        editIssuePatch();
+    };
+
+    const editIssuePatch = () => {
+        const username = "Pablog137";
+        const URL = `https://api.github.com/repos/${username}/${repoName}/issues/${issue.number}`;
+        fetch(URL, {
+            method: "PATCH",
+            body: JSON.stringify({
+                title: title,
+            }),
+            headers: {
+                Authorization: `Bearer ${import.meta.env.VITE_GIT_TOKEN}`,
+            },
+        }).then((res) => res.json());
     };
 
     const handleResetForm = (e: React.FormEvent<EventTarget>) => {
@@ -42,12 +61,11 @@ export default function EditIssue({ issue, setIssues, issues }: Props) {
 
     return (
         <>
-            <button
-                className="bg-green-400 rounded-md px-4 py-2 text-sm text-white font-semibold "
+            <i
+                className="fa-regular fa-pen-to-square text-lg text-green-500 hover:text-green-600 hover:text-xl"
+                aria-hidden="true"
                 onClick={toggleModal}
-            >
-                <p>Edit</p>
-            </button>
+            ></i>
 
             {isModalOpen && (
                 <div
@@ -84,7 +102,10 @@ export default function EditIssue({ issue, setIssues, issues }: Props) {
                                 <span className="sr-only">Close modal</span>
                             </button>
                         </div>
-                        <form className="p-4 md:p-5" onSubmit={editIssue}>
+                        <form
+                            className="p-4 md:p-5"
+                            onSubmit={handleOnSubmitForm}
+                        >
                             <div className="grid gap-4 mb-4 grid-cols-2">
                                 <div className="col-span-2">
                                     <label
@@ -96,6 +117,7 @@ export default function EditIssue({ issue, setIssues, issues }: Props) {
                                     <input
                                         type="text"
                                         id="title"
+                                        name="title"
                                         className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         onChange={(e) =>
                                             setTitle(e.target.value)
@@ -109,7 +131,7 @@ export default function EditIssue({ issue, setIssues, issues }: Props) {
                                     type="submit"
                                     className="text-white bg-green-400 hover:bg-green-700 inline-flex items-center  focus:ring-4 focus:outline-none font-semibold rounded-lg text-sm px-4 py-2 text-center"
                                 >
-                                    Edit
+                                    Save
                                 </button>
                                 <button
                                     onClick={handleResetForm}

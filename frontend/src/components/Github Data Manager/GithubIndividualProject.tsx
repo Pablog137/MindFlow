@@ -359,10 +359,12 @@ export default function GithubIndividualProject() {
                                                     issue={issue}
                                                     setIssues={setIssues}
                                                     issues={issues}
+                                                    repoName={repoInfo.name}
                                                 />
-                                                <button className="bg-red-500 rounded-md px-4 py-2 text-white font-semibold text-sm">
-                                                    Delete
-                                                </button>
+                                                <i
+                                                    className="fa-solid fa-trash text-red-500 hover:text-red-300 hover:text-xl text-lg"
+                                                    aria-hidden="true"
+                                                ></i>
                                             </div>
                                         </ul>
                                     ))}
