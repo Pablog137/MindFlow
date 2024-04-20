@@ -78,7 +78,6 @@ export default function ModalSearch({
                                             href={element.url}
                                             className="flex items-center justify-between p-1 gap-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                         >
-                                            <div>
                                                 <i
                                                     className={
                                                         element.icon +
@@ -88,7 +87,6 @@ export default function ModalSearch({
                                                 <span className="flex-1 whitespace-nowrap ms-3 lg:flex">
                                                     {element.text}
                                                 </span>
-                                            </div>
                                             {showIcon === index && (
                                                 <i className="fa-regular fa-square-caret-left text-gray-700"></i>
                                             )}
