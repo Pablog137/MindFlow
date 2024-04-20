@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Dashboard/Navbar";
 import logo from "../assets/img/logo-32.png";
 import "../styles/pages/Dashboard.css";
+import ModalSearch from "./ModalSearch";
+import { elements } from "../data/navs";
+import { createContext } from "react";
 
 type ComponentProps = {
     isAsideOpen: boolean;
@@ -13,9 +16,18 @@ type ComponentProps = {
 type Props = {
     MainComponent: (props: ComponentProps) => JSX.Element;
 };
+export const SearchPageContext = createContext();
 
 export default function AppStructure({ MainComponent }: Props) {
     const [isAsideOpen, setIsAsideOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [listElements, setListElements] = useState<ElementNav[]>([]);
+
+    useEffect(() => {
+        setListElements(elements);
+    }, []);
+
+    const toggleModal = () => setIsModalOpen(!isModalOpen);
 
     const toggleAside = () => {
         setIsAsideOpen(!isAsideOpen);
@@ -29,12 +41,26 @@ export default function AppStructure({ MainComponent }: Props) {
     return (
         <>
             <Navbar isAsideOpen={isAsideOpen} toggleAside={toggleAside} />
-            <MainComponent
-                isAsideOpen={isAsideOpen}
-                colsAside={colsAside}
-                colMain={colMain}
-                logo={logo}
-            />
+            <SearchPageContext.Provider value={{ toggleModal, isModalOpen }}>
+                <div
+                    className={`grid grid-cols-12 ${
+                        isModalOpen && "opacity-60"
+                    }`}
+                >
+                    <MainComponent
+                        isAsideOpen={isAsideOpen}
+                        colsAside={colsAside}
+                        colMain={colMain}
+                        logo={logo}
+                    />
+                </div>
+
+                <ModalSearch
+                    isModalOpen={isModalOpen}
+                    toggleModal={toggleModal}
+                    listElements={listElements}
+                />
+            </SearchPageContext.Provider>
         </>
     );
 }

@@ -24,3 +24,9 @@ type DragContextType = {
     setIsDraggingInUse: React.Dispatch<React.SetStateAction<boolean>>;
     isDraggingInUse: boolean;
 };
+
+type ElementNav = {
+    text: string;
+    icon: string;
+    url: string;
+};

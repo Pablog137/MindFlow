@@ -92,7 +92,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
 
     return (
         <>
-            <div className="grid grid-cols-12 h-screen">
+            <>
                 <div className={colsAside}>
                     <Aside isAsideOpen={isAsideOpen} />
                 </div>
@@ -113,7 +113,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                         </div>
                     </DndProvider>
                 </DragContext.Provider>
-            </div>
+            </>
         </>
     );
 }

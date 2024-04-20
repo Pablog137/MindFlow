@@ -1,4 +1,8 @@
 export const elements = [
+    // {
+    //     text: "Search",
+    //     icon: "fa-solid fa-magnifying-glass",
+    // },
     {
         text: "Dashboard",
         icon: "fa-solid fa-house",

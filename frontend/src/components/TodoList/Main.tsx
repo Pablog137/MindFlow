@@ -69,17 +69,15 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                 <TaskContext.Provider
                     value={{ tasks, addTask, removeTask, editTask, setTasks }}
                 >
-                    <div className="grid grid-cols-12 ">
-                        <div className={colsAside}>
-                            <Aside isAsideOpen={isAsideOpen} />
-                        </div>
-                        <div
-                            className={`grid grid-cols-12 gap-5 text-white bg-[#161922] px-6 md:px-12 pt-10 h-full lg:h-screen  ${colMain}`}
-                        >
-                            <TodoList status="To do" tasks={tasks} />
-                            <TodoList status="Doing" tasks={tasks} />
-                            <TodoList status="Done" tasks={tasks} />
-                        </div>
+                    <div className={colsAside}>
+                        <Aside isAsideOpen={isAsideOpen} />
+                    </div>
+                    <div
+                        className={`grid grid-cols-12 gap-5 text-white bg-[#161922] px-6 md:px-12 pt-10 h-full lg:h-screen  ${colMain}`}
+                    >
+                        <TodoList status="To do" tasks={tasks} />
+                        <TodoList status="Doing" tasks={tasks} />
+                        <TodoList status="Done" tasks={tasks} />
                     </div>
                 </TaskContext.Provider>
             </DndProvider>

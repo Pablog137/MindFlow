@@ -10,7 +10,7 @@ type Props = {
 export default function Main({ isAsideOpen, colsAside, colMain, logo }: Props) {
     return (
         <>
-            <div className="grid grid-cols-12 ">
+            <>
                 <div className={colsAside}>
                     <Aside isAsideOpen={isAsideOpen} />
                 </div>
@@ -39,7 +39,7 @@ export default function Main({ isAsideOpen, colsAside, colMain, logo }: Props) {
                         </button>
                     </div>
                 </div>
-            </div>
+            </>
         </>
     );
 }

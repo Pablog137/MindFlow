@@ -1,7 +1,7 @@
 type Props = {
     text: string;
     icon: string;
-    url: string;
+    url?: string;
 };
 
 export default function AsideElement({ text, icon, url }: Props) {

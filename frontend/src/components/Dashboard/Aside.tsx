@@ -1,5 +1,6 @@
 import AsideElement from "./AsideElement";
 import { elements } from "../../data/navs";
+import Search from "./Search";
 
 type Props = {
     isAsideOpen: boolean;
@@ -16,12 +17,13 @@ export default function Aside({ isAsideOpen }: Props) {
         >
             <div className="h-full md:px-3 xl:px-4 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
                 <ul className="font-medium flex flex-col items-center lg:items-start justify-start ">
+                    <Search />
                     {elements.map((element, index) => (
                         <AsideElement
                             key={index}
                             text={element.text}
                             icon={element.icon}
-                            url={element.url}
+                            url={element?.url}
                         />
                     ))}
                 </ul>
