@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+
+    laravel-app:
+        build:
+            dockerfile: Dockerfile
+        ports:
+            - "8000:80"
+        depends_on:
+            - mysql
+        links:
+            - mysql
+        networks:
+            - default
+
+    react-app:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        depends_on:
+            - laravel-app
+        ports:
+            - "80:80"
+        links:
+            - laravel-app
+        networks:
+            - default
+        stdin_open: true
+        tty: true
+
+    mysql:
+        image: mysql:5.7
+        container_name: mysql
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: PasswordRoot
+            MYSQL_DATABASE: mindflow
+        networks:
+            - default
+networks:
+    default:
