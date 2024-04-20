@@ -29,7 +29,7 @@ export default function CalendarHeader({ addTask, deleteTask }: Props) {
         );
     }
 
-    const [{ isOver }, drop] = useDrop({
+    const [, drop] = useDrop({
         accept: "TASK",
         drop: (task: CalendarTask) => deleteTask(task.id),
         collect: (monitor) => ({

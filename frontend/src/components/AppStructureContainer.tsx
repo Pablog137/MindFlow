@@ -13,11 +13,18 @@ type ComponentProps = {
     logo: string;
 };
 
+type SearchPageContextType = {
+    toggleModal: () => void;
+    isModalOpen: boolean;
+};
+
 type Props = {
     MainComponent: (props: ComponentProps) => JSX.Element;
 };
-export const SearchPageContext = createContext();
-
+export const SearchPageContext = createContext<SearchPageContextType>({
+    toggleModal: () => {},
+    isModalOpen: false,
+});
 export default function AppStructure({ MainComponent }: Props) {
     const [isAsideOpen, setIsAsideOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);

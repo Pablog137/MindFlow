@@ -68,8 +68,8 @@ export default function SearchRepo({ originalRepos, setRepos }: Props) {
         return recentlyUpdatedRepos;
     };
     const compareByLastUpdated = (repoA: Repo, repoB: Repo): number => {
-        const lastUpdatedA = new Date(repoA.updated_at);
-        const lastUpdatedB = new Date(repoB.updated_at);
+        const lastUpdatedA = new Date(repoA.updated_at).getTime();
+        const lastUpdatedB = new Date(repoB.updated_at).getTime();
 
         return lastUpdatedB - lastUpdatedA;
     };

@@ -1,8 +1,12 @@
 import { useContext } from "react";
 import { SearchPageContext } from "../AppStructureContainer";
 
+type SearchPageContextType = {
+    toggleModal: () => void;
+};
 export default function Search() {
-    const { toggleModal } = useContext(SearchPageContext);
+    const { toggleModal }: SearchPageContextType =
+        useContext(SearchPageContext);
 
     return (
         <>

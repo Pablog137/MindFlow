@@ -40,7 +40,7 @@ export default function GithubIndividualProject() {
     const [contributors, setContributors] = useState<ContributorShowProject[]>(
         []
     );
-    const [languages, setLanguages] = useState<Language[]>([]);
+    const [languages, setLanguages] = useState<Language>({});
     const [commits, setCommits] = useState<CommitShowProject[]>([]);
     const [issues, setIssues] = useState<IssueShowProject[]>([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -284,11 +284,13 @@ export default function GithubIndividualProject() {
                                             ([language, lines]) => {
                                                 return {
                                                     label: language,
-                                                    value: (
-                                                        (parseInt(lines) /
-                                                            getTotalLines()) *
-                                                        100
-                                                    ).toFixed(2),
+                                                    value:
+                                                        Math.round(
+                                                            (lines /
+                                                                getTotalLines()) *
+                                                                100 *
+                                                                100
+                                                        ) / 100,
                                                 };
                                             }
                                         )}

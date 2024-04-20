@@ -59,7 +59,7 @@ const initialTasks: CalendarTask[] = [
     },
 ];
 
-export const DragContext = createContext();
+export const DragContext = createContext({});
 
 export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     const [currentMonth, setCurrentMonth] = useState(getMonth());
