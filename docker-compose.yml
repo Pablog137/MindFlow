@@ -3,12 +3,15 @@ version: '3'
 services:
 
     laravel-app:
+        restart: always
         build:
             dockerfile: Dockerfile
         ports:
             - "8000:80"
         depends_on:
             - mysql
+        volumes:
+            - laravel-app-volume:/path/to/laravel/app
         links:
             - mysql
         networks:
@@ -18,10 +21,13 @@ services:
         build:
             context: ./frontend
             dockerfile: Dockerfile
+        restart: always
         depends_on:
             - laravel-app
         ports:
             - "80:80"
+        volumes:
+            - react-app-volume:/path/to/react/app
         links:
             - laravel-app
         networks:
@@ -36,7 +42,15 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: PasswordRoot
             MYSQL_DATABASE: mindflow
+        volumes:
+            - mysql-volume:/var/lib/mysql
         networks:
             - default
+
 networks:
     default:
+
+volumes:
+    laravel-app-volume:
+    react-app-volume:
+    mysql-volume:
