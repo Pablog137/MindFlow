@@ -1,7 +1,10 @@
-
+import Editor from "./Editor";
+import Toolbar from "./Toolbar";
 
 export default function Note() {
-  return (
-    <div>Note</div>
-  )
+    return (
+        <div className="w-full text-center ">
+            
+        </div>
+    );
 }

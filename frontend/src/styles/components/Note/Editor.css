@@ -1,0 +1,12 @@
+.editable-div {
+  border: 1px solid #ccc;
+  outline: none;
+  position: relative;
+}
+
+.editable-div:empty:before {
+  content: "Escribe aquí...";
+  color: #aaa;
+  position: absolute;
+  pointer-events: none;
+}
