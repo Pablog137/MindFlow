@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "../../styles/components/Note/Editor.css";
+import Header from "./Header";
 
 type Props = {
     colMain: string;
@@ -33,10 +34,18 @@ export default function Editor({ colMain }: Props) {
 
     return (
         <div
-            className={`text-white bg-[#161922] px-10 md:px-28 pt-20 md:pt-40 flex flex-col height ${colMain} editable-div`}
-            contentEditable="true"
-            dangerouslySetInnerHTML={{ __html: content }}
-            onInput={handleOnChangeContent}
-        ></div>
+            className={`text-white bg-[#161922] flex flex-col height ${colMain}`}
+        >
+            <div className="flex justify-center">
+                <Header />
+            </div>
+
+            <div
+                className="h-screen p-14 editable-div"
+                contentEditable="true"
+                dangerouslySetInnerHTML={{ __html: content }}
+                onInput={handleOnChangeContent}
+            ></div>
+        </div>
     );
 }

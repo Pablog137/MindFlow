@@ -117,7 +117,7 @@ export default function SearchRepo({ originalRepos, setRepos }: Props) {
                             <li>
                                 <button
                                     type="button"
-                                    value="Private"
+                                    value="All categories"
                                     className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                                     onClick={onChangeFilter}
                                 >

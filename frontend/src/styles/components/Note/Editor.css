@@ -1,5 +1,4 @@
 .editable-div {
-  border: 1px solid #ccc;
   outline: none;
   position: relative;
 }
@@ -9,4 +8,11 @@
   color: #aaa;
   position: absolute;
   pointer-events: none;
+}
+
+ul{
+  list-style-type: disc;
+}
+ol{
+  list-style:decimal;
 }

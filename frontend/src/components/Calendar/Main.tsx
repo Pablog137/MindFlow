@@ -92,28 +92,26 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
 
     return (
         <>
-            <>
-                <div className={colsAside}>
-                    <Aside isAsideOpen={isAsideOpen} />
-                </div>
-                <DragContext.Provider
-                    value={{ setIsDraggingInUse, isDraggingInUse }}
-                >
-                    <DndProvider backend={HTML5Backend}>
-                        <div className={`p-6 ${colMain} `}>
-                            <CalendarHeader
-                                addTask={addTask}
-                                deleteTask={deleteTask}
-                            />
-                            <Month
-                                month={currentMonth}
-                                tasks={tasks}
-                                addTasks={addTasks}
-                            />
-                        </div>
-                    </DndProvider>
-                </DragContext.Provider>
-            </>
+            <div className={colsAside + " h-screen"}>
+                <Aside isAsideOpen={isAsideOpen} />
+            </div>
+            <DragContext.Provider
+                value={{ setIsDraggingInUse, isDraggingInUse }}
+            >
+                <DndProvider backend={HTML5Backend}>
+                    <div className={`p-6 ${colMain} `}>
+                        <CalendarHeader
+                            addTask={addTask}
+                            deleteTask={deleteTask}
+                        />
+                        <Month
+                            month={currentMonth}
+                            tasks={tasks}
+                            addTasks={addTasks}
+                        />
+                    </div>
+                </DndProvider>
+            </DragContext.Provider>
         </>
     );
 }
