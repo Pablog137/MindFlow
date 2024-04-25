@@ -249,7 +249,7 @@ export default function GithubIndividualProject() {
                                 <h2 className="text-gray-400 text-2xl font-bold">
                                     Contributors
                                 </h2>
-                                <ul className="mt-5 text-black flex flex-wrap md:pr-5">
+                                <ul className="mt-5 list-none text-black flex flex-wrap md:pr-5">
                                     {contributors &&
                                         contributors.map(
                                             (contributor, index) => (
