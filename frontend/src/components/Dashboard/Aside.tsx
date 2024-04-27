@@ -1,12 +1,16 @@
 import AsideElement from "./AsideElement";
 import { elements } from "../../data/navs";
 import Search from "./Search";
+import { SearchPageContext } from "../AppStructureContainer";
+import { useContext } from "react";
 
 type Props = {
     isAsideOpen: boolean;
 };
 
 export default function Aside({ isAsideOpen }: Props) {
+    const { notePages, createNewNote } = useContext(SearchPageContext);
+
     return (
         <aside
             id="logo-sidebar"
@@ -16,7 +20,7 @@ export default function Aside({ isAsideOpen }: Props) {
             aria-label="Sidebar"
         >
             <div className="h-full md:px-3 xl:px-4 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
-                <ul className="font-medium flex flex-col items-center lg:items-start justify-start ">
+                <ul className="font-medium flex flex-col items-center lg:items-start justify-start list-none">
                     <Search />
                     {elements.map((element, index) => (
                         <AsideElement
@@ -26,6 +30,32 @@ export default function Aside({ isAsideOpen }: Props) {
                             url={element?.url}
                         />
                     ))}
+                    {notePages !== null &&
+                        notePages.length > 0 &&
+                        notePages.map((note) => (
+                            <li className="p-2" key={note.id}>
+                                <a
+                                    href="/new-note"
+                                    className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                >
+                                    <i className="fa-solid fa-book text-xl md:text-2xl text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                                    <span className="flex-1 whitespace-nowrap ms-3 hidden lg:flex">
+                                        {note.note}
+                                    </span>
+                                </a>
+                            </li>
+                        ))}
+                    <li className="p-2">
+                        <a
+                            onClick={createNewNote}
+                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                        >
+                            <i className="fa-solid fa-plus text-xl md:text-2xl text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                            <span className="flex-1 whitespace-nowrap ms-3 hidden lg:flex">
+                                New note
+                            </span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </aside>

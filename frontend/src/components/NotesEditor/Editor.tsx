@@ -41,7 +41,7 @@ export default function Editor({ colMain }: Props) {
             </div>
 
             <div
-                className="h-screen p-14 editable-div"
+                className="h-screen p-4 md:p-8 lg:p-14 editable-div"
                 contentEditable="true"
                 dangerouslySetInnerHTML={{ __html: content }}
                 onInput={handleOnChangeContent}

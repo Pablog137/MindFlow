@@ -23,9 +23,9 @@ export const elements = [
         icon: "fa-brands fa-github",
         url: "/github",
     },
-    {
-        text: "New Note",
-        icon: "fa-solid fa-plus",
-        url: "/new-note",
-    },
+    // {
+    //     text: "New Note",
+    //     icon: "fa-solid fa-plus",
+    //     url: "/new-note",
+    // },
 ];

@@ -5,6 +5,9 @@ import "../styles/pages/Dashboard.css";
 import ModalSearch from "./ModalSearch";
 import { elements } from "../data/navs";
 import { createContext } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { generateRandomString } from "../helpers/utils";
+import { setLocalStorage, getLocalStorage } from "../helpers/localstorage";
 
 type ComponentProps = {
     isAsideOpen: boolean;
@@ -12,26 +15,51 @@ type ComponentProps = {
     colMain: string;
     logo: string;
 };
+type Note = {
+    id: string;
+    note: string;
+};
 
 type SearchPageContextType = {
     toggleModal: () => void;
     isModalOpen: boolean;
+    notePages: Note[];
+    createNewNote: () => void;
 };
 
 type Props = {
     MainComponent: (props: ComponentProps) => JSX.Element;
 };
+
 export const SearchPageContext = createContext<SearchPageContextType>({
     toggleModal: () => {},
     isModalOpen: false,
+    notePages: [],
+    createNewNote: () => {},
 });
 export default function AppStructure({ MainComponent }: Props) {
-    const [isAsideOpen, setIsAsideOpen] = useState(false);
+    const [isAsideOpen, setIsAsideOpen] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [listElements, setListElements] = useState<ElementNav[]>([]);
+    const [notePages, setNotePages] = useState<{ id: string; note: string }[]>(
+        []
+    );
+
+    const createNewNote = () => {
+        const name = generateRandomString();
+        const id = uuidv4();
+        setNotePages((prevPage) => [...prevPage, { id, note: name }]);
+        setLocalStorage(
+            "notePages",
+            JSON.stringify([...notePages, { id, note: name }])
+        );
+        // navigate("/new-note");
+    };
 
     useEffect(() => {
         setListElements(elements);
+        const notePages = getLocalStorage("notePages");
+        notePages !== null && setNotePages(JSON.parse(notePages));
     }, []);
 
     const toggleModal = () => setIsModalOpen(!isModalOpen);
@@ -48,7 +76,9 @@ export default function AppStructure({ MainComponent }: Props) {
     return (
         <>
             <Navbar isAsideOpen={isAsideOpen} toggleAside={toggleAside} />
-            <SearchPageContext.Provider value={{ toggleModal, isModalOpen }}>
+            <SearchPageContext.Provider
+                value={{ toggleModal, isModalOpen, notePages, createNewNote }}
+            >
                 <div
                     className={`grid grid-cols-12 ${
                         isModalOpen && "opacity-60"
