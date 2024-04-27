@@ -29,7 +29,7 @@ export default function App() {
                         path="github/viewRepo/:id"
                         element={<GithubIndividualProject />}
                     />
-                    <Route path="/new-note" element={<Note />} />
+                    <Route path="/new-note/:id" element={<Note />} />
 
                     <Route path="*" element={<NotFound />} />
                 </Routes>

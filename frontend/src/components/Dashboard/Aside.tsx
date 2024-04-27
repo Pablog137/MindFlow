@@ -3,6 +3,7 @@ import { elements } from "../../data/navs";
 import Search from "./Search";
 import { SearchPageContext } from "../AppStructureContainer";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
     isAsideOpen: boolean;
@@ -10,6 +11,11 @@ type Props = {
 
 export default function Aside({ isAsideOpen }: Props) {
     const { notePages, createNewNote } = useContext(SearchPageContext);
+    const navigate = useNavigate();
+    const handleCreateNewNote = () => {
+        const newNoteId = createNewNote();
+        navigate("/new-note/" + newNoteId);
+    };
 
     return (
         <aside
@@ -30,12 +36,11 @@ export default function Aside({ isAsideOpen }: Props) {
                             url={element?.url}
                         />
                     ))}
-                    {notePages !== null &&
-                        notePages.length > 0 &&
+                    {notePages.length > 0 &&
                         notePages.map((note) => (
                             <li className="p-2" key={note.id}>
                                 <a
-                                    href="/new-note"
+                                    href={`/new-note/${note.id}`}
                                     className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 >
                                     <i className="fa-solid fa-book text-xl md:text-2xl text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
@@ -47,7 +52,7 @@ export default function Aside({ isAsideOpen }: Props) {
                         ))}
                     <li className="p-2">
                         <a
-                            onClick={createNewNote}
+                            onClick={handleCreateNewNote}
                             className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                         >
                             <i className="fa-solid fa-plus text-xl md:text-2xl text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>

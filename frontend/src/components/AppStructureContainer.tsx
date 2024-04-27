@@ -18,6 +18,7 @@ type ComponentProps = {
 type Note = {
     id: string;
     note: string;
+    content: string;
 };
 
 type SearchPageContextType = {
@@ -25,6 +26,7 @@ type SearchPageContextType = {
     isModalOpen: boolean;
     notePages: Note[];
     createNewNote: () => void;
+    setNotePages: (content: []) => void;
 };
 
 type Props = {
@@ -36,24 +38,28 @@ export const SearchPageContext = createContext<SearchPageContextType>({
     isModalOpen: false,
     notePages: [],
     createNewNote: () => {},
+    setNotePages: () => {},
 });
 export default function AppStructure({ MainComponent }: Props) {
     const [isAsideOpen, setIsAsideOpen] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [listElements, setListElements] = useState<ElementNav[]>([]);
-    const [notePages, setNotePages] = useState<{ id: string; note: string }[]>(
-        []
-    );
+    const [notePages, setNotePages] = useState<
+        { id: string; note: string; content: string }[]
+    >([]);
 
     const createNewNote = () => {
         const name = generateRandomString();
         const id = uuidv4();
-        setNotePages((prevPage) => [...prevPage, { id, note: name }]);
+        setNotePages((prevPage) => [
+            ...prevPage,
+            { id, note: name, content: "" },
+        ]);
         setLocalStorage(
             "notePages",
-            JSON.stringify([...notePages, { id, note: name }])
+            JSON.stringify([...notePages, { id, note: name, content: "" }])
         );
-        // navigate("/new-note");
+        return id;
     };
 
     useEffect(() => {
@@ -77,7 +83,13 @@ export default function AppStructure({ MainComponent }: Props) {
         <>
             <Navbar isAsideOpen={isAsideOpen} toggleAside={toggleAside} />
             <SearchPageContext.Provider
-                value={{ toggleModal, isModalOpen, notePages, createNewNote }}
+                value={{
+                    toggleModal,
+                    isModalOpen,
+                    notePages,
+                    createNewNote,
+                    setNotePages,
+                }}
             >
                 <div
                     className={`grid grid-cols-12 ${
