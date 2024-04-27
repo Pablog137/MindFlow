@@ -1,0 +1,18 @@
+.editable-div {
+    outline: none;
+    position: relative;
+}
+
+.editable-div:empty:before {
+    content: "Escribe aquí...";
+    color: #aaa;
+    position: absolute;
+    pointer-events: none;
+}
+
+ul {
+    list-style-type: disc;
+}
+ol {
+    list-style: decimal;
+}

@@ -10,6 +10,7 @@ import TodoList from "./pages/TodoList";
 // import InProgress from "./pages/InProgress";
 import Calendar from "./pages/Calendar";
 import Github from "./pages/Github";
+import Note from "./pages/Note";
 import GithubIndividualProject from "./components/Github Data Manager/GithubIndividualProject";
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
                         path="github/viewRepo/:id"
                         element={<GithubIndividualProject />}
                     />
+                    <Route path="/new-note/:id" element={<Note />} />
 
                     <Route path="*" element={<NotFound />} />
                 </Routes>
