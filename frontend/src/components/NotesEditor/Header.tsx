@@ -25,18 +25,20 @@ export default function Header() {
     };
 
     return (
-        <header className="bg-white text-black p-4 my-5 mt-10 rounded-md flex items-center text-lg justify-around ">
-            {commandsData.map((command, index) => (
-                <Command
-                    key={index}
-                    executeCommand={executeCommand}
-                    type={command.type}
-                    content={command.content}
-                    addCommandToSelected={addCommandToSelected}
-                    removeCommandFromSelected={removeCommandFromSelected}
-                    isSelected={selectedCommands.includes(command.type)}
-                />
-            ))}
+        <header className="p-4 my-5 md:mt-10 flex items-center text-sm md:text-md lg:text-lg justify-around ">
+            <ul className="list-none flex bg-white text-black p-4 rounded-md gap-2 lg:gap-4 flex-wrap justify-center items-center">
+                {commandsData.map((command, index) => (
+                    <Command
+                        key={index}
+                        executeCommand={executeCommand}
+                        type={command.type}
+                        content={command.content}
+                        addCommandToSelected={addCommandToSelected}
+                        removeCommandFromSelected={removeCommandFromSelected}
+                        isSelected={selectedCommands.includes(command.type)}
+                    />
+                ))}
+            </ul>
         </header>
     );
 }

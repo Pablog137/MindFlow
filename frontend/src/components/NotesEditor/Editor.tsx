@@ -69,9 +69,7 @@ export default function Editor({ colMain }: Props) {
         <div
             className={`text-white bg-[#161922] flex flex-col height ${colMain}`}
         >
-            <div className="flex justify-center">
-                <Header />
-            </div>
+            <Header />
 
             <div
                 className="h-screen p-4 md:p-8 lg:p-14 editable-div"
