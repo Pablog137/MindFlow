@@ -1,9 +1,9 @@
 import AppStructure from "../components/AppStructureContainer";
-import GithubLogin from "../pages/GithubLogin";
+import GithubLoginPage from "./GithubLoginPage";
 import Main from "../components/Github Data Manager/Main";
 import { getLocalStorage } from "../helpers/localstorage";
 
 export default function Github() {
-    if(!getLocalStorage("user")) return <GithubLogin />
+    if (!getLocalStorage("githubData")) return <GithubLoginPage />;
     return <AppStructure MainComponent={Main} />;
 }

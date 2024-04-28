@@ -1,4 +1,4 @@
-import { getLocalStorage } from "../../helpers/localstorage";
+import { getLocalStorage, setLocalStorage } from "../../helpers/localstorage";
 import Aside from "../Dashboard/Aside";
 import { useEffect } from "react";
 
@@ -14,19 +14,21 @@ export default function GithubLogin({
     colMain,
 }: Props) {
     function loginWithGithub() {
-        window.location.assign(
-            "https://github.com/login/oauth/authorize?client_id=" +
-                "9b595e664ebe0300c2b6"
-        );
+        const accessToken = getLocalStorage("githubData");
+        if (!accessToken) {
+            window.location.assign(
+                "https://github.com/login/oauth/authorize?client_id=" +
+                    import.meta.env.VITE_GITHUB_ID
+            );
+        }
     }
 
     useEffect(() => {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const codeParam = urlParams.get("code");
-        console.log(codeParam);
 
-        if (codeParam && getLocalStorage("accessToken") === null) {
+        if (codeParam && getLocalStorage("githubData") === null) {
             getAccessToken(codeParam);
         }
     }, []);
@@ -37,7 +39,10 @@ export default function GithubLogin({
         )
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
+                if (data.data) {
+                    setLocalStorage("githubData", JSON.stringify(data.data));
+                    window.location.href = "/github"
+                }
             });
     }
 
@@ -51,7 +56,6 @@ export default function GithubLogin({
                     <h1 className="py-10">Bienvenido a mi aplicación</h1>
                     <button
                         onClick={loginWithGithub}
-                        // href="http://localhost:8000/auth/github"
                         className="bg-purple-400 p-2 rounded-md"
                     >
                         Iniciar sesión con GitHub

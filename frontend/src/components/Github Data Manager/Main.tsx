@@ -4,11 +4,16 @@ import { useState, useEffect } from "react";
 import { Repo } from "../../data/github";
 import Spinner from "../Spinner";
 import SearchRepo from "./SearchRepo";
+import { getGithubUserData } from "../../helpers/localstorage";
 
 type Props = {
     isAsideOpen: boolean;
     colsAside: string;
     colMain: string;
+};
+type GithubData = {
+    username: string;
+    access_token: string;
 };
 
 export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
@@ -17,23 +22,24 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
         []
     );
     const [isLoading, setIsLoading] = useState(false);
+    const [githubUserData] = useState<GithubData>(getGithubUserData());
 
     useEffect(() => {
         callRepositoriesRequest();
     }, []);
 
     function callRepositoriesRequest() {
-        const username = "Pablog137";
-        const URL = `https://api.github.com/search/repositories?q=user:${username}`;
+        const URL = `https://api.github.com/search/repositories?q=user:${githubUserData.username}`;
         setIsLoading(true);
         fetch(URL, {
             headers: {
-                Authorization: `Bearer ${import.meta.env.VITE_GIT_TOKEN}`,
+                Authorization: `Bearer ${githubUserData.access_token}`,
             },
             method: "GET",
         })
             .then((res) => res.json())
             .then((data) => {
+                console.log(data);
                 const reposWithData: Repo[] = data.items.filter(
                     (repo: Repo) => repo.language !== null && hasCommits(repo)
                 );
@@ -73,7 +79,11 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                             >
                                 {filteredRepositories &&
                                     filteredRepositories.map((card, index) => (
-                                        <RepoCard key={index} repo={card} />
+                                        <RepoCard
+                                            key={index}
+                                            repo={card}
+                                            githubData={githubUserData}
+                                        />
                                     ))}
                             </div>
                         ) : (

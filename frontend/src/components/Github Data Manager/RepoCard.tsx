@@ -11,15 +11,24 @@ const icons: IconRepo = {
     commits: "fa fa-code-branch",
     lastUpdatedAt: "fa-regular fa-clock",
 };
+type GithubData = {
+    username: string;
+    access_token: string;
+};
 
-export default function RepoCard({ repo }: { repo: Repo }) {
+export default function RepoCard({
+    repo,
+    githubUserData,
+}: {
+    repo: Repo;
+    githubUserData: GithubData;
+}) {
     const [commitCount, setCommitCount] = useState(0);
-    const API_TOKEN = import.meta.env.VITE_GIT_TOKEN;
 
     useEffect(() => {
         fetch(`${repo.url}/commits`, {
             headers: {
-                Authorization: `Bearer ${API_TOKEN}`,
+                Authorization: `Bearer ${githubUserData}`,
             },
             method: "GET",
         })
