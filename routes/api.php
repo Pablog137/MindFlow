@@ -10,6 +10,7 @@ use App\Http\Controllers\API\TodoListController;
 use App\Http\Controllers\API\CalendarTaskController;
 use App\Http\Controllers\API\TodoListTaskController;
 use App\Http\Controllers\Auth\ApiAuthController;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,8 @@ Route::post('/register', [ApiAuthController::class, 'register']);
 Route::post('/login', [ApiAuthController::class, 'login']);
 Route::post('/logout', [ApiAuthController::class, 'logout'])->middleware('auth:sanctum');
 
+
+Route::get('/getAccessToken', [LoginController::class, 'loginGithub']);
 
 
 // Users

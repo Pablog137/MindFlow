@@ -44,7 +44,7 @@ export default function NavBar() {
                     </div>
 
                     <ul
-                        className={`space-x-4 lg:flex hidden col-span-9 text-gray-400 font-semibold ${
+                        className={`space-x-4 list-none lg:flex hidden col-span-9 text-gray-400 font-semibold ${
                             menuOpen ? "hidden" : ""
                         }`}
                     >

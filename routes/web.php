@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Route::get('/auth/github', [LoginController::class, 'redirectToGitHub']);
+// Route::get('/auth/github/callback', [LoginController::class, 'handleGitHubCallback']);
+
+
+
 Route::get('/profile/crearToken', [ProfileController::class, 'crearToken'])->name('profile.crearToken')->middleware('auth');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
