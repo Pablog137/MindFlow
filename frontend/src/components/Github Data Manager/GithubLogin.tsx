@@ -18,7 +18,8 @@ export default function GithubLogin({
         if (!accessToken) {
             window.location.assign(
                 "https://github.com/login/oauth/authorize?client_id=" +
-                    import.meta.env.VITE_GITHUB_ID
+                    import.meta.env.VITE_GITHUB_ID +
+                    "&scope=repo%20repo:status%20user"
             );
         }
     }

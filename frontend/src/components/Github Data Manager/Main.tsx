@@ -11,10 +11,6 @@ type Props = {
     colsAside: string;
     colMain: string;
 };
-type GithubData = {
-    username: string;
-    access_token: string;
-};
 
 export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     const [repositories, setRepositories] = useState<Repo[]>([]);
@@ -22,7 +18,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
         []
     );
     const [isLoading, setIsLoading] = useState(false);
-    const [githubUserData] = useState<GithubData>(getGithubUserData());
+    const [githubUserData,setGithubUserData] = useState<GithubData>(getGithubUserData());
 
     useEffect(() => {
         callRepositoriesRequest();
@@ -39,7 +35,6 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
                 const reposWithData: Repo[] = data.items.filter(
                     (repo: Repo) => repo.language !== null && hasCommits(repo)
                 );
@@ -78,11 +73,13 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                                 className={`px-8 pt-10 md:px-20 md:pt-20 grid grid-cols-12 gap-6 height `}
                             >
                                 {filteredRepositories &&
+                                    githubUserData &&
                                     filteredRepositories.map((card, index) => (
                                         <RepoCard
                                             key={index}
                                             repo={card}
-                                            githubData={githubUserData}
+                                            githubUserData={githubUserData}
+                                            setGithubUserData={setGithubUserData}
                                         />
                                     ))}
                             </div>

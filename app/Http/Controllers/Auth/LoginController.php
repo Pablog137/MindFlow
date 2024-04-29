@@ -30,6 +30,7 @@ class LoginController extends Controller
                 'client_id' => env("GITHUB_CLIENT_ID"),
                 'client_secret' => env('GITHUB_CLIENT_SECRET'),
                 'code' => $code,
+                // 'scope' => 'repo'
             ],
             'headers' => [
                 'Accept' => 'application/json',

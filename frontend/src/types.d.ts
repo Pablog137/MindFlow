@@ -30,3 +30,8 @@ type ElementNav = {
     icon: string;
     url: string;
 };
+
+type GithubData = {
+    username: string;
+    access_token: string;
+};
