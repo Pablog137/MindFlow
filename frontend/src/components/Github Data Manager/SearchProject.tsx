@@ -110,7 +110,7 @@ export default function SearchRepo({ originalRepos, setRepos }: Props) {
                     style={{ minWidth: "160px" }}
                 >
                     <ul
-                        className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                        className="py-2 text-sm list-none text-gray-700 dark:text-gray-200"
                         aria-labelledby="dropdown-button"
                     >
                         {filterValue !== "All categories" && (

@@ -1,28 +1,10 @@
 import imagen from "../assets/img/a.png";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { links } from "../data/lists";
 
 export default function NavBar() {
     const [menuOpen, setMenuOpen] = useState(false);
-
-    const links = [
-        {
-            name: "Features",
-            url: "#features",
-        },
-        {
-            name: "Why MindFlow",
-            url: "#why-us",
-        },
-        {
-            name: "Pricing",
-            url: "#pricing",
-        },
-        {
-            name: "FAQs",
-            url: "#faqs",
-        },
-    ];
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);

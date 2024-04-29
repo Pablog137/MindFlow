@@ -35,3 +35,14 @@ type GithubData = {
     username: string;
     access_token: string;
 };
+
+type PieChartData = {
+    label: string;
+    value: number;
+};
+
+type Note = {
+    id: string;
+    note: string;
+    content: string;
+};

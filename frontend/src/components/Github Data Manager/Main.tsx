@@ -1,9 +1,9 @@
-import Aside from "../../components/Dashboard/Aside";
-import RepoCard from "./RepoCard";
+import Aside from "../Aside";
+import RepoCard from "./CardProject";
 import { useState, useEffect } from "react";
 import { Repo } from "../../data/github";
 import Spinner from "../Spinner";
-import SearchRepo from "./SearchRepo";
+import SearchRepo from "./SearchProject";
 import { getGithubUserData } from "../../helpers/localstorage";
 
 type Props = {
@@ -18,7 +18,9 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
         []
     );
     const [isLoading, setIsLoading] = useState(false);
-    const [githubUserData,setGithubUserData] = useState<GithubData>(getGithubUserData());
+    const [githubUserData, setGithubUserData] = useState<GithubData>(
+        getGithubUserData()
+    );
 
     useEffect(() => {
         callRepositoriesRequest();
@@ -79,7 +81,9 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                                             key={index}
                                             repo={card}
                                             githubUserData={githubUserData}
-                                            setGithubUserData={setGithubUserData}
+                                            setGithubUserData={
+                                                setGithubUserData
+                                            }
                                         />
                                     ))}
                             </div>

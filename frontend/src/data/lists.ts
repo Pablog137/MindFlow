@@ -1,8 +1,4 @@
 export const elements = [
-    // {
-    //     text: "Search",
-    //     icon: "fa-solid fa-magnifying-glass",
-    // },
     {
         text: "Dashboard",
         icon: "fa-solid fa-house",
@@ -23,9 +19,23 @@ export const elements = [
         icon: "fa-brands fa-github",
         url: "/github",
     },
-    // {
-    //     text: "New Note",
-    //     icon: "fa-solid fa-plus",
-    //     url: "/new-note",
-    // },
+];
+
+export const links = [
+    {
+        name: "Features",
+        url: "#features",
+    },
+    {
+        name: "Why MindFlow",
+        url: "#why-us",
+    },
+    {
+        name: "Pricing",
+        url: "#pricing",
+    },
+    {
+        name: "FAQs",
+        url: "#faqs",
+    },
 ];

@@ -1,38 +1,15 @@
-import Aside from "../../components/Dashboard/Aside";
+import Aside from "../Aside";
 import TodoList from "./TodoList";
 import { useState, createContext } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { initialTasks } from "../../data/initialdata";
 
 type Props = {
     isAsideOpen: boolean;
     colsAside: string;
     colMain: string;
 };
-
-const initialTasks: Task[] = [
-    {
-        id: 1,
-        status: "To do",
-        priority: 1,
-        description: "Create a new task",
-        due_date: "2022-12-31",
-    },
-    {
-        id: 2,
-        status: "Doing",
-        priority: 2,
-        description: "Create a new task",
-        due_date: "2022-12-31",
-    },
-    {
-        id: 3,
-        status: "Done",
-        priority: 3,
-        description: "Create a new task",
-        due_date: "2022-12-31",
-    },
-];
 
 interface TaskContext {
     tasks: Task[];

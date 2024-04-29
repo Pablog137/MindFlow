@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { useContext } from "react";
 import GlobalContext from "../../context/CalendarContext";
-import AddTask from "./AddTask";
+import AddTask from "./AddTaskModal";
 import DeleteTask from "./DeleteTask";
 import { useDrop } from "react-dnd";
 

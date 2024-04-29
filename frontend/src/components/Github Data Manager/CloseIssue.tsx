@@ -5,7 +5,7 @@ type Props = {
     setIssues: (issue: IssueShowProject[]) => void;
     issues: IssueShowProject[];
     repoName: string;
-    githubUserData: object;
+    githubUserData: GithubData;
 };
 
 export default function CloseIssue({

@@ -11,7 +11,7 @@ import TodoList from "./pages/TodoList";
 import Calendar from "./pages/Calendar";
 import Github from "./pages/Github";
 import Note from "./pages/Note";
-import GithubIndividualProject from "./components/Github Data Manager/GithubIndividualProject";
+import GithubIndividualProject from "./components/Github Data Manager/DetailsProject";
 import GithubLoginPage from "./pages/GithubLoginPage";
 
 export default function App() {

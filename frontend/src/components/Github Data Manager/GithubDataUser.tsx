@@ -1,5 +1,5 @@
 import { getLocalStorage, setLocalStorage } from "../../helpers/localstorage";
-import Aside from "../Dashboard/Aside";
+import Aside from "../Aside";
 import { useEffect } from "react";
 
 type Props = {
