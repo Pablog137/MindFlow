@@ -35,7 +35,7 @@ const issueColors: IssueColors = {
 
 export default function GithubIndividualProject() {
     const { state } = useLocation();
-    const { repo, commitCount } = state;
+    const { repo, commitCount, githubUserData } = state;
     const [repoInfo] = useState(repo);
     const [contributors, setContributors] = useState<ContributorShowProject[]>(
         []
@@ -62,7 +62,7 @@ export default function GithubIndividualProject() {
     }
 
     useEffect(() => {
-        const API_TOKEN = import.meta.env.VITE_GIT_TOKEN;
+        const API_TOKEN = githubUserData.access_token;
         const URLS = [
             repoInfo.contributors_url,
             repoInfo.languages_url,
@@ -363,12 +363,18 @@ export default function GithubIndividualProject() {
                                                     setIssues={setIssues}
                                                     issues={issues}
                                                     repoName={repoInfo.name}
+                                                    githubUserData={
+                                                        githubUserData
+                                                    }
                                                 />
                                                 <CloseIssue
                                                     issue={issue}
                                                     setIssues={setIssues}
                                                     issues={issues}
                                                     repoName={repoInfo.name}
+                                                    githubUserData={
+                                                        githubUserData
+                                                    }
                                                 />
                                             </div>
                                         </ul>

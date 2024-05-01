@@ -5,6 +5,7 @@ type Props = {
     setIssues: (issue: IssueShowProject[]) => void;
     issues: IssueShowProject[];
     repoName: string;
+    githubUserData: GithubData;
 };
 
 export default function CloseIssue({
@@ -12,6 +13,7 @@ export default function CloseIssue({
     setIssues,
     issues,
     repoName,
+    githubUserData,
 }: Props) {
     const handleCloseIssue = () => {
         const updatedIssues = issues.filter((i) => i.id !== issue.id);
@@ -20,15 +22,14 @@ export default function CloseIssue({
     };
 
     const closeIssuePatch = () => {
-        const username = "Pablog137";
-        const URL = `https://api.github.com/repos/${username}/${repoName}/issues/${issue.number}`;
+        const URL = `https://api.github.com/repos/${githubUserData.username}/${repoName}/issues/${issue.number}`;
         fetch(URL, {
             method: "PATCH",
             body: JSON.stringify({
                 state: "closed",
             }),
             headers: {
-                Authorization: `Bearer ${import.meta.env.VITE_GIT_TOKEN}`,
+                Authorization: `Bearer ${githubUserData.access_token}`,
             },
         }).then((res) => res.json());
     };

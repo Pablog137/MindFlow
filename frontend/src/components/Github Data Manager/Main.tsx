@@ -1,9 +1,10 @@
-import Aside from "../../components/Dashboard/Aside";
-import RepoCard from "./RepoCard";
+import Aside from "../Aside";
+import RepoCard from "./CardProject";
 import { useState, useEffect } from "react";
 import { Repo } from "../../data/github";
 import Spinner from "../Spinner";
-import SearchRepo from "./SearchRepo";
+import SearchRepo from "./SearchProject";
+import { getGithubUserData } from "../../helpers/localstorage";
 
 type Props = {
     isAsideOpen: boolean;
@@ -17,18 +18,20 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
         []
     );
     const [isLoading, setIsLoading] = useState(false);
+    const [githubUserData, setGithubUserData] = useState<GithubData>(
+        getGithubUserData()
+    );
 
     useEffect(() => {
         callRepositoriesRequest();
     }, []);
 
     function callRepositoriesRequest() {
-        const username = "Pablog137";
-        const URL = `https://api.github.com/search/repositories?q=user:${username}`;
+        const URL = `https://api.github.com/search/repositories?q=user:${githubUserData.username}`;
         setIsLoading(true);
         fetch(URL, {
             headers: {
-                Authorization: `Bearer ${import.meta.env.VITE_GIT_TOKEN}`,
+                Authorization: `Bearer ${githubUserData.access_token}`,
             },
             method: "GET",
         })
@@ -72,8 +75,16 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                                 className={`px-8 pt-10 md:px-20 md:pt-20 grid grid-cols-12 gap-6 height `}
                             >
                                 {filteredRepositories &&
+                                    githubUserData &&
                                     filteredRepositories.map((card, index) => (
-                                        <RepoCard key={index} repo={card} />
+                                        <RepoCard
+                                            key={index}
+                                            repo={card}
+                                            githubUserData={githubUserData}
+                                            setGithubUserData={
+                                                setGithubUserData
+                                            }
+                                        />
                                     ))}
                             </div>
                         ) : (

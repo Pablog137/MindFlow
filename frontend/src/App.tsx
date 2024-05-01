@@ -11,7 +11,8 @@ import TodoList from "./pages/TodoList";
 import Calendar from "./pages/Calendar";
 import Github from "./pages/Github";
 import Note from "./pages/Note";
-import GithubIndividualProject from "./components/Github Data Manager/GithubIndividualProject";
+import GithubIndividualProject from "./components/Github Data Manager/DetailsProject";
+import GithubLoginPage from "./pages/GithubLoginPage";
 
 export default function App() {
     return (
@@ -25,6 +26,7 @@ export default function App() {
                     <Route path="/todo-list" element={<TodoList />} />
                     <Route path="/calendar" element={<Calendar />} />
                     <Route path="/github" element={<Github />} />
+                    <Route path="/github/login" element={<GithubLoginPage />} />
                     <Route
                         path="github/viewRepo/:id"
                         element={<GithubIndividualProject />}

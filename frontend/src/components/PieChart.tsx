@@ -1,10 +1,5 @@
 import { PieChart } from "@mui/x-charts/PieChart";
 
-type PieChartData = {
-    label: string;
-    value: number;
-};
-
 type Props = {
     data: PieChartData[];
     width: number;

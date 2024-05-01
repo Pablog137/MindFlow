@@ -1,28 +1,10 @@
 import imagen from "../assets/img/a.png";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { links } from "../data/lists";
 
 export default function NavBar() {
     const [menuOpen, setMenuOpen] = useState(false);
-
-    const links = [
-        {
-            name: "Features",
-            url: "#features",
-        },
-        {
-            name: "Why MindFlow",
-            url: "#why-us",
-        },
-        {
-            name: "Pricing",
-            url: "#pricing",
-        },
-        {
-            name: "FAQs",
-            url: "#faqs",
-        },
-    ];
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
@@ -44,7 +26,7 @@ export default function NavBar() {
                     </div>
 
                     <ul
-                        className={`space-x-4 lg:flex hidden col-span-9 text-gray-400 font-semibold ${
+                        className={`space-x-4 list-none lg:flex hidden col-span-9 text-gray-400 font-semibold ${
                             menuOpen ? "hidden" : ""
                         }`}
                     >

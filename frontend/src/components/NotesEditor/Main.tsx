@@ -1,4 +1,4 @@
-import Aside from "../../components/Dashboard/Aside";
+import Aside from "../Aside";
 import Editor from "./Editor";
 
 type Props = {

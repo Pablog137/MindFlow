@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Repo, IconRepo } from "../../data/github";
+import { getGithubUserData } from "../../helpers/localstorage";
 
 const icons: IconRepo = {
     visibility: {
@@ -12,14 +13,24 @@ const icons: IconRepo = {
     lastUpdatedAt: "fa-regular fa-clock",
 };
 
-export default function RepoCard({ repo }: { repo: Repo }) {
+type Props = {
+    repo: Repo;
+    githubUserData: GithubData;
+    setGithubUserData: (data: GithubData) => void;
+};
+
+export default function RepoCard({
+    repo,
+    githubUserData,
+    setGithubUserData,
+}: Props) {
     const [commitCount, setCommitCount] = useState(0);
-    const API_TOKEN = import.meta.env.VITE_GIT_TOKEN;
 
     useEffect(() => {
+        if (!githubUserData) setGithubUserData(getGithubUserData());
         fetch(`${repo.url}/commits`, {
             headers: {
-                Authorization: `Bearer ${API_TOKEN}`,
+                Authorization: `Bearer ${githubUserData.access_token}`,
             },
             method: "GET",
         })
@@ -84,7 +95,10 @@ export default function RepoCard({ repo }: { repo: Repo }) {
                 </li>
             </ul>
             <div className="flex justify-center mt-5">
-                <Link to={`viewRepo/${repo.id}`} state={{ repo, commitCount }}>
+                <Link
+                    to={`viewRepo/${repo.id}`}
+                    state={{ repo, commitCount, githubUserData }}
+                >
                     <button className="bg-purple-500 text-white font-bold py-1 lg:py-2 px-4 lg:px-8 text-md lg:text-lg rounded-md">
                         Details
                     </button>

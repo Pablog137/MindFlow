@@ -3,7 +3,7 @@ import Navbar from "../components/Dashboard/Navbar";
 import logo from "../assets/img/logo-32.png";
 import "../styles/pages/Dashboard.css";
 import ModalSearch from "./ModalSearch";
-import { elements } from "../data/navs";
+import { elements } from "../data/lists";
 import { createContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { generateRandomString } from "../helpers/utils";
@@ -14,11 +14,6 @@ type ComponentProps = {
     colsAside: string;
     colMain: string;
     logo: string;
-};
-type Note = {
-    id: string;
-    note: string;
-    content: string;
 };
 
 type SearchPageContextType = {

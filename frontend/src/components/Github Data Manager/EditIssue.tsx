@@ -6,6 +6,7 @@ type Props = {
     setIssues: (issue: IssueShowProject[]) => void;
     issues: IssueShowProject[];
     repoName: string;
+    githubUserData: GithubData;
 };
 
 export default function EditIssue({
@@ -13,6 +14,7 @@ export default function EditIssue({
     setIssues,
     issues,
     repoName,
+    githubUserData,
 }: Props) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [title, setTitle] = useState(issue.title);
@@ -41,15 +43,14 @@ export default function EditIssue({
     };
 
     const editIssuePatch = () => {
-        const username = "Pablog137";
-        const URL = `https://api.github.com/repos/${username}/${repoName}/issues/${issue.number}`;
+        const URL = `https://api.github.com/repos/${githubUserData.username}/${repoName}/issues/${issue.number}`;
         fetch(URL, {
             method: "PATCH",
             body: JSON.stringify({
                 title: title,
             }),
             headers: {
-                Authorization: `Bearer ${import.meta.env.VITE_GIT_TOKEN}`,
+                Authorization: `Bearer ${githubUserData.access_token}`,
             },
         }).then((res) => res.json());
     };

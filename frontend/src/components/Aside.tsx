@@ -1,7 +1,7 @@
 import AsideElement from "./AsideElement";
-import { elements } from "../../data/navs";
-import Search from "./Search";
-import { SearchPageContext } from "../AppStructureContainer";
+import { elements } from "../data/lists";
+import Search from "./Dashboard/Search";
+import { SearchPageContext } from "./AppStructureContainer";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
