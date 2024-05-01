@@ -1,9 +1,10 @@
 import logo from "../assets/img/logo-64.png";
 import useForm from "../hooks/useForm";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setLocalStorage } from "../helpers/localstorage.ts";
 import Spinner from "../components/Spinner.tsx";
+import { AuthContext } from "../context/AuthContext.tsx";
 
 export default function Login() {
     const { values, errors, handleChange, handleSubmit } = useForm("login");
@@ -13,6 +14,7 @@ export default function Login() {
     const [showSpinner, setShowSpinner] = useState(false);
 
     const navigate = useNavigate();
+    const { login } = useContext(AuthContext);
 
     const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -41,6 +43,7 @@ export default function Login() {
                 return;
             }
             setLocalStorage("token", data.token);
+            login();
             navigate("/dashboard");
         } catch (error) {
             console.error(error);

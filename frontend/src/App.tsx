@@ -13,29 +13,38 @@ import Github from "./pages/Github";
 import Note from "./pages/Note";
 import GithubIndividualProject from "./components/Github Data Manager/DetailsProject";
 import GithubLoginPage from "./pages/GithubLoginPage";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { AuthProvider } from "./context/AuthContext";
 
 export default function App() {
     return (
         <>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<LandingPage />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/todo-list" element={<TodoList />} />
-                    <Route path="/calendar" element={<Calendar />} />
-                    <Route path="/github" element={<Github />} />
-                    <Route path="/github/login" element={<GithubLoginPage />} />
-                    <Route
-                        path="github/viewRepo/:id"
-                        element={<GithubIndividualProject />}
-                    />
-                    <Route path="/new-note/:id" element={<Note />} />
+            <AuthProvider>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<LandingPage />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route element={<ProtectedRoute />}>
+                            <Route path="/dashboard" element={<Dashboard />} />
+                            <Route path="/todo-list" element={<TodoList />} />
+                            <Route path="/calendar" element={<Calendar />} />
+                            <Route path="/github" element={<Github />} />
+                            <Route
+                                path="/github/login"
+                                element={<GithubLoginPage />}
+                            />
+                            <Route
+                                path="github/viewRepo/:id"
+                                element={<GithubIndividualProject />}
+                            />
+                            <Route path="/new-note/:id" element={<Note />} />
+                        </Route>
 
-                    <Route path="*" element={<NotFound />} />
-                </Routes>
-            </BrowserRouter>
+                        <Route path="*" element={<NotFound />} />
+                    </Routes>
+                </BrowserRouter>
+            </AuthProvider>
         </>
     );
 }
