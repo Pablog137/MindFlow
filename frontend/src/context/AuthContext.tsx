@@ -9,21 +9,30 @@ interface Context {
     isAuthenticated: boolean;
     login: () => void;
     logout: () => void;
+    userType: string;
+    changeUserType: (newType: string) => void;
 }
 const AuthContext = createContext<Context>({
     isAuthenticated: false,
     login: () => {},
     logout: () => {},
+    userType: "user",
+    changeUserType: () => {},
 });
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
     const [isAuthenticated, setIsAuthenticated] = useState(
         getLocalStorage("isAuthenticated") === "true" ? true : false
     );
+    const [userType, setUserType] = useState("");
 
     const login = () => {
         setIsAuthenticated(true);
         setLocalStorage("isAuthenticated", "true");
+    };
+
+    const changeUserType = (newType: string) => {
+        setUserType(newType);
     };
 
     const logout = () => {
@@ -32,7 +41,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+        <AuthContext.Provider
+            value={{ isAuthenticated, login, logout, userType, changeUserType }}
+        >
             {children}
         </AuthContext.Provider>
     );

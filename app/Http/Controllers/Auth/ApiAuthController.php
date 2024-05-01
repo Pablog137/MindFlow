@@ -55,6 +55,7 @@ class ApiAuthController extends Controller
                 'user' => [
                     'name' => $user->name,
                     'email' => $user->email,
+                    'user_type' => $user->user_type,
                 ],
                 'token' => $token
             ];
@@ -72,5 +73,4 @@ class ApiAuthController extends Controller
         $response = ['message' => 'You have been successfully logged out!'];
         return response($response, 200);
     }
-
 }

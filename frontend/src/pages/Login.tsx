@@ -43,6 +43,7 @@ export default function Login() {
                 return;
             }
             setLocalStorage("token", data.token);
+            setLocalStorage("user", data.user.user_type);
             login();
             navigate("/dashboard");
         } catch (error) {
