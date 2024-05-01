@@ -28,14 +28,14 @@ export default function Command({
     };
     return (
         <li>
-            <a
+            <button
                 onClick={handleClick}
                 className={`p-2 lg:p-3 font-serif font-bold hover:bg-gray-200 hover:rounded-md ${
                     isSelected ? "bg-gray-400 rounded-md hover:bg-gray-400" : ""
                 }`}
             >
                 {content}
-            </a>
+            </button>
         </li>
     );
 }
