@@ -45,7 +45,7 @@ export default function Aside({ isAsideOpen }: Props) {
                                 >
                                     <i className="fa-solid fa-book text-xl md:text-2xl text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
                                     <span className="flex-1 whitespace-nowrap ms-3 hidden lg:flex">
-                                        {note.note}
+                                        {note.title}
                                     </span>
                                 </a>
                             </li>

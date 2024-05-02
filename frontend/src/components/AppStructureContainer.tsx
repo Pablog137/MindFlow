@@ -6,7 +6,6 @@ import ModalSearch from "./ModalSearch";
 import { elements } from "../data/lists";
 import { createContext } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { generateRandomString } from "../helpers/utils";
 import { setLocalStorage, getLocalStorage } from "../helpers/localstorage";
 
 type ComponentProps = {
@@ -40,19 +39,21 @@ export default function AppStructure({ MainComponent }: Props) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [listElements, setListElements] = useState<ElementNav[]>([]);
     const [notePages, setNotePages] = useState<
-        { id: string; note: string; content: string }[]
+        { id: string; title: string; content: string }[]
     >([]);
 
     const createNewNote = () => {
-        const name = generateRandomString();
         const id = uuidv4();
         setNotePages((prevPage) => [
             ...prevPage,
-            { id, note: name, content: "" },
+            { id, title: "Untitled", content: "" },
         ]);
         setLocalStorage(
             "notePages",
-            JSON.stringify([...notePages, { id, note: name, content: "" }])
+            JSON.stringify([
+                ...notePages,
+                { id, title: "Untitled", content: "" },
+            ])
         );
         return id;
     };

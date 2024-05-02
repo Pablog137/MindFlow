@@ -43,6 +43,6 @@ type PieChartData = {
 
 type Note = {
     id: string;
-    note: string;
+    title: string;
     content: string;
 };

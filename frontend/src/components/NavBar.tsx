@@ -50,7 +50,7 @@ export default function NavBar() {
 
                 {menuOpen && (
                     <div className="col-span-12 mt-4 lg:hidden">
-                        <ul className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-md">
+                        <ul className="bg-white list-none dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-md">
                             {links.map((link, index) => (
                                 <li key={index}>
                                     <a

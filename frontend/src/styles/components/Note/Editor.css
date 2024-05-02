@@ -16,3 +16,8 @@ ul {
 ol {
     list-style: decimal;
 }
+
+.title:empty:before {
+    content: "Title...";
+    color: #aaa;
+}

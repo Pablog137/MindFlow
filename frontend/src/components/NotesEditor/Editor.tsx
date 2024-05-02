@@ -35,30 +35,39 @@ export default function Editor({ colMain }: Props) {
             const notePages = JSON.parse(savedContent);
             const page = notePages.find((page: any) => page.id === id);
             if (page) {
-                return page.content || "";
+                return page.content || "<h1 class='title text-2xl'></h1>";
             }
         }
-        return "";
+        return "<h1 class='title text-2xl'></h1>";
     };
 
     const handleOnChangeContent = (e: React.ChangeEvent<HTMLDivElement>) => {
         const newContent = e.target.innerHTML;
 
+        const tempElement = document.createElement("div");
+        tempElement.innerHTML = newContent;
+
+        const titleElement = tempElement.querySelector("h1");
+        const titleContent = titleElement ? titleElement.textContent : "";
+
         if (timeoutIdRef.current) {
             clearTimeout(timeoutIdRef.current);
         }
         timeoutIdRef.current = window.setTimeout(() => {
-            saveText(newContent);
+            saveText(newContent, titleContent);
         }, 1000);
     };
 
-    const saveText = (text: string) => {
+    const saveText = (text: string, title: string | null = "Untitled") => {
         const savedContent = getLocalStorage("notePages");
         if (savedContent) {
+            if (title === "" || title === null) {
+                title = "Untitled";
+            }
             const parsedContent = JSON.parse(savedContent);
             const updatedPages = parsedContent.map((page: any) => {
                 if (page.id === id) {
-                    return { ...page, content: text };
+                    return { ...page, title, content: text };
                 }
                 return page;
             });
