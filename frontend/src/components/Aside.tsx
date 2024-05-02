@@ -3,7 +3,6 @@ import { elements } from "../data/lists";
 import Search from "./Dashboard/Search";
 import { SearchPageContext } from "./AppStructureContainer";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 
 type Props = {
     isAsideOpen: boolean;
@@ -11,10 +10,11 @@ type Props = {
 
 export default function Aside({ isAsideOpen }: Props) {
     const { notePages, createNewNote } = useContext(SearchPageContext);
-    const navigate = useNavigate();
     const handleCreateNewNote = () => {
         const newNoteId = createNewNote();
-        navigate("/new-note/" + newNoteId);
+        setTimeout(() => {
+            window.location.href = "/new-note/" + newNoteId;
+        }, 0);
     };
 
     return (

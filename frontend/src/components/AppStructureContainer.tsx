@@ -44,17 +44,10 @@ export default function AppStructure({ MainComponent }: Props) {
 
     const createNewNote = () => {
         const id = uuidv4();
-        setNotePages((prevPage) => [
-            ...prevPage,
-            { id, title: "Untitled", content: "" },
-        ]);
-        setLocalStorage(
-            "notePages",
-            JSON.stringify([
-                ...notePages,
-                { id, title: "Untitled", content: "" },
-            ])
-        );
+        const newNote = { id, title: "Untitled", content: "" };
+        setNotePages((prevPages) => [...prevPages, newNote]);
+        setLocalStorage("notePages", JSON.stringify([...notePages, newNote]));
+
         return id;
     };
 
