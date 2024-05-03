@@ -19,6 +19,11 @@ export const elements = [
         icon: "fa-brands fa-github",
         url: "/github",
     },
+    {
+        text: "Statistics",
+        icon: "fa-solid fa-chart-pie",
+        url: "/statistics",
+    },
 ];
 
 export const links = [
