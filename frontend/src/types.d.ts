@@ -46,3 +46,6 @@ type Note = {
     title: string;
     content: string;
 };
+
+type Period = "lastWeek" | "lastMonth" | "today";
+type Type = "github" | "todoList" | "calendarTasks";
