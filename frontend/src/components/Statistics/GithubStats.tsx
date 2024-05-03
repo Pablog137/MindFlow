@@ -1,6 +1,4 @@
 
-export default function GithubStats() {
-  return (
-    <div>GithubStats</div>
-  )
+export default function GithubStats({ period }: { period: string }) {
+    return <div>GithubStats</div>;
 }

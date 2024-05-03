@@ -11,15 +11,17 @@ type Props = {
     colMain: string;
 };
 
-const StatsComponent = {
-    github: <GithubStats />,
-    todoList: <TodoListStats />,
-    calendarTasks: <CalendarStats />,
-};
+const StatsComponent = (period: Period) => ({
+    github: <GithubStats period={period} />,
+    todoList: <TodoListStats period={period} />,
+    calendarTasks: <CalendarStats period={period} />,
+});
 
 export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     const [period, setPeriod] = useState<Period>("lastWeek");
     const [type, setType] = useState<Type>("github");
+
+    const DynamicStatsComponent = StatsComponent(period);
 
     return (
         <>
@@ -28,7 +30,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                     <Aside isAsideOpen={isAsideOpen} />
                 </div>
                 <div
-                    className={`text-white  bg-[#161922] px-6 md:px-12 pt-10 md:pt-20 height ${colMain}`}
+                    className={`text-white bg-[#161922] px-6 md:px-12 pt-10 md:pt-20 height ${colMain}`}
                 >
                     <Header
                         setPeriod={setPeriod}
@@ -36,7 +38,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                         setType={setType}
                         type={type}
                     />
-                    {StatsComponent[type]}
+                    <main className="pt-20">{DynamicStatsComponent[type]}</main>
                 </div>
             </>
         </>

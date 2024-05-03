@@ -8,7 +8,7 @@ type Props = {
 export default function Header({ period, setPeriod, setType, type }: Props) {
     return (
         <header className="flex items-center justify-between">
-            <h1 className="text-2xl font-semibold">MindFlow Stats</h1>
+            <h1 className="text-3xl font-semibold">MindFlow Stats</h1>
             <div className="flex gap-4">
                 <select
                     className="bg-gray-300 text-black p-1 rounded-xl"
