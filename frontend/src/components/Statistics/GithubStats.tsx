@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { PieChart } from "@mui/x-charts/PieChart";
 import Pie from "../Pie";
 import { todoListData } from "../../data/chartsData";
+import { BarChart } from "@mui/x-charts/BarChart";
 
 export default function GithubStats({ period }: { period: string }) {
     const [todoListTasks, setTodoListTasks] = useState<TodoListTask[]>();
@@ -135,42 +136,131 @@ export default function GithubStats({ period }: { period: string }) {
             : 0;
     };
 
+    const countTasksByDifficulty = () => {
+        const difficultyCounts: any = {};
+        if (todoListTasks) {
+            todoListTasks.forEach((task) => {
+                const difficulty = task.difficulty;
+                if (difficultyCounts[difficulty]) {
+                    difficultyCounts[difficulty]++;
+                } else {
+                    difficultyCounts[difficulty] = 1;
+                }
+            });
+            return difficultyCounts;
+        }
+        return {};
+    };
+
+    const totalData = () => {
+        let totalAmount = 0;
+        const tasksByDifficulty = countTasksByDifficulty();
+        for (const task in tasksByDifficulty) {
+            totalAmount += tasksByDifficulty[task];
+        }
+        return totalAmount;
+    };
+
+    const prepareChartData = () => {
+        const tasksByDifficulty = countTasksByDifficulty();
+        const chartData = [];
+
+        for (const difficulty in tasksByDifficulty) {
+            chartData.push({
+                id: difficulty,
+                value: (tasksByDifficulty[difficulty] * 100) / totalData(),
+            });
+        }
+        return chartData;
+    };
+
     return (
-        <>
+        <div className="p-5 flex flex-col gap-6 ">
             {/*TODO Tags*/}
-            <PieChart
-                series={[
-                    {
-                        data: [
-                            { id: 0, value: 10, label: "series A" },
-                            { id: 1, value: 15, label: "series B" },
-                            { id: 2, value: 20, label: "series C" },
-                        ],
-                    },
-                ]}
-                width={400}
-                height={200}
-            />
+            <div className="grid grid-cols-2 gap-4">
+                <div className="bg-[#2A3041] p-10 rounded-sm flex items-center">
+                    <div className="grid grid-cols-10 items-center">
+                        <div className="col-span-7">
+                            <PieChart
+                                series={[
+                                    {
+                                        data: prepareChartData(),
+                                        highlightScope: {
+                                            faded: "global",
+                                            highlighted: "item",
+                                        },
+                                        faded: {
+                                            innerRadius: 30,
+                                            additionalRadius: -30,
+                                            color: "gray",
+                                        },
+                                    },
+                                ]}
+                                width={500}
+                                height={230}
+                            />
+                        </div>
+                        <ul className="col-span-3 list-none flex flex-col gap-2 font-semibold">
+                            <li className="flex gap-2">
+                                <div className="bg-[#2E96FF] opacity-1 w-5 h-5"></div>
+                                <p>Difficulty easy</p>
+                            </li>
+                            <li className="flex gap-2">
+                                <div className="bg-[#02B2AF] opacity-1 w-5 h-5"></div>
+                                <p>Difficulty medium</p>
+                            </li>
+                            <li className="flex gap-2">
+                                <div className="bg-[#B800D8] opacity-1 w-5 h-5"></div>
+                                <p>Difficulty hard</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div className="bg-[#2A3041] p-10 rounded-sm flex items-center">
+                    <BarChart
+                        xAxis={[
+                            {
+                                scaleType: "band",
+                                data: ["group A", "group B", "group C"],
+                            },
+                        ]}
+                        series={[
+                            { data: [4, 3, 5] },
+                            { data: [1, 6, 3] },
+                            { data: [2, 5, 6] },
+                        ]}
+                        width={500}
+                        height={350}
+                    />
+                </div>
+            </div>
+
             {/*TODO completed and created tasks*/}
 
             {isLoading ? (
                 <h5>Is loading</h5>
             ) : (
-                <>
-                    <Pie
-                        percentage={getTotalPercentage(
-                            getFilteredClosedTasksForPeriod
-                        )}
-                        colour={"green"}
-                    />
-                    <Pie
-                        percentage={getTotalPercentage(
-                            getFilteredNewTasksForPeriod
-                        )}
-                        colour={"tomato"}
-                    />
-                </>
+                <div className="flex justify-center bg-[#2A3041] items-center gap-10 px-14 pt-20 py-10 text-gray-500 font-semibold rounded-sm ">
+                    <div className="flex items-center">
+                        <Pie
+                            percentage={getTotalPercentage(
+                                getFilteredClosedTasksForPeriod
+                            )}
+                            colour={"green"}
+                        />
+                        <h2 className="text-xl">Closed Issues</h2>
+                    </div>
+                    <div className="flex items-center">
+                        <Pie
+                            percentage={getTotalPercentage(
+                                getFilteredNewTasksForPeriod
+                            )}
+                            colour={"tomato"}
+                        />
+                        <h2 className="text-xl">New Issues</h2>
+                    </div>
+                </div>
             )}
-        </>
+        </div>
     );
 }
