@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Aside from "../Aside";
 import Header from "./Header";
-import GithubStats from "./GithubStats";
 import TodoListStats from "./TodoListStats";
 import CalendarStats from "./CalendarStats";
 
@@ -12,14 +11,13 @@ type Props = {
 };
 
 const StatsComponent = (period: Period) => ({
-    github: <GithubStats period={period} />,
     todoList: <TodoListStats period={period} />,
     calendarTasks: <CalendarStats period={period} />,
 });
 
 export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     const [period, setPeriod] = useState<Period>("lastWeek");
-    const [type, setType] = useState<Type>("github");
+    const [type, setType] = useState<Type>("todoList");
 
     const DynamicStatsComponent = StatsComponent(period);
 

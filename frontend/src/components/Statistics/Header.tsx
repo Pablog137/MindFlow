@@ -24,7 +24,6 @@ export default function Header({ period, setPeriod, setType, type }: Props) {
                     value={type}
                     onChange={(e) => setType(e.target.value as Type)}
                 >
-                    <option value="github">Github</option>
                     <option value="todoList">Todo List</option>
                     <option value="calendarTasks">Calendar Tasks</option>
                 </select>

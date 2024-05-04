@@ -47,8 +47,8 @@ type Note = {
     content: string;
 };
 
-type Period = "lastWeek" | "lastMonth" | "today";
-type Type = "github" | "todoList" | "calendarTasks";
+type Period = "lastWeek" | "lastMonth" | "thisWeek";
+type Type = "todoList" | "calendarTasks";
 
 interface TodoListTask {
     id: number;
