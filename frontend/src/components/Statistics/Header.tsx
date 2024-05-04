@@ -17,7 +17,7 @@ export default function Header({ period, setPeriod, setType, type }: Props) {
                 >
                     <option value="lastMonth">Last Month</option>
                     <option value="lastWeek">Last Week</option>
-                    <option value="today">Today</option>
+                    <option value="thisWeek">This Week</option>
                 </select>
                 <select
                     className="bg-gray-300 text-black p-1 rounded-xl"

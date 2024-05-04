@@ -49,3 +49,16 @@ type Note = {
 
 type Period = "lastWeek" | "lastMonth" | "today";
 type Type = "github" | "todoList" | "calendarTasks";
+
+interface TodoListTask {
+    id: number;
+    content: string;
+    status: Status;
+    difficulty: Difficulty;
+    created_at: string;
+    updated_at: string | null;
+    closed_at: string | null;
+}
+
+type Status = "todo" | "doing" | "done";
+type Difficulty = "easy" | "medium" | "hard";
