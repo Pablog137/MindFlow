@@ -99,7 +99,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                 value={{ setIsDraggingInUse, isDraggingInUse }}
             >
                 <DndProvider backend={HTML5Backend}>
-                    <div className={`p-6 ${colMain} `}>
+                    <div className={`p-6 ${colMain} bg-[#161922] `}>
                         <CalendarHeader
                             addTask={addTask}
                             deleteTask={deleteTask}
