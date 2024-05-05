@@ -22,7 +22,7 @@ const cleanPercentage = (percentage: number): number => {
 };
 
 const Circle: React.FC<CircleProps> = ({ colour: color, pct }) => {
-    const r = 70;
+    const r = 50; // Aumentamos el radio del círculo para que sea más grande
     const circ = 2 * Math.PI * r;
     const strokePct = ((100 - (pct ?? 0)) * circ) / 100;
     return (
@@ -39,6 +39,7 @@ const Circle: React.FC<CircleProps> = ({ colour: color, pct }) => {
         ></circle>
     );
 };
+
 
 const Text: React.FC<TextProps> = ({ percentage, color }) => {
     return (
@@ -59,14 +60,27 @@ const Text: React.FC<TextProps> = ({ percentage, color }) => {
 const Pie: React.FC<PieProps> = ({ percentage, colour }) => {
     const pct = cleanPercentage(percentage);
     return (
-        <svg width={200} height={200}>
-            <g transform={`rotate(-90 ${"100 100"})`}>
-                <Circle colour="lightgrey" />
-                <Circle colour={colour} pct={pct} />
-            </g>
-            <Text percentage={pct} color={colour} />
-        </svg>
+        <div
+            style={{
+                maxWidth: "100%",
+                width: "100%",
+                position: "relative",
+                paddingBottom: "100%",
+            }}
+        >
+            <svg
+                viewBox="0 0 200 200"
+                style={{ position: "absolute", width: "100%", height: "100%" }}
+            >
+                <g transform={`rotate(-90 ${"100 100"})`}>
+                    <Circle colour="lightgrey" />
+                    <Circle colour={colour} pct={pct} />
+                </g>
+                <Text percentage={pct} color={colour} />
+            </svg>
+        </div>
     );
 };
+
 
 export default Pie;

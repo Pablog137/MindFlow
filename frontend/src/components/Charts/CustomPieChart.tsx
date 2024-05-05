@@ -20,8 +20,8 @@ type Props = {
 export default function CustomPieChart({ prepareChartData, type }: Props) {
     return (
         <>
-            <div className="grid grid-cols-10 items-center">
-                <div className="col-span-7">
+            <div className="grid grid-cols-12 items-center">
+                <div className="col-span-12 sm:col-span-7 w-full h-72">
                     <PieChart
                         series={[
                             {
@@ -37,11 +37,10 @@ export default function CustomPieChart({ prepareChartData, type }: Props) {
                                 },
                             },
                         ]}
-                        width={500}
-                        height={230}
+                        style={{ width: "100%", height: "100%" }}
                     />
                 </div>
-                <div className="col-span-3">
+                <div className="col-span-12 sm:col-span-3">
                     <h2 className="text-xl font-semibold pb-4 text-center">
                         {type === "todoList"
                             ? "Difficulty level of new tasks"

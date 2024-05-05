@@ -233,8 +233,7 @@ export default function Stats({
         <h1>Is Loading</h1>
     ) : (
         <div className="p-5 flex flex-col gap-6 ">
-            {/*TODO Tags*/}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid xl:grid-cols-2 gap-4">
                 <div className="bg-[#2A3041] p-10 rounded-sm flex items-center">
                     <CustomPieChart
                         prepareChartData={prepareChartData}
@@ -251,22 +250,22 @@ export default function Stats({
                 </div>
             </div>
 
-            <div className="flex justify-center bg-[#2A3041] items-center gap-10 px-14 pt-20 py-10 text-gray-500 font-semibold rounded-sm ">
-                <div className="flex items-center">
+            <div className="flex justify-center bg-[#2A3041] items-center gap-5 sm:gap-10 text-gray-500 font-semibold rounded-sm ">
+                <div className="flex items-center w-1/2 xl:w-1/5 2xl:w-1/6">
                     <Pie
                         percentage={getTotalPercentage(
                             getTotalClosedTasksByDate
                         )}
                         colour={"green"}
                     />
-                    <h2 className="text-xl">Closed Tasks</h2>
+                    <h2 className="text-sm sm:text-xl">Closed Tasks</h2>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center w-1/2 xl:w-1/5 2xl:w-1/6">
                     <Pie
                         percentage={getTotalPercentage(getTotalnewTasksByDate)}
                         colour={"tomato"}
                     />
-                    <h2 className="text-xl">New Tasks</h2>
+                    <h2 className="text-sm sm:text-xl">New Tasks</h2>
                 </div>
             </div>
         </div>

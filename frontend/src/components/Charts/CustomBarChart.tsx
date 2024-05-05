@@ -10,7 +10,7 @@ export default function CustomBarChart({
     getClosedTasksDataForBarChart,
 }: Props) {
     return (
-        <>
+        <div className="w-full h-72">
             <BarChart
                 series={[
                     {
@@ -22,11 +22,9 @@ export default function CustomBarChart({
                         color: "green",
                     },
                 ]}
-                width={700}
-                height={400}
             />
 
-            <ul className=" list-none flex gap-4 font-semibold">
+            <ul className=" list-none flex gap-4 font-semibold justify-center items-center">
                 <li className="flex gap-2">
                     <div className="bg-[green] opacity-1 w-5 h-5"></div>
                     <p>Closed tasks</p>
@@ -36,6 +34,6 @@ export default function CustomBarChart({
                     <p>Created tasks</p>
                 </li>
             </ul>
-        </>
+        </div>
     );
 }

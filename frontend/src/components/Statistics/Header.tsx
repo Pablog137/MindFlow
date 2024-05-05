@@ -7,8 +7,8 @@ type Props = {
 
 export default function Header({ period, setPeriod, setType, type }: Props) {
     return (
-        <header className="flex items-center justify-between">
-            <h1 className="text-3xl font-semibold">MindFlow Stats</h1>
+        <header className="flex items-center justify-center flex-col ">
+            <h1 className="text-3xl font-semibold py-5">MindFlow Stats</h1>
             <div className="flex gap-4">
                 <select
                     className="bg-gray-300 text-black p-1 rounded-xl"
