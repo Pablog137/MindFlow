@@ -23,6 +23,7 @@ export const elements = [
         text: "Statistics",
         icon: "fa-solid fa-chart-pie",
         url: "/statistics",
+        protected: true,
     },
 ];
 

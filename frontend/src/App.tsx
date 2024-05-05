@@ -16,6 +16,7 @@ import GithubLoginPage from "./pages/GithubLoginPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import Statistics from "./pages/Statistics";
+import AuthRoute from "./components/AuthRoute";
 
 export default function App() {
     return (
@@ -40,7 +41,14 @@ export default function App() {
                                 element={<GithubIndividualProject />}
                             />
                             <Route path="/new-note/:id" element={<Note />} />
-                            <Route path="/statistics" element={<Statistics />} />
+                            <Route
+                                path="/statistics"
+                                element={
+                                    <AuthRoute>
+                                        <Statistics />
+                                    </AuthRoute>
+                                }
+                            />
                         </Route>
 
                         <Route path="*" element={<NotFound />} />

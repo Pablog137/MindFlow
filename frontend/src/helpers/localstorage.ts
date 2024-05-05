@@ -11,6 +11,12 @@ export function getGithubUserData() {
     return storedData ? JSON.parse(storedData) : null;
 }
 
+export const isAdmin = () => {
+    const userType = getLocalStorage("user");
+    if (!userType) return false;
+    return userType === "admin";
+};
+
 // export function getGithubUsername(){
 //     const storedData = localStorage.getItem("githubData");
 //     return storedData ? JSON.parse(storedData).username : null;
