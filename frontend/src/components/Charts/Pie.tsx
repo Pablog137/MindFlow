@@ -1,20 +1,37 @@
-const cleanPercentage = (percentage) => {
+import React from "react";
+
+type CircleProps = {
+    colour: string;
+    pct?: number;
+};
+
+type TextProps = {
+    percentage: number;
+    color: string;
+};
+
+type PieProps = {
+    percentage: number;
+    colour: string;
+};
+
+const cleanPercentage = (percentage: number): number => {
     const tooLow = !Number.isFinite(+percentage) || percentage < 0;
     const tooHigh = percentage > 100;
     return tooLow ? 0 : tooHigh ? 100 : +percentage;
 };
 
-const Circle = ({ colour, pct }) => {
+const Circle: React.FC<CircleProps> = ({ colour: color, pct }) => {
     const r = 70;
     const circ = 2 * Math.PI * r;
-    const strokePct = ((100 - pct) * circ) / 100;
+    const strokePct = ((100 - (pct ?? 0)) * circ) / 100;
     return (
         <circle
             r={r}
             cx={100}
             cy={100}
             fill="transparent"
-            stroke={strokePct !== circ ? colour : ""}
+            stroke={strokePct !== circ ? color : "lightgrey"}
             strokeWidth={"1rem"}
             strokeDasharray={circ}
             strokeDashoffset={pct ? strokePct : 0}
@@ -23,7 +40,7 @@ const Circle = ({ colour, pct }) => {
     );
 };
 
-const Text = ({ percentage, color }) => {
+const Text: React.FC<TextProps> = ({ percentage, color }) => {
     return (
         <text
             x="50%"
@@ -39,7 +56,7 @@ const Text = ({ percentage, color }) => {
     );
 };
 
-const Pie = ({ percentage, colour }) => {
+const Pie: React.FC<PieProps> = ({ percentage, colour }) => {
     const pct = cleanPercentage(percentage);
     return (
         <svg width={200} height={200}>

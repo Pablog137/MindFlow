@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
-import { PieChart } from "@mui/x-charts/PieChart";
 import Pie from "../Charts/Pie";
-import { todoListData } from "../../data/chartsData";
+import { todoListData, calendarTasksData } from "../../data/chartsData";
 import CustomBarChart from "../Charts/CustomBarChart";
+import CustomPieChart from "../Charts/CustomPieChart";
 
-export default function TodoListStats({ period }: { period: string }) {
-    const [todoListTasks, setTodoListTasks] = useState<TodoListTask[]>();
+export default function Stats({
+    period,
+    type,
+}: {
+    period: string;
+    type: string;
+}) {
+    const [tasksData, setTasksData] = useState<
+        (TodoListTask | CalendarListTask)[] | undefined
+    >();
     const [isLoading, setIsLoading] = useState(true);
     const [periodStartDate, setPeriodStartDate] = useState<Date | null>(null);
     const [periodEndDate, setPeriodEndDate] = useState<Date | null>(null);
@@ -16,16 +24,17 @@ export default function TodoListStats({ period }: { period: string }) {
 
         setPeriodStartDate(startDate);
         setPeriodEndDate(endDate);
-        setTodoListTasks(todoListData);
+        if (type === "todoList") setTasksData(todoListData);
+        else setTasksData(calendarTasksData);
         setIsLoading(false);
-    }, [period]);
+    }, [period, type]);
 
     const getPeriodStartDate = () => {
         const date = new Date();
         const year = date.getFullYear();
         const month = date.getMonth();
         const dayOfWeek = date.getDay();
-        let startDate;
+        let startDate: Date | null;
         switch (period) {
             case "thisMonth":
                 startDate = new Date(year, month, 1);
@@ -54,7 +63,7 @@ export default function TodoListStats({ period }: { period: string }) {
         const dayOfMonth = date.getDate();
         const dayOfWeek = date.getDay();
         const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
-        let endDate;
+        let endDate: Date | null;
 
         switch (period) {
             case "thisMonth":
@@ -80,9 +89,9 @@ export default function TodoListStats({ period }: { period: string }) {
         return endDate;
     };
 
-    const getTotalnewTasksByDate = (): TodoListTask[] => {
+    const getTotalnewTasksByDate = (): (TodoListTask | CalendarListTask)[] => {
         const filteredTodoListData =
-            todoListTasks?.filter((task) => {
+            tasksData?.filter((task) => {
                 const taskDate = new Date(task.created_at);
                 return (
                     periodStartDate !== null &&
@@ -94,9 +103,12 @@ export default function TodoListStats({ period }: { period: string }) {
         return filteredTodoListData;
     };
 
-    const getTotalClosedTasksByDate = (): TodoListTask[] => {
+    const getTotalClosedTasksByDate = (): (
+        | TodoListTask
+        | CalendarListTask
+    )[] => {
         const filteredTodoListData =
-            todoListTasks?.filter((task) => {
+            tasksData?.filter((task) => {
                 const taskClosedDate = task.closed_at
                     ? new Date(task.closed_at)
                     : null;
@@ -110,51 +122,57 @@ export default function TodoListStats({ period }: { period: string }) {
             }) || [];
         return filteredTodoListData;
     };
-    const getTotalPercentage = (method: () => TodoListTask[]) => {
-        return todoListTasks
-            ? (100 * method().length) / todoListTasks.length
-            : 0;
+    const getTotalPercentage = (
+        method: () => (TodoListTask | CalendarListTask)[]
+    ) => {
+        return tasksData ? (100 * method().length) / tasksData.length : 0;
     };
 
     const countTasksByDifficultyByDate = () => {
-        const difficultyCounts: any = {};
-        if (todoListTasks && periodStartDate && periodEndDate) {
-            todoListTasks.forEach((task) => {
+        const counts: any = {};
+
+        if (tasksData && periodStartDate && periodEndDate) {
+            tasksData.forEach((task) => {
                 const created_at_date = new Date(task.created_at);
                 if (
                     created_at_date >= periodStartDate &&
                     created_at_date <= periodEndDate
                 ) {
-                    const difficulty = task.difficulty;
-
-                    if (difficultyCounts[difficulty]) {
-                        difficultyCounts[difficulty]++;
+                    let key: string;
+                    if (type === "todoList" && "difficulty" in task) {
+                        key = (task as TodoListTask).difficulty;
+                    } else if (type === "calendarTasks" && "tag" in task) {
+                        key = (task as CalendarListTask).tag;
                     } else {
-                        difficultyCounts[difficulty] = 1;
+                        return;
+                    }
+                    if (counts[key]) {
+                        counts[key]++;
+                    } else {
+                        counts[key] = 1;
                     }
                 }
             });
         }
-        return difficultyCounts;
+        return counts;
     };
 
-    const totalData = () => {
+    const totalData = (): number => {
         let totalAmount = 0;
-        const tasksByDifficulty = countTasksByDifficultyByDate();
-        for (const task in tasksByDifficulty) {
-            totalAmount += tasksByDifficulty[task];
+        const tasksByProperty = countTasksByDifficultyByDate();
+        for (const key in tasksByProperty) {
+            totalAmount += tasksByProperty[key];
         }
         return totalAmount;
     };
 
-    const prepareChartData = () => {
-        const tasksByDifficulty = countTasksByDifficultyByDate();
+    const prepareChartData = (): { id: string; value: number }[] => {
+        const tasksByProperty = countTasksByDifficultyByDate();
         const chartData = [];
-
-        for (const difficulty in tasksByDifficulty) {
+        for (const key in tasksByProperty) {
             chartData.push({
-                id: difficulty,
-                value: (tasksByDifficulty[difficulty] * 100) / totalData(),
+                id: key,
+                value: (tasksByProperty[key] * 100) / totalData(),
             });
         }
         return chartData;
@@ -170,7 +188,7 @@ export default function TodoListStats({ period }: { period: string }) {
                     .toISOString()
                     .split("T")[0];
                 const newTasksCount =
-                    todoListTasks?.filter((task) => {
+                    tasksData?.filter((task) => {
                         const taskDate = new Date(task.created_at)
                             .toISOString()
                             .split("T")[0];
@@ -194,7 +212,7 @@ export default function TodoListStats({ period }: { period: string }) {
                     .toISOString()
                     .split("T")[0];
                 const closedTasksCount =
-                    todoListTasks?.filter((task) => {
+                    tasksData?.filter((task) => {
                         if (task.closed_at) {
                             const taskDate = new Date(task.closed_at)
                                 ?.toISOString()
@@ -218,47 +236,10 @@ export default function TodoListStats({ period }: { period: string }) {
             {/*TODO Tags*/}
             <div className="grid grid-cols-2 gap-4">
                 <div className="bg-[#2A3041] p-10 rounded-sm flex items-center">
-                    <div className="grid grid-cols-10 items-center">
-                        <div className="col-span-7">
-                            <PieChart
-                                series={[
-                                    {
-                                        data: prepareChartData(),
-                                        highlightScope: {
-                                            faded: "global",
-                                            highlighted: "item",
-                                        },
-                                        faded: {
-                                            innerRadius: 30,
-                                            additionalRadius: -30,
-                                            color: "gray",
-                                        },
-                                    },
-                                ]}
-                                width={500}
-                                height={230}
-                            />
-                        </div>
-                        <div className="col-span-3">
-                            <h2 className="text-xl font-semibold pb-4 text-center">
-                                Difficulty level of new tasks
-                            </h2>
-                            <ul className=" list-none flex flex-col gap-2 font-semibold">
-                                <li className="flex gap-2">
-                                    <div className="bg-[#2E96FF] opacity-1 w-5 h-5"></div>
-                                    <p>Easy</p>
-                                </li>
-                                <li className="flex gap-2">
-                                    <div className="bg-[#02B2AF] opacity-1 w-5 h-5"></div>
-                                    <p>Medium</p>
-                                </li>
-                                <li className="flex gap-2">
-                                    <div className="bg-[#B800D8] opacity-1 w-5 h-5"></div>
-                                    <p>Hard</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    <CustomPieChart
+                        prepareChartData={prepareChartData}
+                        type={type}
+                    />
                 </div>
                 <div className="bg-[#2A3041] p-10 rounded-sm flex flex-col items-center">
                     <CustomBarChart

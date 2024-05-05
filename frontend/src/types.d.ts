@@ -59,6 +59,16 @@ interface TodoListTask {
     updated_at: string | null;
     closed_at: string | null;
 }
+interface CalendarListTask {
+    id: number;
+    content: string;
+    status: Status;
+    tag: Tag;
+    created_at: string;
+    updated_at: string | null;
+    closed_at: string | null;
+}
 
+type Tag = "Work" | "Study" | "Personal" | "Other";
 type Status = "todo" | "doing" | "done";
 type Difficulty = "easy" | "medium" | "hard";
