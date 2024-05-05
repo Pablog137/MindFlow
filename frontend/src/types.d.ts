@@ -47,7 +47,7 @@ type Note = {
     content: string;
 };
 
-type Period = "lastWeek" | "lastMonth" | "thisWeek";
+type Period = "lastWeek" | "lastMonth" | "thisWeek" | "thisMonth";
 type Type = "todoList" | "calendarTasks";
 
 interface TodoListTask {

@@ -7,154 +7,140 @@ import { BarChart } from "@mui/x-charts/BarChart";
 export default function TodoListStats({ period }: { period: string }) {
     const [todoListTasks, setTodoListTasks] = useState<TodoListTask[]>();
     const [isLoading, setIsLoading] = useState(true);
+    const [periodStartDate, setPeriodStartDate] = useState<Date | null>(null);
+    const [periodEndDate, setPeriodEndDate] = useState<Date | null>(null);
 
     useEffect(() => {
-        setIsLoading(true);
+        const startDate = getPeriodStartDate();
+        const endDate = getPeriodEndDate();
+
+        setPeriodStartDate(startDate);
+        setPeriodEndDate(endDate);
         setTodoListTasks(todoListData);
         setIsLoading(false);
-    }, []);
+    }, [period]);
 
-    // Returns current day month
-    const getCurrentDayMonth = (): number => {
-        return new Date().getDate();
-    };
-
-    // Returns current day week
-    const getCurrentDayWeek = (): number => {
-        return new Date().getDay();
-    };
-
-    const getFirstDayOfLastWeek = (): Date => {
-        const today = new Date();
-        const dayOfWeek = today.getDay();
-        const firstDayOfLastWeek = new Date(today);
-        firstDayOfLastWeek.setDate(today.getDate() - dayOfWeek - 6);
-        return firstDayOfLastWeek;
-    };
-
-    const getLastDayOfLastWeek = (): Date => {
-        const today = new Date();
-        const dayOfWeek = today.getDay();
-        const lastDayOfLastWeek = new Date(today);
-        lastDayOfLastWeek.setDate(today.getDate() - dayOfWeek);
-        return lastDayOfLastWeek;
-    };
-
-    const getFilteredNewTasksForPeriod = (): TodoListTask[] => {
+    const getPeriodStartDate = () => {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const dayOfWeek = date.getDay();
+        let startDate;
         switch (period) {
-            case "lastMonth":
-                return getTotalnewTasks(getCurrentDayMonth());
-            case "lastWeek":
-                return getTotalnewTasksByDate(
-                    getFirstDayOfLastWeek(),
-                    getLastDayOfLastWeek()
-                );
+            case "thisMonth":
+                startDate = new Date(year, month, 1);
+                break;
             case "thisWeek":
-                return getTotalClosedTasks(getCurrentDayWeek());
+                startDate = new Date(date.setDate(date.getDate() - dayOfWeek));
+                break;
+            case "lastWeek":
+                startDate = new Date(
+                    date.setDate(date.getDate() - dayOfWeek - 7)
+                );
+                break;
+            case "lastMonth":
+                startDate = new Date(year, month - 1, 1);
+                break;
             default:
-                return [];
+                startDate = null;
         }
+        return startDate;
     };
-    const getFilteredClosedTasksForPeriod = (): TodoListTask[] => {
+
+    const getPeriodEndDate = () => {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const dayOfMonth = date.getDate();
+        const dayOfWeek = date.getDay();
+        const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
+        let endDate;
+
         switch (period) {
-            case "lastMonth":
-                return getTotalClosedTasks(getCurrentDayMonth());
-            case "lastWeek":
-                return getTotalClosedTasksByDate(
-                    getFirstDayOfLastWeek(),
-                    getLastDayOfLastWeek()
-                );
+            case "thisMonth":
+                endDate = new Date(year, month, dayOfMonth);
+                break;
             case "thisWeek":
-                return getTotalClosedTasks(getCurrentDayWeek());
+                endDate = new Date(
+                    date.setDate(date.getDate() - dayOfWeek + 6)
+                );
+                break;
+            case "lastWeek":
+                endDate = new Date(
+                    date.setDate(date.getDate() - dayOfWeek - 1)
+                );
+                break;
+            case "lastMonth":
+                endDate = new Date(year, month - 1, lastDayOfMonth);
+                break;
             default:
-                return [];
+                endDate = null;
         }
+
+        return endDate;
     };
 
-    const getTotalnewTasks = (days: number) => {
-        const currentDate = new Date();
-        const startDate = new Date(currentDate);
-        startDate.setDate(startDate.getDate() - days);
-
+    const getTotalnewTasksByDate = (): TodoListTask[] => {
         const filteredTodoListData =
             todoListTasks?.filter((task) => {
                 const taskDate = new Date(task.created_at);
-                return taskDate > startDate;
-            }) || [];
-
-        return filteredTodoListData;
-    };
-    const getTotalClosedTasks = (days: number) => {
-        const currentDate = new Date();
-        const startDate = new Date(currentDate);
-        startDate.setDate(startDate.getDate() - days);
-
-        const filteredTodoListData =
-            todoListTasks?.filter((task) => {
-                const taskDate = task.closed_at
-                    ? new Date(task.closed_at)
-                    : null;
-                return taskDate && taskDate > startDate;
-            }) || [];
-
-        return filteredTodoListData;
-    };
-
-    const getTotalnewTasksByDate = (
-        startDate: Date,
-        endDate: Date
-    ): TodoListTask[] => {
-        const filteredTodoListData =
-            todoListTasks?.filter((task) => {
-                const taskDate = new Date(task.created_at);
-                return taskDate >= startDate && taskDate <= endDate;
+                return (
+                    periodStartDate !== null &&
+                    periodEndDate !== null &&
+                    taskDate >= periodStartDate &&
+                    taskDate <= periodEndDate
+                );
             }) || [];
         return filteredTodoListData;
     };
 
-    const getTotalClosedTasksByDate = (
-        startDate: Date,
-        endDate: Date
-    ): TodoListTask[] => {
+    const getTotalClosedTasksByDate = (): TodoListTask[] => {
         const filteredTodoListData =
             todoListTasks?.filter((task) => {
                 const taskClosedDate = task.closed_at
                     ? new Date(task.closed_at)
                     : null;
                 return (
-                    taskClosedDate &&
-                    taskClosedDate >= startDate &&
-                    taskClosedDate <= endDate
+                    taskClosedDate !== null &&
+                    periodStartDate !== null &&
+                    periodEndDate !== null &&
+                    taskClosedDate >= periodStartDate &&
+                    taskClosedDate <= periodEndDate
                 );
             }) || [];
         return filteredTodoListData;
     };
-
     const getTotalPercentage = (method: () => TodoListTask[]) => {
         return todoListTasks
             ? (100 * method().length) / todoListTasks.length
             : 0;
     };
 
-    const countTasksByDifficulty = () => {
+    const countTasksByDifficultyByDate = () => {
         const difficultyCounts: any = {};
-        if (todoListTasks) {
+        if (todoListTasks && periodStartDate && periodEndDate) {
             todoListTasks.forEach((task) => {
-                const difficulty = task.difficulty;
-                if (difficultyCounts[difficulty]) {
-                    difficultyCounts[difficulty]++;
-                } else {
-                    difficultyCounts[difficulty] = 1;
+                const created_at_date = new Date(task.created_at);
+                if (
+                    created_at_date >= periodStartDate &&
+                    created_at_date <= periodEndDate
+                ) {
+                    const difficulty = task.difficulty;
+
+                    if (difficultyCounts[difficulty]) {
+                        difficultyCounts[difficulty]++;
+                    } else {
+                        difficultyCounts[difficulty] = 1;
+                    }
                 }
             });
-            return difficultyCounts;
         }
-        return {};
+        return difficultyCounts;
     };
 
     const totalData = () => {
         let totalAmount = 0;
-        const tasksByDifficulty = countTasksByDifficulty();
+        const tasksByDifficulty = countTasksByDifficultyByDate();
         for (const task in tasksByDifficulty) {
             totalAmount += tasksByDifficulty[task];
         }
@@ -162,7 +148,7 @@ export default function TodoListStats({ period }: { period: string }) {
     };
 
     const prepareChartData = () => {
-        const tasksByDifficulty = countTasksByDifficulty();
+        const tasksByDifficulty = countTasksByDifficultyByDate();
         const chartData = [];
 
         for (const difficulty in tasksByDifficulty) {
@@ -172,6 +158,57 @@ export default function TodoListStats({ period }: { period: string }) {
             });
         }
         return chartData;
+    };
+
+    const getNewTasksDataForBarChart = (): number[] => {
+        const newTasksData = [];
+        if (periodStartDate && periodEndDate) {
+            const currentDate = new Date(periodStartDate);
+
+            while (currentDate <= periodEndDate) {
+                const currentDateISOString = currentDate
+                    .toISOString()
+                    .split("T")[0];
+                const newTasksCount =
+                    todoListTasks?.filter((task) => {
+                        const taskDate = new Date(task.created_at)
+                            .toISOString()
+                            .split("T")[0];
+                        return taskDate === currentDateISOString;
+                    }).length || 0;
+                newTasksData.push(newTasksCount);
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+        }
+
+        return newTasksData;
+    };
+
+    const getClosedTasksDataForBarChart = (): number[] => {
+        const closedTasksData = [];
+        if (periodStartDate && periodEndDate) {
+            const currentDate = new Date(periodStartDate);
+
+            while (currentDate <= periodEndDate) {
+                const currentDateISOString = currentDate
+                    .toISOString()
+                    .split("T")[0];
+                const closedTasksCount =
+                    todoListTasks?.filter((task) => {
+                        if (task.closed_at) {
+                            const taskDate = new Date(task.closed_at)
+                                ?.toISOString()
+                                .split("T")[0];
+                            return taskDate === currentDateISOString;
+                        }
+                        return false;
+                    }).length || 0;
+                closedTasksData.push(closedTasksCount);
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+        }
+
+        return closedTasksData;
     };
 
     return (
@@ -201,8 +238,8 @@ export default function TodoListStats({ period }: { period: string }) {
                             />
                         </div>
                         <div className="col-span-3">
-                            <h2 className="text-xl font-semibold pb-4">
-                                Difficulty level
+                            <h2 className="text-xl font-semibold pb-4 text-center">
+                                Difficulty level of new tasks
                             </h2>
                             <ul className=" list-none flex flex-col gap-2 font-semibold">
                                 <li className="flex gap-2">
@@ -225,16 +262,16 @@ export default function TodoListStats({ period }: { period: string }) {
                     <BarChart
                         series={[
                             {
-                                data: [4, 6],
+                                data: getNewTasksDataForBarChart(),
                                 color: "tomato",
                             },
                             {
-                                data: [3, 5],
+                                data: getClosedTasksDataForBarChart(),
                                 color: "green",
                             },
                         ]}
-                        width={500}
-                        height={350}
+                        width={700}
+                        height={400}
                     />
 
                     <ul className=" list-none flex gap-4 font-semibold">
@@ -259,7 +296,7 @@ export default function TodoListStats({ period }: { period: string }) {
                     <div className="flex items-center">
                         <Pie
                             percentage={getTotalPercentage(
-                                getFilteredClosedTasksForPeriod
+                                getTotalClosedTasksByDate
                             )}
                             colour={"green"}
                         />
@@ -268,7 +305,7 @@ export default function TodoListStats({ period }: { period: string }) {
                     <div className="flex items-center">
                         <Pie
                             percentage={getTotalPercentage(
-                                getFilteredNewTasksForPeriod
+                                getTotalnewTasksByDate
                             )}
                             colour={"tomato"}
                         />

@@ -16,6 +16,7 @@ export default function Header({ period, setPeriod, setType, type }: Props) {
                     onChange={(e) => setPeriod(e.target.value as Period)}
                 >
                     <option value="lastMonth">Last Month</option>
+                    <option value="thisMonth">This Month</option>
                     <option value="lastWeek">Last Week</option>
                     <option value="thisWeek">This Week</option>
                 </select>
