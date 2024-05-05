@@ -3,6 +3,7 @@ import Pie from "../Charts/Pie";
 import { todoListData, calendarTasksData } from "../../data/chartsData";
 import CustomBarChart from "../Charts/CustomBarChart";
 import CustomPieChart from "../Charts/CustomPieChart";
+import Spinner from "../Spinner";
 
 export default function Stats({
     period,
@@ -230,7 +231,9 @@ export default function Stats({
     };
 
     return isLoading ? (
-        <h1>Is Loading</h1>
+        <div className="flex justify-center pt-20">
+            <Spinner />
+        </div>
     ) : (
         <div className="p-5 flex flex-col gap-6 ">
             <div className="grid xl:grid-cols-2 gap-4">
