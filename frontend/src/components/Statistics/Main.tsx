@@ -19,7 +19,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                 <Aside isAsideOpen={isAsideOpen} />
             </div>
             <div
-                className={`text-white bg-[#161922] px-6 md:px-12 pt-10 md:pt-14 height ${colMain}`}
+                className={`text-white bg-[#161922] px-6 md:px-12 pt-10 md:pt-14 h-100 ${colMain}`}
             >
                 <Header
                     setPeriod={setPeriod}

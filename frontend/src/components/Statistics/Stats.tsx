@@ -231,7 +231,7 @@ export default function Stats({
     };
 
     return isLoading ? (
-        <div className="flex justify-center pt-20">
+        <div className="flex justify-center pt-20 height">
             <Spinner />
         </div>
     ) : (
