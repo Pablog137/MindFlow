@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { PieChart } from "@mui/x-charts/PieChart";
-import Pie from "../Pie";
+import Pie from "../Charts/Pie";
 import { todoListData } from "../../data/chartsData";
-import { BarChart } from "@mui/x-charts/BarChart";
+import CustomBarChart from "../Charts/CustomBarChart";
 
 export default function TodoListStats({ period }: { period: string }) {
     const [todoListTasks, setTodoListTasks] = useState<TodoListTask[]>();
@@ -211,7 +211,9 @@ export default function TodoListStats({ period }: { period: string }) {
         return closedTasksData;
     };
 
-    return (
+    return isLoading ? (
+        <h1>Is Loading</h1>
+    ) : (
         <div className="p-5 flex flex-col gap-6 ">
             {/*TODO Tags*/}
             <div className="grid grid-cols-2 gap-4">
@@ -259,60 +261,33 @@ export default function TodoListStats({ period }: { period: string }) {
                     </div>
                 </div>
                 <div className="bg-[#2A3041] p-10 rounded-sm flex flex-col items-center">
-                    <BarChart
-                        series={[
-                            {
-                                data: getNewTasksDataForBarChart(),
-                                color: "tomato",
-                            },
-                            {
-                                data: getClosedTasksDataForBarChart(),
-                                color: "green",
-                            },
-                        ]}
-                        width={700}
-                        height={400}
+                    <CustomBarChart
+                        getClosedTasksDataForBarChart={
+                            getClosedTasksDataForBarChart
+                        }
+                        getNewTasksDataForBarChart={getNewTasksDataForBarChart}
                     />
-
-                    <ul className=" list-none flex gap-4 font-semibold">
-                        <li className="flex gap-2">
-                            <div className="bg-[green] opacity-1 w-5 h-5"></div>
-                            <p>Closed tasks</p>
-                        </li>
-                        <li className="flex gap-2">
-                            <div className="bg-[tomato] opacity-1 w-5 h-5"></div>
-                            <p>Created tasks</p>
-                        </li>
-                    </ul>
                 </div>
             </div>
 
-            {/*TODO completed and created tasks*/}
-
-            {isLoading ? (
-                <h5>Is loading</h5>
-            ) : (
-                <div className="flex justify-center bg-[#2A3041] items-center gap-10 px-14 pt-20 py-10 text-gray-500 font-semibold rounded-sm ">
-                    <div className="flex items-center">
-                        <Pie
-                            percentage={getTotalPercentage(
-                                getTotalClosedTasksByDate
-                            )}
-                            colour={"green"}
-                        />
-                        <h2 className="text-xl">Closed Tasks</h2>
-                    </div>
-                    <div className="flex items-center">
-                        <Pie
-                            percentage={getTotalPercentage(
-                                getTotalnewTasksByDate
-                            )}
-                            colour={"tomato"}
-                        />
-                        <h2 className="text-xl">New Tasks</h2>
-                    </div>
+            <div className="flex justify-center bg-[#2A3041] items-center gap-10 px-14 pt-20 py-10 text-gray-500 font-semibold rounded-sm ">
+                <div className="flex items-center">
+                    <Pie
+                        percentage={getTotalPercentage(
+                            getTotalClosedTasksByDate
+                        )}
+                        colour={"green"}
+                    />
+                    <h2 className="text-xl">Closed Tasks</h2>
                 </div>
-            )}
+                <div className="flex items-center">
+                    <Pie
+                        percentage={getTotalPercentage(getTotalnewTasksByDate)}
+                        colour={"tomato"}
+                    />
+                    <h2 className="text-xl">New Tasks</h2>
+                </div>
+            </div>
         </div>
     );
 }

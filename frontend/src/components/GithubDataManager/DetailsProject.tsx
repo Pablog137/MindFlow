@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Tooltip from "@mui/material/Tooltip";
-import BasicPie from "../PieChart";
+import BasicPie from "../Charts/PieChart";
 import {
     IconShowProject,
     CommitShowProject,
