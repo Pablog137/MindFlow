@@ -20,7 +20,7 @@ export default function Month({ month, tasks, addTasks }: Props) {
                 {weekDays.map((day, idx) => (
                     <div
                         key={idx}
-                        className={`text-center text-sm border text-gray-600 font-semibold bg-white p-3`}
+                        className={`text-center text-xs sm:text-sm md:text-md border text-gray-600 font-semibold bg-white p-1 sm:p-3`}
                     >
                         {day}
                     </div>

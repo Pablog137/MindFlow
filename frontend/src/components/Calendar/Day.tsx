@@ -21,9 +21,9 @@ export default function Day({ day, tasks, addTasks }: Props) {
     return (
         <div
             ref={drop}
-            className={`border border-gray-200 flex flex-col p-1 min-h-20 ${isOver &&"bg-gray-200"}`}
+            className={`border border-gray-200 flex flex-col p-1 min-h-32 ${isOver &&"bg-gray-200"}`}
         >
-            <header className="flex flex-col items- justify-start">
+            <header className="flex flex-col itemscenter- justify-start">
                 <p className={`text-md p-1 my-1 font-bold text-gray-500 ml-2`}>
                     {day.format("D")}
                 </p>

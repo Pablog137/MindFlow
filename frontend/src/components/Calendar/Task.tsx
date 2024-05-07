@@ -22,10 +22,10 @@ export default function Task({ task }: Props) {
     }, [isDragging]);
 
     return (
-        <li className={`p-2 list-none ${isDragging && "hidden"}`}>
+        <li className={`sm:p-2 list-none ${isDragging && "hidden"}`}>
             <p
                 ref={drag}
-                className={`text-sm font-regular p-1 rounded-md ${
+                className={`text-xs sm:text-sm font-regular p-1 rounded-md ${
                     TagColors[task.tag]
                 }`}
             >
