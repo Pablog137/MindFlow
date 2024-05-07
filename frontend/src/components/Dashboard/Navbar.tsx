@@ -1,5 +1,6 @@
 import { useState } from "react";
 import logo from "../../assets/img/logo-32.png";
+import { getUserData } from "../../helpers/localstorage";
 
 type Props = {
     isAsideOpen: boolean;
@@ -8,6 +9,7 @@ type Props = {
 
 export default function Navbar({ isAsideOpen, toggleAside }: Props) {
     const [showProfile, setShowProfile] = useState(false);
+    const [userData] = useState(getUserData());
 
     const handleSignOut = () => {
         localStorage.clear();
@@ -70,10 +72,10 @@ export default function Navbar({ isAsideOpen, toggleAside }: Props) {
                                     >
                                         <div className="px-4 py-3">
                                             <span className="block text-sm text-gray-900 dark:text-white">
-                                                Bonnie Green
+                                                {userData.name}
                                             </span>
                                             <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">
-                                                name@flowbite.com
+                                                {userData.email}
                                             </span>
                                         </div>
                                         <ul
