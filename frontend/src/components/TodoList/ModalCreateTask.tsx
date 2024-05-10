@@ -12,8 +12,8 @@ type Props = {
 export default function ModalCreateTask({ status }: Props) {
     const { addTask } = useContext(TaskContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [priorityLevel, setPriorityLevel] = useState(1);
-    const [description, setDescription] = useState("");
+    const [difficultyLevel, setDifficultylevel] = useState(1);
+    const [content, setContent] = useState("");
     const [dueDate, setDueDate] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [feedbackMessage, setFeedbackMessage] = useState(false);
@@ -21,7 +21,7 @@ export default function ModalCreateTask({ status }: Props) {
 
     useEffect(() => {
         if (hasSubmitted) validateForm();
-    }, [description, dueDate, hasSubmitted]);
+    }, [content, dueDate, hasSubmitted]);
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
@@ -29,12 +29,12 @@ export default function ModalCreateTask({ status }: Props) {
     };
 
     const changePriorityLevel = (difficulty: number) => {
-        setPriorityLevel(difficulty);
+        setDifficultylevel(difficulty);
     };
 
     const resetForm = () => {
-        setPriorityLevel(1);
-        setDescription("");
+        setDifficultylevel(1);
+        setContent("");
         setDueDate("");
         setHasSubmitted(false);
         setFeedbackMessage(false);
@@ -49,11 +49,13 @@ export default function ModalCreateTask({ status }: Props) {
         }
         // create task
         addTask({
-            description,
-            priority: priorityLevel,
+            content,
+            difficulty: difficultyLevel,
             due_date: dueDate,
-            status,
+            status: status.toLowerCase() as Status,
             id: uuidv4(),
+            closed_at: null,
+            created_at: new Date().toISOString(),
         });
         resetForm();
         toggleModal();
@@ -67,7 +69,7 @@ export default function ModalCreateTask({ status }: Props) {
     const validateForm = () => {
         const currentDate = new Date();
         const selectedDate = new Date(dueDate);
-        if (description.trim() === "" || dueDate.trim() === "") {
+        if (content.trim() === "" || dueDate.trim() === "") {
             setErrorMessage(FORM_CONTANTS.ERROR_MESSAGE_FILL_FIELDS);
             setFeedbackMessage(false);
             return false;
@@ -144,21 +146,21 @@ export default function ModalCreateTask({ status }: Props) {
                                             changePriorityLevel={
                                                 changePriorityLevel
                                             }
-                                            priorityLevel={priorityLevel}
+                                            priorityLevel={difficultyLevel}
                                         />
                                         <RatingStar
                                             id={2}
                                             changePriorityLevel={
                                                 changePriorityLevel
                                             }
-                                            priorityLevel={priorityLevel}
+                                            priorityLevel={difficultyLevel}
                                         />
                                         <RatingStar
                                             id={3}
                                             changePriorityLevel={
                                                 changePriorityLevel
                                             }
-                                            priorityLevel={priorityLevel}
+                                            priorityLevel={difficultyLevel}
                                         />
                                     </div>
                                 </div>
@@ -177,9 +179,9 @@ export default function ModalCreateTask({ status }: Props) {
                                         className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Write task description here"
                                         onChange={(e) =>
-                                            setDescription(e.target.value)
+                                            setContent(e.target.value)
                                         }
-                                        value={description}
+                                        value={content}
                                     ></textarea>
                                 </div>
                                 <div className="col-span-2">

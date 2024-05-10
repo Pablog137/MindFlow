@@ -5,6 +5,8 @@ import CustomBarChart from "../Charts/CustomBarChart";
 import CustomPieChart from "../Charts/CustomPieChart";
 import Spinner from "../Spinner";
 
+const difficultyLevels = ["Easy", "Medium", "Hard"];
+
 export default function Stats({
     period,
     type,
@@ -13,7 +15,7 @@ export default function Stats({
     type: string;
 }) {
     const [tasksData, setTasksData] = useState<
-        (TodoListTask | CalendarListTask)[] | undefined
+        (TodoListTask | CalendarTask)[] | undefined
     >();
     const [isLoading, setIsLoading] = useState(true);
     const [periodStartDate, setPeriodStartDate] = useState<Date | null>(null);
@@ -90,7 +92,7 @@ export default function Stats({
         return endDate;
     };
 
-    const getTotalnewTasksByDate = (): (TodoListTask | CalendarListTask)[] => {
+    const getTotalnewTasksByDate = (): (TodoListTask | CalendarTask)[] => {
         const filteredTodoListData =
             tasksData?.filter((task) => {
                 const taskDate = new Date(task.created_at);
@@ -104,10 +106,7 @@ export default function Stats({
         return filteredTodoListData;
     };
 
-    const getTotalClosedTasksByDate = (): (
-        | TodoListTask
-        | CalendarListTask
-    )[] => {
+    const getTotalClosedTasksByDate = (): (TodoListTask | CalendarTask)[] => {
         const filteredTodoListData =
             tasksData?.filter((task) => {
                 const taskClosedDate = task.closed_at
@@ -124,7 +123,7 @@ export default function Stats({
         return filteredTodoListData;
     };
     const getTotalPercentage = (
-        method: () => (TodoListTask | CalendarListTask)[]
+        method: () => (TodoListTask | CalendarTask)[]
     ) => {
         return tasksData ? (100 * method().length) / tasksData.length : 0;
     };
@@ -141,9 +140,10 @@ export default function Stats({
                 ) {
                     let key: string;
                     if (type === "todoList" && "difficulty" in task) {
-                        key = (task as TodoListTask).difficulty;
+                        key =
+                            difficultyLevels[(task as TodoListTask).difficulty];
                     } else if (type === "calendarTasks" && "tag" in task) {
-                        key = (task as CalendarListTask).tag;
+                        key = (task as CalendarTask).tag;
                     } else {
                         return;
                     }

@@ -7,7 +7,7 @@ type Props = {
     toggleModal: () => void;
     isModalOpen: boolean;
     id: string | number;
-    tasks: Array<Task>;
+    tasks: Array<TodoListTask>;
 };
 
 export default function ModalEditTask({
@@ -19,20 +19,20 @@ export default function ModalEditTask({
     useEffect(() => {
         const task = tasks.find((task) => task.id === id);
         if (task) {
-            setPriorityLevel(task.priority);
-            setDescription(task.description);
+            setDifficultyLevel(task.difficulty);
+            setContent(task.content);
             setDueDate(task.due_date);
         }
     }, []);
 
     const { editTask } = useContext(TaskContext);
 
-    const [priorityLevel, setPriorityLevel] = useState(1);
-    const [description, setDescription] = useState("");
-    const [dueDate, setDueDate] = useState("");
+    const [difficultyLevel, setDifficultyLevel] = useState(1);
+    const [content, setContent] = useState("");
+    const [dueDate, setDueDate] = useState<string | null>("");
 
     const changePriorityLevel = (difficulty: number) => {
-        setPriorityLevel(difficulty);
+        setDifficultyLevel(difficulty);
     };
 
     const handleEdit = (e: React.FormEvent) => {
@@ -41,8 +41,8 @@ export default function ModalEditTask({
         if (task) {
             editTask(task.id, {
                 ...task,
-                priority: priorityLevel,
-                description,
+                difficulty: difficultyLevel,
+                content,
                 due_date: dueDate,
             });
             toggleModal();
@@ -101,21 +101,21 @@ export default function ModalEditTask({
                                             changePriorityLevel={
                                                 changePriorityLevel
                                             }
-                                            priorityLevel={priorityLevel}
+                                            priorityLevel={difficultyLevel}
                                         />
                                         <RatingStar
                                             id={2}
                                             changePriorityLevel={
                                                 changePriorityLevel
                                             }
-                                            priorityLevel={priorityLevel}
+                                            priorityLevel={difficultyLevel}
                                         />
                                         <RatingStar
                                             id={3}
                                             changePriorityLevel={
                                                 changePriorityLevel
                                             }
-                                            priorityLevel={priorityLevel}
+                                            priorityLevel={difficultyLevel}
                                         />
                                     </div>
                                 </div>
@@ -131,9 +131,9 @@ export default function ModalEditTask({
                                         className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Write task description here"
                                         onChange={(e) =>
-                                            setDescription(e.target.value)
+                                            setContent(e.target.value)
                                         }
-                                        value={description}
+                                        value={content}
                                     ></textarea>
                                 </div>
                                 <div className="col-span-2">
@@ -150,7 +150,7 @@ export default function ModalEditTask({
                                         onChange={(e) =>
                                             setDueDate(e.target.value)
                                         }
-                                        value={dueDate}
+                                        value={dueDate || ""}
                                     />
                                 </div>
                             </div>

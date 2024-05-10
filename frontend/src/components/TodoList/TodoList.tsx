@@ -6,7 +6,7 @@ import { useContext } from "react";
 
 type Props = {
     status: string;
-    tasks: Array<Task>;
+    tasks: Array<TodoListTask>;
 };
 
 export default function TodoList({ status, tasks }: Props) {
@@ -14,16 +14,17 @@ export default function TodoList({ status, tasks }: Props) {
 
     const [{ isOver }, drop] = useDrop({
         accept: "CARD",
-        drop: (task: Task) => addTaskToList(task.id, status),
+        drop: (task: TodoListTask) =>
+            addTaskToList(task.id, status.toLowerCase() as Status),
         collect: (monitor) => ({
             isOver: !!monitor.isOver(),
         }),
     });
 
-    const addTaskToList = (id: string | number, status: string) => {
+    const addTaskToList = (id: string | number, status: Status) => {
         const newTasks = tasks.map((task) => {
             if (task.id === id) {
-                return { ...task, status };
+                return { ...task, status, closed_at: null };
             }
             return task;
         });
@@ -41,7 +42,7 @@ export default function TodoList({ status, tasks }: Props) {
             <div className={`flex flex-col gap-2 flex-grow`}>
                 {tasks.map(
                     (task) =>
-                        task.status === status && (
+                        task.status === status.toLowerCase() && (
                             <TodoListItem
                                 key={task.id}
                                 id={task.id}

@@ -29,7 +29,7 @@ export default function Task({ task }: Props) {
                     TagColors[task.tag]
                 }`}
             >
-                {task.description}
+                {task.content}
             </p>
         </li>
     );

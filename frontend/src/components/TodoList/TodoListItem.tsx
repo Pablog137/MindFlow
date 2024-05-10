@@ -6,9 +6,9 @@ import { useDrag } from "react-dnd";
 import Tooltip from "@mui/material/Tooltip";
 
 type Props = {
-    task: Task;
+    task: TodoListTask;
     id: string | number;
-    tasks: Array<Task>;
+    tasks: Array<TodoListTask>;
 };
 
 const priorityLevels = ["Easy", "Medium", "Hard"];
@@ -29,7 +29,7 @@ export default function TodoListItem({ task, id, tasks }: Props) {
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
     };
-    const color = priorityColors[task.priority - 1];
+    const color = priorityColors[task.difficulty - 1];
     return (
         <div
             ref={drag}
@@ -37,7 +37,7 @@ export default function TodoListItem({ task, id, tasks }: Props) {
         >
             <div className="flex justify-between items-center">
                 <span className={`font-bold text-${color}-500`}>
-                    {priorityLevels[task.priority - 1]}
+                    {priorityLevels[task.difficulty - 1]}
                 </span>
                 <Tooltip title="Edit" arrow>
                     <button>
@@ -49,16 +49,22 @@ export default function TodoListItem({ task, id, tasks }: Props) {
                 </Tooltip>
             </div>
 
-            <p className="text-xl py-6">{task.description}</p>
-            <div className="flex items-center justify-between">
-                <Tooltip title="Due date" arrow>
-                    <div className="flex items-center">
-                        <i className="fa-regular fa-clock text-purple-300 mr-4 text-lg"></i>
-                        <span className="text-sm text-gray-500">
-                            {task.due_date}
-                        </span>
-                    </div>
-                </Tooltip>
+            <p className="text-xl py-6">{task.content}</p>
+            <div
+                className={`flex items-center ${
+                    task.due_date ? "justify-between" : "justify-end"
+                }`}
+            >
+                {task.due_date && (
+                    <Tooltip title="Due date" arrow>
+                        <div className="flex items-center">
+                            <i className="fa-regular fa-clock text-purple-300 mr-4 text-lg"></i>
+                            <span className="text-sm text-gray-500">
+                                {task.due_date}
+                            </span>
+                        </div>
+                    </Tooltip>
+                )}
                 <Tooltip title="Delete" arrow>
                     <button>
                         <i

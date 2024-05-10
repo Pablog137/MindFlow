@@ -82,8 +82,10 @@ export default function AddTask({ addTask }: Props) {
             id: Math.floor(Math.random() * 1000),
             // Hace un cast de tag?.Type a un valor de TaskTag
             tag: TaskTag[tag?.Type as keyof typeof TaskTag],
-            description: description,
+            content: description,
             date: date,
+            closed_at: null,
+            created_at: new Date().toISOString(),
         });
         toggleModal();
         resetForm();
