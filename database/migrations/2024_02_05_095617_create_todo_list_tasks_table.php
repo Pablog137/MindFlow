@@ -16,7 +16,10 @@ return new class extends Migration
             $table->foreignId('todo_list_id');
             $table->foreign('todo_list_id')->references('id')->on('todo_lists')->onDelete('cascade');
             $table->string('content');
-            $table->string('status')->default('pending');
+            $table->enum('status', ['todo', 'doing', 'done'])->default('todo');
+            $table->enum('difficulty', ['easy', 'medium', 'hard'])->default('medium');
+            $table->string("due_date")->nullable();
+            $table->string("closed_at")->nullable();
             $table->timestamps();
         });
     }

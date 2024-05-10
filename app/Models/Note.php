@@ -5,20 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Calendar extends Model
+class Note extends Model
 {
     use HasFactory;
-    protected $table = 'calendars';
-    protected $fillable = ['user_id'];
-
+    protected $table = "notes";
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function calendarTasks()
-    {
-        return $this->hasMany(CalendarTask::class);
-    }
 }

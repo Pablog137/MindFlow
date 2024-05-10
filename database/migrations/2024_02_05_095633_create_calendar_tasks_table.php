@@ -16,7 +16,9 @@ return new class extends Migration
             $table->foreignId('calendar_id');
             $table->foreign('calendar_id')->references('id')->on('calendars')->onDelete('cascade');
             $table->string('content');
-            $table->string('tag')->default('general');
+            $table->string("date");
+            $table->enum('tag', ['Work', 'Study', 'Personal', "Other"])->default('Other');
+            $table->string("closed_at")->nullable();
             $table->timestamps();
         });
     }

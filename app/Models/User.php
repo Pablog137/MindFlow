@@ -51,7 +51,7 @@ class User extends Authenticatable
 
     public function todoLists()
     {
-        return $this->hasMany(TodoList::class);
+        return $this->hasOne(TodoList::class);
     }
 
     public function payments()
@@ -60,6 +60,11 @@ class User extends Authenticatable
     }
     public function calendars()
     {
-        return $this->hasMany(Calendar::class);
+        return $this->hasOne(Calendar::class);
+    }
+
+    public function notes()
+    {
+        return $this->hasMany(Note::class);
     }
 }
