@@ -1,25 +1,3 @@
-type Task = {
-    id: number | string;
-    status: string;
-    priority: number;
-    description: string;
-    due_date: string;
-};
-
-type CalendarTask = {
-    id: number | string;
-    tag: TaskTag;
-    description: string;
-    date: string;
-};
-
-enum TaskTag {
-    Personal = "Personal",
-    Work = "Work",
-    Study = "Study",
-    Other = "Other",
-}
-
 type DragContextType = {
     setIsDraggingInUse: React.Dispatch<React.SetStateAction<boolean>>;
     isDraggingInUse: boolean;
@@ -49,26 +27,3 @@ type Note = {
 
 type Period = "lastWeek" | "lastMonth" | "thisWeek" | "thisMonth";
 type Type = "todoList" | "calendarTasks";
-
-interface TodoListTask {
-    id: number;
-    content: string;
-    status: Status;
-    difficulty: Difficulty;
-    created_at: string;
-    updated_at: string | null;
-    closed_at: string | null;
-}
-interface CalendarListTask {
-    id: number;
-    content: string;
-    status: Status;
-    tag: Tag;
-    created_at: string;
-    updated_at: string | null;
-    closed_at: string | null;
-}
-
-type Tag = "Work" | "Study" | "Personal" | "Other";
-type Status = "todo" | "doing" | "done";
-type Difficulty = "easy" | "medium" | "hard";
