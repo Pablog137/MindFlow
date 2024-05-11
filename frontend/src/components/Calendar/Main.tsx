@@ -7,6 +7,7 @@ import Aside from "../Aside";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { calendarTasksData } from "../../data/chartsData";
+import getTasksForUser from "../../api/tasks";
 
 type Props = {
     isAsideOpen: boolean;
@@ -23,6 +24,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     const [isDraggingInUse, setIsDraggingInUse] = useState(false);
 
     useEffect(() => {
+        getTasksForUser("/api/calendar-tasks");
         setCurrentMonth(getMonth(monthIndex));
     }, [monthIndex]);
 

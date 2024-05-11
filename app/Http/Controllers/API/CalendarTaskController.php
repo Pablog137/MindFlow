@@ -15,9 +15,15 @@ class CalendarTaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new CalendarTaskCollection(CalendarTask::paginate(5));
+        $userId = $request->user()->id;
+
+        $tasks = CalendarTask::whereHas('calendar', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->get();
+        
+        return new CalendarTaskCollection($tasks);
     }
 
     /**

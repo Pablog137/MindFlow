@@ -30,14 +30,14 @@ class DatabaseSeeder extends Seeder
 
         $admin =  User::factory()->create([
             'name' => 'admin',
-            'email' => 'pablogutierrezvaldin2@gmail.com',
-            'password' => bcrypt('admin'),
+            'email' => 'pablogutierrezvaldin@gmail.com',
+            'password' => bcrypt('admin777'),
             "user_type" => "admin",
         ]);
         User::factory()->create([
             'name' => 'prueba',
-            'email' => 'pablogutierrezvaldin@gmail.com',
-            'password' => bcrypt('prueba'),
+            'email' => 'pablogutierrezvaldin2@gmail.com',
+            'password' => bcrypt('prueba777'),
             "user_type" => "user",
         ]);
 
@@ -47,9 +47,9 @@ class DatabaseSeeder extends Seeder
         Payment::factory()->count(20)->create();
 
 
-        TodoList::factory()->count(20)->create();
+        TodoList::factory()->count(1)->create();
 
-        TodoListTask::factory()->count(100)->create();
+        TodoListTask::factory()->count(15)->create();
 
         Calendar::factory()->count(20)->create();
         CalendarTask::factory()->count(100)->create();

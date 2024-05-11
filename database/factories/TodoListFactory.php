@@ -17,7 +17,7 @@ class TodoListFactory extends Factory
      */
     public function definition(): array
     {
-        $userId = User::inRandomOrder()->first()->id;  // Permite asociar una lista a un usuario aleatorio
+        $userId = 1;  // Permite asociar una lista a un usuario aleatorio
         return [
             "title" => $this->faker->randomElement([
                 "Tareas pendientes",

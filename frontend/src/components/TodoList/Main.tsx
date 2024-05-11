@@ -1,9 +1,10 @@
 import Aside from "../Aside";
 import TodoList from "./TodoList";
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { todoListData } from "../../data/chartsData";
+import getTasksForUser from "../../api/tasks";
 
 type Props = {
     isAsideOpen: boolean;
@@ -23,6 +24,10 @@ export const TaskContext = createContext<TaskContext>({} as TaskContext);
 
 export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     const [tasks, setTasks] = useState<TodoListTask[]>(todoListData);
+
+    useEffect(() => {
+        getTasksForUser("/api/todo-list-tasks");
+    }, []);
 
     const addTask = (task: TodoListTask) => setTasks([...tasks, task]);
 

@@ -98,9 +98,9 @@ Route::middleware('auth:sanctum', 'abilities:borrar')->group(function () {
 
 // TodoListTasks
 
-Route::apiResource('todo-list-tasks', TodoListTaskController::class)->parameters([
-    'todo-list-tasks' => 'id'
-])->only(['index', 'show']);
+Route::middleware('auth:sanctum')->get('/todo-list-tasks', [TodoListTaskController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/todo-list-tasks/{id}', [TodoListTaskController::class, 'show']);
+
 
 Route::middleware('auth:sanctum', 'abilities:insertar')->group(function () {
     Route::post("/todo-list-tasks", [TodoListTaskController::class, 'store']);
@@ -130,9 +130,9 @@ Route::middleware('auth:sanctum', 'abilities:borrar')->group(function () {
 
 
 // Calendar tasks
-Route::apiResource("calendar-tasks", CalendarTaskController::class)->parameters([
-    "calendar-tasks" => "id"
-])->only(["index", "show"]);
+
+Route::middleware('auth:sanctum')->get('/calendar-tasks', [CalendarTaskController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/calendar-tasks/{id}', [CalendarTaskController::class, 'show']);
 
 Route::middleware('auth:sanctum', 'abilities:insertar')->group(function () {
     Route::post("/calendar-tasks", [CalendarTaskController::class, "store"]);
