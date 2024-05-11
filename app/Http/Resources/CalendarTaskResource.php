@@ -19,6 +19,8 @@ class CalendarTaskResource extends JsonResource
             "calendar_id" => $this->calendar_id,
             "content" => $this->content,
             "tag" => $this->tag,
+            "closed_at" => $this->closed_at,
+            "created_at" => $this->created_at,
         ];
     }
 }

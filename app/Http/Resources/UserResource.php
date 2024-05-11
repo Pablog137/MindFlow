@@ -19,7 +19,6 @@ class UserResource extends JsonResource
             "name" => $this->name,
             "email" => $this->email,
             "user_type" => $this->user_type,
-            "github_username" => $this->github_username,
             "payments" => PaymentResource::collection($this->whenLoaded('payments'))
         ];
     }

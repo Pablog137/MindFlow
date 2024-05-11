@@ -27,6 +27,20 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        $admin =  User::factory()->create([
+            'name' => 'admin',
+            'email' => 'pablogutierrezvaldin2@gmail.com',
+            'password' => bcrypt('admin'),
+            "user_type" => "admin",
+        ]);
+        User::factory()->create([
+            'name' => 'prueba',
+            'email' => 'pablogutierrezvaldin@gmail.com',
+            'password' => bcrypt('prueba'),
+            "user_type" => "user",
+        ]);
+
         User::factory()->count(30)->state(['user_type' => 'user'])->create();
         User::factory()->count(20)->state(['user_type' => 'premium'])->create();
         User::factory()->count(3)->state(['user_type' => 'admin'])->create();
@@ -45,11 +59,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'gestor@educastur.es',
             'password' => bcrypt('gestor'),
         ]);
-        $admin =  User::factory()->create([
-            'name' => 'admin',
-            'email' => 'admin@educastur.es',
-            'password' => bcrypt('admin'),
-        ]);
+
 
         $role = Role::create(['name' => 'admin']);
         $role2 = Role::create(['name' => 'gestor']);

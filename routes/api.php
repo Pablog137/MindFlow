@@ -8,6 +8,7 @@ use App\Http\Controllers\API\PaymentController;
 use App\Http\Controllers\API\CalendarController;
 use App\Http\Controllers\API\TodoListController;
 use App\Http\Controllers\API\CalendarTaskController;
+use App\Http\Controllers\API\NoteController;
 use App\Http\Controllers\API\TodoListTaskController;
 use App\Http\Controllers\Auth\ApiAuthController;
 use App\Http\Controllers\Auth\LoginController;
@@ -127,6 +128,7 @@ Route::middleware('auth:sanctum', 'abilities:borrar')->group(function () {
     Route::delete("calendar/{id}", [CalendarController::class, "destroy"]);
 });
 
+
 // Calendar tasks
 Route::apiResource("calendar-tasks", CalendarTaskController::class)->parameters([
     "calendar-tasks" => "id"
@@ -140,4 +142,21 @@ Route::middleware('auth:sanctum', 'abilities:insertar')->group(function () {
 
 Route::middleware('auth:sanctum', 'abilities:borrar')->group(function () {
     Route::delete("calendar-tasks/{id}", [CalendarTaskController::class, "destroy"]);
+});
+
+
+// Note
+
+Route::apiResource("note", NoteController::class)->parameters([
+    "note" => "id"
+])->only(["index", "show"]);
+
+Route::middleware('auth:sanctum', 'abilities:insertar')->group(function () {
+    Route::post("/note", [NoteController::class, "store"]);
+    Route::put("/note/{id}", [NoteController::class, "update"]);
+    Route::patch("/note/{id}", [NoteController::class, "update"]);
+});
+
+Route::middleware('auth:sanctum', 'abilities:borrar')->group(function () {
+    Route::delete("note/{id}", [NoteController::class, "destroy"]);
 });

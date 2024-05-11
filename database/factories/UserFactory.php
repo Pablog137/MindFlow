@@ -32,7 +32,6 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'user_type' => "user",
-            "github_username" => $faker->userName,
             'remember_token' => Str::random(10),
         ];
     }

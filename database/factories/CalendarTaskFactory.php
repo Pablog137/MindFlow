@@ -47,7 +47,9 @@ class CalendarTaskFactory extends Factory
         return [
             "calendar_id" => Calendar::all()->random()->id,
             "content" => $this->tasks[array_rand($this->tasks, 1)],
-            "tag" => $this->faker->randomElement(['general', 'work', 'personal']),
+            "tag" => $this->faker->randomElement(['Work', 'Study', 'Personal', "Other"]),
+            "date" => $this->faker->date("Y-m-d"),
+            "closed_at" => $this->faker->boolean(50) ? $this->faker->date("Y-m-d") : null
         ];
     }
 }
