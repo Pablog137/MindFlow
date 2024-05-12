@@ -6,7 +6,7 @@ import GlobalContext from "../../context/CalendarContext";
 import Aside from "../Aside";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
-import getTasksForUser from "../../api/tasks";
+import getTasksForUser, { manageTaskAPI } from "../../api/tasks";
 import Spinner from "../Spinner";
 
 type Props = {
@@ -56,6 +56,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     const deleteTask = (id: number) => {
         const newTasks = tasks.filter((task) => task.id !== id);
         setTasks(newTasks);
+        manageTaskAPI(`/api/calendar-tasks/${id}`, {}, "DELETE");
     };
 
     const addTask = (task: CalendarTask) => {

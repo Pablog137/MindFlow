@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCalendarTaskRequest;
 use App\Http\Requests\UpdateCalendarTaskRequest;
+use App\Http\Resources\CalendarResource;
 use App\Http\Resources\CalendarTaskCollection;
 use App\Http\Resources\CalendarTaskResource;
 
@@ -22,7 +23,7 @@ class CalendarTaskController extends Controller
         $tasks = CalendarTask::whereHas('calendar', function ($query) use ($userId) {
             $query->where('user_id', $userId);
         })->get();
-        
+
         return new CalendarTaskCollection($tasks);
     }
 
@@ -38,7 +39,11 @@ class CalendarTaskController extends Controller
      */
     public function store(CreateCalendarTaskRequest $request)
     {
-        return new CalendarTaskResource(CalendarTask::create($request->all()));
+        $calendarTaskId = $request->user()->id;
+        $task = new CalendarTask($request->all());
+        $task->calendar_id = $calendarTaskId;
+        $task->save();
+        return new CalendarTaskResource($task);
     }
 
     /**

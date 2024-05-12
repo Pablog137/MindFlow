@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { TaskTag } from "../../common/utils/enum";
 import FORM_CONTANTS from "../../common/utils/constants";
+import { manageTaskAPI } from "../../api/tasks";
 
 type Props = {
     addTask: (task: CalendarTask) => void;
@@ -78,15 +79,17 @@ export default function AddTask({ addTask }: Props) {
         if (!validateForm()) {
             return;
         }
-        addTask({
+        const newTasks = {
             id: Math.floor(Math.random() * 1000),
-            // Hace un cast de tag?.Type a un valor de TaskTag
-            tag: TaskTag[tag?.Type as keyof typeof TaskTag],
+            tag: tag?.Type as TaskTag,
             content: description,
             date: date,
             closed_at: null,
             created_at: new Date().toISOString(),
-        });
+        };
+
+        addTask(newTasks);
+        manageTaskAPI("/api/calendar-tasks", newTasks, "POST");
         toggleModal();
         resetForm();
     };

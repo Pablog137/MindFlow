@@ -22,9 +22,12 @@ class CreateCalendarTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "calendar_id" => "required|integer",
             "content" => "required|string",
-            "tag" => "required|string"
+            "tag" => "required|string",
+            "date" => "required|string",
+            "closed_at" => "nullable|string",
+
+
         ];
     }
 }

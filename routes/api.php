@@ -58,10 +58,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('todo-list-tasks', TodoListTaskController::class)->parameters([
         'todo-list-tasks' => 'id'
     ])->only(['index', 'show', 'store', 'update', 'destroy']);
-    // Route::get('/todo-list-tasks', [TodoListTaskController::class, 'index']);
-    // Route::post('/todo-list-tasks', [TodoListTaskController::class, 'store']);
-
-
+ 
     // Calendar
     Route::apiResource('calendar', CalendarController::class)->parameters([
         'calendar' => 'id'
