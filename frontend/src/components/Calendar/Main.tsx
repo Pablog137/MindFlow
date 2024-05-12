@@ -6,8 +6,8 @@ import GlobalContext from "../../context/CalendarContext";
 import Aside from "../Aside";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
-import { calendarTasksData } from "../../data/chartsData";
 import getTasksForUser from "../../api/tasks";
+import Spinner from "../Spinner";
 
 type Props = {
     isAsideOpen: boolean;
@@ -20,13 +20,28 @@ export const DragContext = createContext({});
 export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     const [currentMonth, setCurrentMonth] = useState(getMonth());
     const { monthIndex } = useContext(GlobalContext);
-    const [tasks, setTasks] = useState<CalendarTask[]>(calendarTasksData);
+    const [tasks, setTasks] = useState<CalendarTask[]>([]);
     const [isDraggingInUse, setIsDraggingInUse] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        getTasksForUser("/api/calendar-tasks");
         setCurrentMonth(getMonth(monthIndex));
     }, [monthIndex]);
+
+    useEffect(() => {
+        setIsLoading(true);
+        const fetchData = async () => {
+            try {
+                const data = await getTasksForUser("/api/calendar-tasks");
+                setTasks(data.data);
+                setIsLoading(false);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const addTasks = (id: string | number, date: string) => {
         const newTasks = tasks.map((task) => {
@@ -57,15 +72,23 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
             >
                 <DndProvider backend={HTML5Backend}>
                     <div className={`p-3 sm:p-6 ${colMain} bg-[#161922] `}>
-                        <CalendarHeader
-                            addTask={addTask}
-                            deleteTask={deleteTask}
-                        />
-                        <Month
-                            month={currentMonth}
-                            tasks={tasks}
-                            addTasks={addTasks}
-                        />
+                        {isLoading ? (
+                            <div className="flex justify-center items-center h-full">
+                                <Spinner />
+                            </div>
+                        ) : (
+                            <>
+                                <CalendarHeader
+                                    addTask={addTask}
+                                    deleteTask={deleteTask}
+                                />
+                                <Month
+                                    month={currentMonth}
+                                    tasks={tasks}
+                                    addTasks={addTasks}
+                                />
+                            </>
+                        )}
                     </div>
                 </DndProvider>
             </DragContext.Provider>

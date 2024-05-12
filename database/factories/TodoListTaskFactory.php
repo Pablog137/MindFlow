@@ -46,7 +46,7 @@ class TodoListTaskFactory extends Factory
             "todo_list_id" => TodoList::all()->random()->id,
             "content" => $this->tasks[array_rand($this->tasks, 1)],
             "status" => $this->faker->randomElement(['todo', 'doing', 'done']),
-            "difficulty" => $this->faker->randomElement(["easy", "medium", "hard"]),
+            "difficulty" => $this->faker->randomElement([1, 2, 3]),
             "due_date" => $this->faker->date("Y-m-d"),
             "closed_at" => $this->faker->boolean(50) ? $this->faker->date("Y-m-d") : null
         ];

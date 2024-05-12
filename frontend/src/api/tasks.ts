@@ -1,6 +1,6 @@
 import { getLocalStorage } from "../helpers/localstorage";
 
-export default async function getTasksForUser(url: string)  {
+export default async function getTasksForUser(url: string) {
     const token = getLocalStorage("token");
     if (!token) return;
     const myHeaders = new Headers();
@@ -20,3 +20,4 @@ export default async function getTasksForUser(url: string)  {
     console.log(data);
     return data;
 }
+

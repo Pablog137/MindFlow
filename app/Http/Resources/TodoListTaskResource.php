@@ -16,7 +16,6 @@ class TodoListTaskResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "todo_list_id" => $this->todo_list_id,
             "content" => $this->content,
             "status" => $this->status,
             "difficulty" => $this->difficulty,

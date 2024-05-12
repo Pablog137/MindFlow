@@ -3,8 +3,8 @@ import TodoList from "./TodoList";
 import { useState, createContext, useEffect } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { todoListData } from "../../data/chartsData";
 import getTasksForUser from "../../api/tasks";
+import Spinner from "../Spinner";
 
 type Props = {
     isAsideOpen: boolean;
@@ -23,10 +23,22 @@ interface TaskContext {
 export const TaskContext = createContext<TaskContext>({} as TaskContext);
 
 export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
-    const [tasks, setTasks] = useState<TodoListTask[]>(todoListData);
+    const [tasks, setTasks] = useState<TodoListTask[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        getTasksForUser("/api/todo-list-tasks");
+        setIsLoading(true);
+        const fetchData = async () => {
+            try {
+                const data = await getTasksForUser("/api/todo-list-tasks");
+                setTasks(data.data);
+                setIsLoading(false);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
     }, []);
 
     const addTask = (task: TodoListTask) => setTasks([...tasks, task]);
@@ -48,18 +60,30 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     return (
         <>
             <DndProvider backend={HTML5Backend}>
+                <div className={colsAside}>
+                    <Aside isAsideOpen={isAsideOpen} />
+                </div>
                 <TaskContext.Provider
-                    value={{ tasks, addTask, removeTask, editTask, setTasks }}
+                    value={{
+                        tasks,
+                        addTask,
+                        removeTask,
+                        editTask,
+                        setTasks,
+                    }}
                 >
-                    <div className={colsAside}>
-                        <Aside isAsideOpen={isAsideOpen} />
-                    </div>
-                    <div
-                        className={`grid grid-cols-12 gap-5 text-white bg-[#161922] px-6 md:px-12 pt-10 h-full lg:h-screen  ${colMain}`}
-                    >
-                        <TodoList status="Todo" tasks={tasks} />
-                        <TodoList status="Doing" tasks={tasks} />
-                        <TodoList status="Done" tasks={tasks} />
+                    <div className={` text-white bg-[#161922]  ${colMain}`}>
+                        {isLoading ? (
+                            <div className="col-start-6 flex justify-center items-center h-screen ">
+                                <Spinner />
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-12 px-6 md:px-12 gap-5 text-white pt-10 md:pt-15 ">
+                                <TodoList status="Todo" tasks={tasks} />
+                                <TodoList status="Doing" tasks={tasks} />
+                                <TodoList status="Done" tasks={tasks} />
+                            </div>
+                        )}
                     </div>
                 </TaskContext.Provider>
             </DndProvider>

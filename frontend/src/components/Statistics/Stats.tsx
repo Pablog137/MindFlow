@@ -1,22 +1,18 @@
 import { useEffect, useState } from "react";
 import Pie from "../Charts/Pie";
-import { todoListData, calendarTasksData } from "../../data/chartsData";
 import CustomBarChart from "../Charts/CustomBarChart";
 import CustomPieChart from "../Charts/CustomPieChart";
 import Spinner from "../Spinner";
 
 const difficultyLevels = ["Easy", "Medium", "Hard"];
 
-export default function Stats({
-    period,
-    type,
-}: {
+type Props = {
     period: string;
     type: string;
-}) {
-    const [tasksData, setTasksData] = useState<
-        (TodoListTask | CalendarTask)[] | undefined
-    >();
+    tasksData: (TodoListTask | CalendarTask)[];
+};
+
+export default function Stats({ period, type, tasksData }: Props) {
     const [isLoading, setIsLoading] = useState(true);
     const [periodStartDate, setPeriodStartDate] = useState<Date | null>(null);
     const [periodEndDate, setPeriodEndDate] = useState<Date | null>(null);
@@ -27,8 +23,6 @@ export default function Stats({
 
         setPeriodStartDate(startDate);
         setPeriodEndDate(endDate);
-        if (type === "todoList") setTasksData(todoListData);
-        else setTasksData(calendarTasksData);
         setIsLoading(false);
     }, [period, type]);
 
@@ -36,19 +30,20 @@ export default function Stats({
         const date = new Date();
         const year = date.getFullYear();
         const month = date.getMonth();
-        const dayOfWeek = date.getDay();
-        let startDate: Date | null;
+        const dayOfWeek = date.getDay() === 0 ? 7 : date.getDay();
+        let startDate = null;
+
         switch (period) {
             case "thisMonth":
                 startDate = new Date(year, month, 1);
                 break;
             case "thisWeek":
-                startDate = new Date(date.setDate(date.getDate() - dayOfWeek));
+                startDate = new Date(date);
+                startDate.setDate(date.getDate() - dayOfWeek + 1);
                 break;
             case "lastWeek":
-                startDate = new Date(
-                    date.setDate(date.getDate() - dayOfWeek - 7)
-                );
+                startDate = new Date(date);
+                startDate.setDate(date.getDate() - dayOfWeek - 6);
                 break;
             case "lastMonth":
                 startDate = new Date(year, month - 1, 1);
@@ -56,6 +51,7 @@ export default function Stats({
             default:
                 startDate = null;
         }
+
         return startDate;
     };
 
@@ -64,26 +60,26 @@ export default function Stats({
         const year = date.getFullYear();
         const month = date.getMonth();
         const dayOfMonth = date.getDate();
-        const dayOfWeek = date.getDay();
+        const dayOfWeek = date.getDay() === 0 ? 7 : date.getDay();
         const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
-        let endDate: Date | null;
+        let endDate = null;
 
         switch (period) {
             case "thisMonth":
                 endDate = new Date(year, month, dayOfMonth);
                 break;
             case "thisWeek":
-                endDate = new Date(
-                    date.setDate(date.getDate() - dayOfWeek + 6)
+                endDate = new Date(date);
+                endDate.setDate(
+                    date.getDate() - dayOfWeek + (dayOfWeek === 0 ? 0 : 7)
                 );
                 break;
             case "lastWeek":
-                endDate = new Date(
-                    date.setDate(date.getDate() - dayOfWeek - 1)
-                );
+                endDate = new Date(date);
+                endDate.setDate(date.getDate() - dayOfWeek);
                 break;
             case "lastMonth":
-                endDate = new Date(year, month - 1, lastDayOfMonth);
+                endDate = new Date(year, month - 1, lastDayOfMonth - 1);
                 break;
             default:
                 endDate = null;
@@ -134,6 +130,7 @@ export default function Stats({
         if (tasksData && periodStartDate && periodEndDate) {
             tasksData.forEach((task) => {
                 const created_at_date = new Date(task.created_at);
+
                 if (
                     created_at_date >= periodStartDate &&
                     created_at_date <= periodEndDate
