@@ -24,15 +24,19 @@ class UpdateTodoListTask extends FormRequest
         $method = $this->method();
         if ($method === "PUT") {
             return [
-                "list_id" => "required|integer",
                 "content" => "required|string",
-                "status" => "required|string|in:pending,done,to-do,doing"
+                "status" => "required|string|in:done,todo,doing",
+                "difficulty" => "required|integer|in:1,2,3",
+                "due_date" => "nullable|string",
+                "closed_at" => "nullable|string"
             ];
         } else {
             return [
-                "list_id" => "sometimes|integer",
                 "content" => "sometimes|string",
-                "status" => "sometimes|string|in:pending,done,to-do,doing"
+                "status" => "sometimes|string|in:done,todo,doing",
+                "difficulty" => "sometimes|integer|in:1,2,3",
+                "due_date" => "sometimes|nullable|string",
+                "closed_at" => "sometimes|nullable|string"
             ];
         }
     }

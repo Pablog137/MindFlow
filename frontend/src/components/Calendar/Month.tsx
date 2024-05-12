@@ -5,7 +5,7 @@ import { Dayjs } from "dayjs";
 type Props = {
     month: Dayjs[][];
     tasks: CalendarTask[];
-    addTasks: (id: string | number, date: string) => void;
+    addTasks: (id: number, date: string) => void;
 };
 
 const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];

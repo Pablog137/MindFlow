@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateTodoListTask extends FormRequest
+class CreateTodoListTaskRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,11 @@ class CreateTodoListTask extends FormRequest
     public function rules(): array
     {
         return [
-            'list_id' => 'required|integer',
             'content' => 'required|string',
-            'status' => 'required|string|in:pending,done,to-do,doing'
+            'status' => 'required|string|in:done,todo,doing',
+            'difficulty' => 'required|integer|in:1,2,3',
+            'due_date' => 'nullable|string',
+            'closed_at' => 'nullable|string',
         ];
     }
 }

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import RatingStar from "./RatingStar";
-import { v4 as uuidv4 } from "uuid";
 import { TaskContext } from "./Main";
 import { useContext } from "react";
 import FORM_CONTANTS from "../../common/utils/constants";
+import { manageTaskAPI } from "../../api/tasks";
 
 type Props = {
     status: string;
@@ -47,16 +47,16 @@ export default function ModalCreateTask({ status }: Props) {
         if (!validateForm()) {
             return;
         }
-        // create task
-        addTask({
+        const newTask = {
             content,
             difficulty: difficultyLevel,
             due_date: dueDate,
             status: status.toLowerCase() as Status,
-            id: uuidv4(),
             closed_at: null,
-            created_at: new Date().toISOString(),
-        });
+        };
+        // create task
+        addTask({ ...newTask, id: Math.random() });
+        manageTaskAPI("/api/todo-list-tasks", newTask, "POST");
         resetForm();
         toggleModal();
     };

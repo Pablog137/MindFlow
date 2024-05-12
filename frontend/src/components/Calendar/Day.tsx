@@ -5,7 +5,7 @@ import { useDrop } from "react-dnd";
 type Props = {
     day: dayjs.Dayjs;
     tasks: CalendarTask[];
-    addTasks: (id: string | number, date: string) => void;
+    addTasks: (id: number, date: string) => void;
 };
 
 export default function Day({ day, tasks, addTasks }: Props) {
@@ -21,7 +21,9 @@ export default function Day({ day, tasks, addTasks }: Props) {
     return (
         <div
             ref={drop}
-            className={`border border-gray-200 flex flex-col p-1 min-h-32 ${isOver &&"bg-gray-200"}`}
+            className={`border border-gray-200 flex flex-col p-1 min-h-32 ${
+                isOver && "bg-gray-200"
+            }`}
         >
             <header className="flex flex-col itemscenter- justify-start">
                 <p className={`text-md p-1 my-1 font-bold text-gray-500 ml-2`}>

@@ -21,7 +21,7 @@ export default function TodoList({ status, tasks }: Props) {
         }),
     });
 
-    const addTaskToList = (id: string | number, status: Status) => {
+    const addTaskToList = (id: number, status: Status) => {
         const newTasks = tasks.map((task) => {
             if (task.id === id) {
                 return { ...task, status, closed_at: null };

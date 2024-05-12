@@ -4,10 +4,11 @@ import { TaskContext } from "./Main";
 import { useContext } from "react";
 import { useDrag } from "react-dnd";
 import Tooltip from "@mui/material/Tooltip";
+import { manageTaskAPI } from "../../api/tasks";
 
 type Props = {
     task: TodoListTask;
-    id: string | number;
+    id: number;
     tasks: Array<TodoListTask>;
 };
 
@@ -28,6 +29,10 @@ export default function TodoListItem({ task, id, tasks }: Props) {
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
+    };
+    const handleDeleteTask = () => {
+        removeTask(id);
+        manageTaskAPI(`/api/todo-list-tasks/${id}`, {}, "DELETE");
     };
     const color = priorityColors[task.difficulty - 1];
     return (
@@ -69,7 +74,7 @@ export default function TodoListItem({ task, id, tasks }: Props) {
                     <button>
                         <i
                             className="fa-solid fa-trash text-red-500 hover:text-red-300 hover:text-xl text-lg"
-                            onClick={() => removeTask(id)}
+                            onClick={handleDeleteTask}
                         ></i>
                     </button>
                 </Tooltip>
@@ -79,6 +84,7 @@ export default function TodoListItem({ task, id, tasks }: Props) {
                 isModalOpen={isModalOpen}
                 id={id}
                 tasks={tasks}
+                status={task.status}
             />
         </div>
     );

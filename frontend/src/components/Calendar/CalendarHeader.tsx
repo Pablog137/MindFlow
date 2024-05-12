@@ -7,7 +7,7 @@ import { useDrop } from "react-dnd";
 
 type Props = {
     addTask: (Task: CalendarTask) => void;
-    deleteTask: (id: string | number) => void;
+    deleteTask: (id: number) => void;
 };
 
 export default function CalendarHeader({ addTask, deleteTask }: Props) {

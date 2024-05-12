@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import RatingStar from "./RatingStar";
 import { TaskContext } from "./Main";
 import { useContext } from "react";
+import FORM_CONTANTS from "../../common/utils/constants";
+import { manageTaskAPI } from "../../api/tasks";
 
 type Props = {
     toggleModal: () => void;
     isModalOpen: boolean;
-    id: string | number;
+    id: number;
     tasks: Array<TodoListTask>;
+    status: string;
 };
 
 export default function ModalEditTask({
@@ -15,7 +18,20 @@ export default function ModalEditTask({
     isModalOpen,
     id,
     tasks,
+    status,
 }: Props) {
+    const { editTask } = useContext(TaskContext);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [feedbackMessage, setFeedbackMessage] = useState(false);
+    const [difficultyLevel, setDifficultyLevel] = useState(1);
+    const [content, setContent] = useState("");
+    const [dueDate, setDueDate] = useState<string | null>("");
+    const [hasSubmitted, setHasSubmitted] = useState(false);
+
+    useEffect(() => {
+        if (hasSubmitted) validateForm();
+    }, [content, dueDate, hasSubmitted]);
+
     useEffect(() => {
         const task = tasks.find((task) => task.id === id);
         if (task) {
@@ -25,27 +41,53 @@ export default function ModalEditTask({
         }
     }, []);
 
-    const { editTask } = useContext(TaskContext);
-
-    const [difficultyLevel, setDifficultyLevel] = useState(1);
-    const [content, setContent] = useState("");
-    const [dueDate, setDueDate] = useState<string | null>("");
-
     const changePriorityLevel = (difficulty: number) => {
         setDifficultyLevel(difficulty);
     };
 
     const handleEdit = (e: React.FormEvent) => {
         e.preventDefault();
+        setHasSubmitted(true);
+        if (!validateForm()) {
+            return;
+        }
+        const newTask = {
+            status,
+            difficulty: difficultyLevel,
+            content,
+            due_date: dueDate,
+            closed_at: null,
+        };
+
         const task = tasks.find((task) => task.id === id);
         if (task) {
-            editTask(task.id, {
-                ...task,
-                difficulty: difficultyLevel,
-                content,
-                due_date: dueDate,
-            });
+            editTask(task.id, { ...task, ...newTask });
             toggleModal();
+        }
+        manageTaskAPI(`/api/todo-list-tasks/${id}`, newTask, "PUT");
+    };
+
+    const validateForm = () => {
+        if (dueDate === null && content.trim() === null) {
+            setErrorMessage(FORM_CONTANTS.ERROR_MESSAGE_FILL_FIELDS);
+            setFeedbackMessage(false);
+            return false;
+        } else {
+            const currentDate = new Date();
+            const selectedDate = dueDate !== null ? new Date(dueDate) : null;
+
+            if (content.trim() === "" || dueDate === null) {
+                setErrorMessage(FORM_CONTANTS.ERROR_MESSAGE_FILL_FIELDS);
+                setFeedbackMessage(false);
+                return false;
+            } else if (selectedDate !== null && selectedDate < currentDate) {
+                setErrorMessage(FORM_CONTANTS.ERROR_MESSAGE_INVALID_DATE);
+                setFeedbackMessage(false);
+                return false;
+            }
+            setFeedbackMessage(true);
+            setErrorMessage("");
+            return true;
         }
     };
 
@@ -154,6 +196,47 @@ export default function ModalEditTask({
                                     />
                                 </div>
                             </div>
+                            {errorMessage && (
+                                <div
+                                    className="flex items-center justify-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+                                    role="alert"
+                                >
+                                    <svg
+                                        className="flex-shrink-0 inline w-4 h-4 me-3"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        viewBox="0 0 20 20"
+                                    >
+                                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                    </svg>
+                                    <span className="sr-only">Info</span>
+                                    <div>
+                                        <p>{errorMessage}</p>
+                                    </div>
+                                </div>
+                            )}
+                            {feedbackMessage && (
+                                <div
+                                    className="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800"
+                                    role="alert"
+                                >
+                                    <svg
+                                        className="flex-shrink-0 inline w-4 h-4 me-3"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        viewBox="0 0 20 20"
+                                    >
+                                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                    </svg>
+                                    <span className="sr-only">Info</span>
+                                    <div>
+                                        {FORM_CONTANTS.FEEDBACK_MESSAGE_SUCCESS}
+                                    </div>
+                                </div>
+                            )}
+
                             <div className="flex justify-center">
                                 <button
                                     type="submit"

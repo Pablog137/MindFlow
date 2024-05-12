@@ -43,7 +43,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
         fetchData();
     }, []);
 
-    const addTasks = (id: string | number, date: string) => {
+    const addTasks = (id: number, date: string) => {
         const newTasks = tasks.map((task) => {
             if (task.id === id) {
                 return { ...task, date: date };
@@ -53,7 +53,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
         setTasks(newTasks);
     };
 
-    const deleteTask = (id: string | number) => {
+    const deleteTask = (id: number) => {
         const newTasks = tasks.filter((task) => task.id !== id);
         setTasks(newTasks);
     };

@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Models\TodoListTask;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateTodoListRequest;
 use App\Http\Requests\CreateTodoListTask;
+use App\Http\Requests\CreateTodoListTaskRequest;
 use App\Http\Requests\UpdateTodoListTask;
 use App\Http\Resources\TodoListCollection;
 use App\Http\Resources\TodoListResource;
@@ -41,10 +43,15 @@ class TodoListTaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreateTodoListTask $request)
+    public function store(CreateTodoListTaskRequest $request)
     {
-        return new TodoListTaskResource(TodoListTask::create($request->all()));
+        $todoListId = $request->user()->id;
+        $task = new TodoListTask($request->all());
+        $task->todo_list_id = $todoListId;
+        $task->save();
+        return new TodoListTaskResource($task);
     }
+
 
     /**
      * Display the specified resource.

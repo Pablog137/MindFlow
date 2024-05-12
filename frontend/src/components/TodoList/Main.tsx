@@ -15,8 +15,8 @@ type Props = {
 interface TaskContext {
     tasks: TodoListTask[];
     addTask: (task: TodoListTask) => void;
-    removeTask: (id: string | number) => void;
-    editTask: (id: string | number, task: TodoListTask) => void;
+    removeTask: (id: number) => void;
+    editTask: (id: number, task: any) => void;
     setTasks: (tasks: TodoListTask[]) => void;
 }
 
@@ -43,10 +43,10 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
 
     const addTask = (task: TodoListTask) => setTasks([...tasks, task]);
 
-    const removeTask = (id: string | number) =>
+    const removeTask = (id: number) =>
         setTasks(tasks.filter((task) => task.id !== id));
 
-    const editTask = (id: string | number, task: TodoListTask) => {
+    const editTask = (id: number, task: any) => {
         setTasks(
             tasks.map((t) => {
                 if (t.id === id) {
