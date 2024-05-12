@@ -40,7 +40,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
         };
 
         fetchData();
-    }, [period, type]);
+    }, [type]);
     return (
         <>
             <div className={colsAside}>
