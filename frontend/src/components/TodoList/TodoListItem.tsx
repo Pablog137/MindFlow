@@ -32,7 +32,15 @@ export default function TodoListItem({ task, id, tasks }: Props) {
     };
     const handleDeleteTask = () => {
         removeTask(id);
-        manageTaskAPI(`/api/todo-list-tasks/${id}`, {}, "DELETE");
+        const currentDate = new Date()
+            .toISOString()
+            .slice(0, 19)
+            .replace("T", " ");
+        manageTaskAPI(
+            `/api/todo-list-tasks/${id}`,
+            { closed_at: currentDate },
+            "PATCH"
+        );
     };
     const color = priorityColors[task.difficulty - 1];
     return (

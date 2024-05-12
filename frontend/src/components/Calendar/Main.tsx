@@ -56,7 +56,16 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     const deleteTask = (id: number) => {
         const newTasks = tasks.filter((task) => task.id !== id);
         setTasks(newTasks);
-        manageTaskAPI(`/api/calendar-tasks/${id}`, {}, "DELETE");
+        const currentDate = new Date()
+            .toISOString()
+            .slice(0, 19)
+            .replace("T", " ");
+
+        manageTaskAPI(
+            `/api/calendar-tasks/${id}`,
+            { closed_at: currentDate },
+            "PATCH"
+        );
     };
 
     const addTask = (task: CalendarTask) => {

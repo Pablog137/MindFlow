@@ -48,7 +48,7 @@ class CalendarTaskFactory extends Factory
             "calendar_id" => Calendar::all()->random()->id,
             "content" => $this->tasks[array_rand($this->tasks, 1)],
             "tag" => $this->faker->randomElement(['Work', 'Study', 'Personal', "Other"]),
-            "date" => $this->faker->date("Y-m-d"),
+            "date" => $this->faker->dateTimeBetween($startDate = '-2 months', $endDate = 'now')->format("Y-m-d"), 
             "closed_at" => $this->faker->boolean(50) ? $this->faker->date("Y-m-d") : null
         ];
     }

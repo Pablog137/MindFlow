@@ -51,8 +51,8 @@ class DatabaseSeeder extends Seeder
 
         TodoListTask::factory()->count(15)->create();
 
-        Calendar::factory()->count(20)->create();
-        CalendarTask::factory()->count(100)->create();
+        Calendar::factory()->count(1)->create();
+        CalendarTask::factory()->count(10)->create();
 
         $gestor =  User::factory()->create([
             'name' => 'gestor',

@@ -26,13 +26,17 @@ class UpdateCalendarTaskRequest extends FormRequest
             return [
                 "calendar_id" => "required|integer",
                 "content" => "required|string",
-                "tag" => "required|string"
+                "tag" => "required|string",
+                "closed_at" => "nullable|string",
+
             ];
         } else {
             return [
                 "calendar_id" => "sometimes|integer",
                 "content" => "sometimes|string",
-                "tag" => "sometimes|string"
+                "tag" => "sometimes|string",
+                "closed_at" => "sometimes|string",
+
             ];
         }
     }

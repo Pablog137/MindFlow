@@ -19,10 +19,9 @@ class CalendarTaskController extends Controller
     public function index(Request $request)
     {
         $userId = $request->user()->id;
-
         $tasks = CalendarTask::whereHas('calendar', function ($query) use ($userId) {
             $query->where('user_id', $userId);
-        })->get();
+        })->whereNull('closed_at')->get();
 
         return new CalendarTaskCollection($tasks);
     }

@@ -5,16 +5,10 @@ namespace App\Http\Controllers\API;
 use App\Models\TodoListTask;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateTodoListRequest;
-use App\Http\Requests\CreateTodoListTask;
 use App\Http\Requests\CreateTodoListTaskRequest;
 use App\Http\Requests\UpdateTodoListTask;
-use App\Http\Resources\TodoListCollection;
-use App\Http\Resources\TodoListResource;
 use App\Http\Resources\TodoListTaskResource;
 use App\Http\Resources\TodoListTaskCollection;
-use App\Models\TodoList;
-use Illuminate\Support\Facades\Auth;
 
 class TodoListTaskController extends Controller
 {
@@ -27,7 +21,7 @@ class TodoListTaskController extends Controller
 
         $tasks = TodoListTask::whereHas('todoList', function ($query) use ($userId) {
             $query->where('user_id', $userId);
-        })->get();
+        })->whereNull('closed_at')->get();
 
         return new TodoListTaskCollection($tasks);
     }

@@ -17,7 +17,7 @@ class CalendarFactory extends Factory
      */
     public function definition(): array
     {
-        $userId = User::inRandomOrder()->first()->id;
+        $userId = 1;
         return [
             "user_id" => $userId,
         ];

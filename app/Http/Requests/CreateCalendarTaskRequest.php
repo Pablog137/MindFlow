@@ -26,8 +26,6 @@ class CreateCalendarTaskRequest extends FormRequest
             "tag" => "required|string",
             "date" => "required|string",
             "closed_at" => "nullable|string",
-
-
         ];
     }
 }
