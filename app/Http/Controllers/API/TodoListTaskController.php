@@ -21,6 +21,17 @@ class TodoListTaskController extends Controller
 
         $tasks = TodoListTask::whereHas('todoList', function ($query) use ($userId) {
             $query->where('user_id', $userId);
+        })->get();
+
+        return new TodoListTaskCollection($tasks);
+    }
+
+    public function indexWithoutClosed(Request $request)
+    {
+        $userId = $request->user()->id;
+
+        $tasks = TodoListTask::whereHas('todoList', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
         })->whereNull('closed_at')->get();
 
         return new TodoListTaskCollection($tasks);

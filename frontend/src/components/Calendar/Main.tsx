@@ -32,7 +32,9 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
         setIsLoading(true);
         const fetchData = async () => {
             try {
-                const data = await getTasksForUser("/api/calendar-tasks");
+                const data = await getTasksForUser(
+                    "/api/calendar-tasks-without-closed"
+                );
                 setTasks(data.data);
                 setIsLoading(false);
             } catch (error) {

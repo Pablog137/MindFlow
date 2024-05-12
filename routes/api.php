@@ -58,7 +58,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('todo-list-tasks', TodoListTaskController::class)->parameters([
         'todo-list-tasks' => 'id'
     ])->only(['index', 'show', 'store', 'update', 'destroy']);
- 
+    Route::get('todo-list-tasks-without-closed', [TodoListTaskController::class, 'indexWithoutClosed']);
+
     // Calendar
     Route::apiResource('calendar', CalendarController::class)->parameters([
         'calendar' => 'id'
@@ -68,6 +69,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('calendar-tasks', CalendarTaskController::class)->parameters([
         'calendar-tasks' => 'id'
     ])->only(['index', 'show', 'store', 'update', 'destroy']);
+    Route::get('calendar-tasks-without-closed', [CalendarTaskController::class, 'indexWithoutClosed']);
 
     // Note
     Route::apiResource('note', NoteController::class)->parameters([

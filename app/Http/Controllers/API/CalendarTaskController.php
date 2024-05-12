@@ -21,10 +21,22 @@ class CalendarTaskController extends Controller
         $userId = $request->user()->id;
         $tasks = CalendarTask::whereHas('calendar', function ($query) use ($userId) {
             $query->where('user_id', $userId);
+        })->get();
+
+        return new CalendarTaskCollection($tasks);
+    }
+
+    public function indexWithoutClosed(Request $request)
+    {
+        $userId = $request->user()->id;
+        $tasks = CalendarTask::whereHas('calendar', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
         })->whereNull('closed_at')->get();
 
         return new CalendarTaskCollection($tasks);
     }
+
+
 
     /**
      * Show the form for creating a new resource.
