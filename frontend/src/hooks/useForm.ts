@@ -1,4 +1,8 @@
 import { useState, useEffect } from "react";
+import {
+    NAME_MIN_LENGTH,
+    PASSWORD_MIN_LENGTH,
+} from "../common/utils/constants";
 
 type FormType = "login" | "register";
 
@@ -85,9 +89,8 @@ const useForm = (formType: FormType) => {
             case "password":
                 if (!value.trim()) {
                     newErrors.password = "Password is required";
-                } else if (value.length < 6) {
-                    newErrors.password =
-                        "Password must be at least 6 characters";
+                } else if (value.length < PASSWORD_MIN_LENGTH) {
+                    newErrors.password = `Password must be at least ${PASSWORD_MIN_LENGTH} characters`;
                 } else {
                     delete newErrors.password;
                 }
@@ -117,8 +120,8 @@ const useForm = (formType: FormType) => {
             case "name":
                 if (!value.trim()) {
                     newErrors.name = "Name is required";
-                } else if (value.length < 3) {
-                    newErrors.name = "Name must be at least 3 characters";
+                } else if (value.length < NAME_MIN_LENGTH) {
+                    newErrors.name = `Name must be at least ${NAME_MIN_LENGTH} characters`;
                 } else {
                     delete newErrors.name;
                 }
@@ -126,9 +129,8 @@ const useForm = (formType: FormType) => {
             case "password":
                 if (!value.trim()) {
                     newErrors.password = "Password is required";
-                } else if (value.length < 6) {
-                    newErrors.password =
-                        "Password must be at least 6 characters";
+                } else if (value.length < PASSWORD_MIN_LENGTH) {
+                    newErrors.password = `Password must be at least ${PASSWORD_MIN_LENGTH} characters`;
                 } else {
                     delete newErrors.password;
                 }

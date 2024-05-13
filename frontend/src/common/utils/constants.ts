@@ -5,3 +5,7 @@ const FORM_CONTANTS = {
     FEEDBACK_MESSAGE_SUCCESS: "Looks good!",
 };
 export default FORM_CONTANTS;
+
+
+export const PASSWORD_MIN_LENGTH = 6;
+export const NAME_MIN_LENGTH = 3;

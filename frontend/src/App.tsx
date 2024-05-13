@@ -17,6 +17,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import Statistics from "./pages/Statistics";
 import AuthRoute from "./components/AuthRoute";
+import ForgotPassword from "./pages/ForgotPassword";
+import CreateNewPassword from "./pages/CreateNewPassword";
 
 export default function App() {
     return (
@@ -25,7 +27,15 @@ export default function App() {
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={<LandingPage />} />
-                        <Route path="/login" element={<Login />} />
+                        <Route path="/login/*" element={<Login />} />
+                        <Route
+                            path="/forgotPassword"
+                            element={<ForgotPassword />}
+                        />
+                        <Route
+                            path="/new-password"
+                            element={<CreateNewPassword />}
+                        />
                         <Route path="/register" element={<Register />} />
                         <Route element={<ProtectedRoute />}>
                             <Route path="/dashboard" element={<Dashboard />} />

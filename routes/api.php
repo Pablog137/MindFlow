@@ -28,6 +28,8 @@ use App\Http\Controllers\Auth\LoginController;
 
 Route::post('/register', [ApiAuthController::class, 'register']);
 Route::post('/login', [ApiAuthController::class, 'login']);
+Route::post('/sendPasswordRecoveryEmail', [ApiAuthController::class, 'sendPasswordRecoveryEmail']);
+
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
