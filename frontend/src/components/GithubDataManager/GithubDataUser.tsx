@@ -36,7 +36,12 @@ export default function GithubLogin({
 
     async function getAccessToken(codeParam: string) {
         await fetch(
-            "http://localhost:8000/api/getAccessToken?code=" + codeParam
+            "http://localhost:8000/api/getAccessToken?code=" + codeParam,
+            {
+                headers: {
+                    Authorization: `Bearer ${getLocalStorage("token")}`,
+                },
+            }
         )
             .then((res) => res.json())
             .then((data) => {
