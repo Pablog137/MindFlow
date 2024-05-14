@@ -29,12 +29,7 @@ export default function ForgotPassword() {
             setShowMessage(true);
             return;
         }
-        setMessage({
-            message:
-                "We've sent you an email with a link to reset your password.",
-            type: "success",
-        });
-        setShowMessage(true);
+        apiRequest();
 
         console.log(message.message);
     };
@@ -43,6 +38,26 @@ export default function ForgotPassword() {
         setShowMessage(false);
         setEmail(e.target.value);
     };
+
+    const apiRequest = async () => {
+        fetch("http://localhost:8000/api/sendPasswordRecoveryEmail", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                setMessage({
+                    message: data.message,
+                    type: data.type,
+                });
+                setShowMessage(true);
+            });
+    };
+
     return (
         <div className="flex justify-center items-center min-h-screen">
             <div className="text-white grid place-items-center px-6">

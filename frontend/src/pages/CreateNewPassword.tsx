@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../assets/img/logo-64.png";
 import { PASSWORD_MIN_LENGTH } from "../common/utils/constants";
 
@@ -9,6 +9,15 @@ export default function CreateNewPassword() {
         type: "",
     });
     const [showMessage, setShowMessage] = useState(false);
+    const [email, setEmail] = useState("");
+
+    useEffect(() => {
+        const queryString = window.location.search;
+
+        const urlParams = new URLSearchParams(queryString);
+        const email = urlParams.get("email");
+        if (email) setEmail(email);
+    }, []);
 
     const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -20,13 +29,35 @@ export default function CreateNewPassword() {
             setShowMessage(true);
             return;
         }
-        setMessage({
-            message: "Password updated successfully",
-            type: "success",
-        });
-        setShowMessage(true);
+        apiRequest();
+    };
 
-        console.log(message.message);
+    const apiRequest = async () => {
+        fetch("http://localhost:8000/api/resetPassword", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email,
+                password,
+            }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                if (data.type === "success") {
+                    setPassword("");
+                    setTimeout(() => {
+                        window.location.href = "/login";
+                    }, 2000);
+                }
+                setMessage({
+                    message: data.message,
+                    type: data.type,
+                });
+                setShowMessage(true);
+            });
     };
 
     const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {

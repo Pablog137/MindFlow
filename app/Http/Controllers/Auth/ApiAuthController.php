@@ -6,13 +6,12 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-
-
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ApiAuthController extends Controller
 {
@@ -77,5 +76,48 @@ class ApiAuthController extends Controller
         $request->user()->currentAccessToken()->delete();
         $response = ['message' => 'You have been successfully logged out!'];
         return response($response, 200);
+    }
+
+
+
+    public function sendPasswordRecoveryEmail(Request $request)
+    {
+        $resetLink = "http://localhost:5173/new-password?email=" . $request->email;
+        $datos = [
+            'email' => $request->email,
+            'resetLink' => $resetLink
+        ];
+        if (!User::where('email', $request->email)->exists()) {
+            return response()->json(['message' => 'The provided email does not exist.', "type" => "error"]);
+        }
+
+        try {
+            Mail::send('emails.password_recovery', ['data' => $datos], function ($message) use ($datos) {
+                $message->to($datos['email'])
+                    ->subject('Password Recovery')
+                    ->from(config('mail.from.address'), config('mail.from.name'));
+            });
+
+            return response()->json(['message' => 'The email has been sent successfully.', "type" => "success"]);
+        } catch (Exception $e) {
+            return response()->json(['message' => "An error occurred while sending the email: " . $e->getMessage(), "type" => "error"]);
+        }
+    }
+
+
+    public function resetPassword(Request $request)
+    {
+        try {
+            $request->validate([
+                'email' => 'required|email',
+                'password' => ['required', 'string', 'min:6'],
+            ]);
+            $user = User::where('email', $request->email)->first();
+            $user->password = Hash::make($request->password);
+            $user->save();
+            return response()->json(['message' => 'Contraseña cambiada exitosamente', "type" => "success"]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), "type" => "error"], 500);
+        }
     }
 }
