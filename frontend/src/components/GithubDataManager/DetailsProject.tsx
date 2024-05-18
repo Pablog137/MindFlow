@@ -1,19 +1,12 @@
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
 import Tooltip from "@mui/material/Tooltip";
 import BasicPie from "../Charts/PieChart";
-import {
-    IconShowProject,
-    CommitShowProject,
-    ContributorShowProject,
-    IssueShowProject,
-    Language,
-    IssueColors,
-} from "../../data/github";
+import { IconShowProject, IssueColors } from "../../data/github";
 import Spinner from "../Spinner";
 import EditIssue from "./EditIssue";
 import CloseIssue from "./CloseIssue";
 import { useNavigate } from "react-router-dom";
+import { useRepoDetails } from "../../hooks/useRepositoryDetails";
 
 const icons: IconShowProject = {
     visibility: {
@@ -38,85 +31,30 @@ export default function DetailsProject() {
     const location = useLocation();
     const navigate = useNavigate();
     const state = location.state || {};
-    const { repo, commitCount, githubUserData } = state;
 
-    const [repoInfo] = useState(repo);
-    const [contributors, setContributors] = useState<ContributorShowProject[]>(
-        []
-    );
-    const [languages, setLanguages] = useState<Language>({});
-    const [commits, setCommits] = useState<CommitShowProject[]>([]);
-    const [issues, setIssues] = useState<IssueShowProject[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-
-    function getFormattedDate(date: string) {
-        const newDate = new Date(date);
-        return newDate.toISOString().split("T")[0];
-    }
-
-    async function fetchData(url: string, API_TOKEN: string): Promise<any> {
-        const response = await fetch(url, {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${API_TOKEN}`,
-            },
-        });
-        const data = await response.json();
-        return data.message ? [] : data;
-    }
-
-    useEffect(() => {
-        if (!repoInfo || !githubUserData) {
-            navigate("/github");
-            return;
-        }
-
-        const API_TOKEN = githubUserData.access_token;
-        const URLS = [
-            repoInfo.contributors_url,
-            repoInfo.languages_url,
-            repoInfo.commits_url.replace("{/sha}", ""),
-            repoInfo.issues_url.replace("{/number}", ""),
-        ];
-
-        async function fetchDataAndSetState() {
-            setIsLoading(true);
-
-            try {
-                const [
-                    contributorsData,
-                    languagesData,
-                    commitsData,
-                    issuesData,
-                ] = await Promise.all(
-                    URLS.map((url) => fetchData(url, API_TOKEN))
-                );
-
-                setContributors(contributorsData);
-                setLanguages(languagesData);
-                setCommits(commitsData);
-                setIssues(issuesData);
-                setIsLoading(false);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        }
-
-        fetchDataAndSetState();
-    }, []);
+    const {
+        repoInfo,
+        contributors,
+        languages,
+        commits,
+        issues,
+        isLoading,
+        getFormattedDate,
+        getTotalLines,
+        getVisibilityIcon,
+        commitCount,
+        setIssues,
+        githubUserData,
+    } = useRepoDetails(state, icons);
 
     const navigateToMainPage = () => {
-        window.history.back();
-    };
-    const getTotalLines = (): number => {
-        return Object.values(languages).reduce((acc, lines) => acc + lines, 0);
+        navigate("/github");
     };
 
-    const getVisibilityIcon = () => {
-        return icons.visibility[
-            repoInfo?.visibility as keyof typeof icons.visibility
-        ];
-    };
+    if (!repoInfo || !state.githubUserData) {
+        navigate("/github");
+        return null;
+    }
 
     return (
         <>
