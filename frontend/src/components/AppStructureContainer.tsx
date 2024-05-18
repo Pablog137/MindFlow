@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Dashboard/Navbar";
-import logo from "../assets/img/logo-32.png";
 import "../styles/pages/Dashboard.css";
 import ModalSearch from "./ModalSearch";
 import { elements } from "../data/lists";
@@ -12,7 +11,6 @@ type ComponentProps = {
     isAsideOpen: boolean;
     colsAside: string;
     colMain: string;
-    logo: string;
 };
 
 type NotesManagementContext = {
@@ -89,7 +87,6 @@ export default function AppStructure({ MainComponent }: Props) {
                         isAsideOpen={isAsideOpen}
                         colsAside={colsAside}
                         colMain={colMain}
-                        logo={logo}
                     />
                 </div>
 

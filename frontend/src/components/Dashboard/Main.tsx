@@ -1,13 +1,12 @@
 import Aside from "../Aside";
-
+import logo from "../../assets/img/logo-64.png";
 type Props = {
     isAsideOpen: boolean;
     colsAside: string;
     colMain: string;
-    logo: string;
 };
 
-export default function Main({ isAsideOpen, colsAside, colMain, logo }: Props) {
+export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     return (
         <>
             <>
