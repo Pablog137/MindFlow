@@ -1,6 +1,8 @@
 import { useState } from "react";
 import logo from "../../assets/img/logo-32.png";
 import { getUserData } from "../../helpers/localstorage";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 type Props = {
     isAsideOpen: boolean;
@@ -11,8 +13,10 @@ export default function Navbar({ isAsideOpen, toggleAside }: Props) {
     const [showProfile, setShowProfile] = useState(false);
     const [userData] = useState(getUserData());
 
+    const { logout } = useContext(AuthContext);
+
     const handleSignOut = () => {
-        localStorage.clear();
+        logout();
         window.location.href = "/";
     };
     return (
