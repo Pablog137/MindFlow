@@ -227,15 +227,17 @@ export default function GithubIndividualProject() {
                                     <p className="font-semibold text-gray-800">
                                         Created At :{" "}
                                     </p>
-                                    <span>{repoInfo.created_at}</span>
+                                    <span>
+                                        {getFormattedDate(repoInfo.created_at)}
+                                    </span>
                                 </div>
                             </li>
-                            <li className="flex items-center gap-2 ">
+                            <li className="items-center gap-2 hidden sm:flex ">
                                 <i
                                     className={`${icons.cloneUrl} text-indigo-300`}
                                 ></i>
                                 <div className="flex items-center gap-2 flex-wrap">
-                                    <p className="font-semibold text-gray-800">
+                                    <p className="font-semibold text-gray-800 ">
                                         Clone URL:{" "}
                                     </p>
                                     <div className="whitespace-normal">
@@ -316,7 +318,7 @@ export default function GithubIndividualProject() {
                                     issues.map((issue) => (
                                         <ul
                                             key={issue.id}
-                                            className="bg-gray-100 p-6 rounded-md mb-4"
+                                            className="bg-gray-100 p-6 rounded-md mb-4 list-none"
                                         >
                                             <li className="flex items-center pb-5">
                                                 <img
