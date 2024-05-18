@@ -13,6 +13,7 @@ import {
 import Spinner from "../Spinner";
 import EditIssue from "./EditIssue";
 import CloseIssue from "./CloseIssue";
+import { useNavigate } from "react-router-dom";
 
 const icons: IconShowProject = {
     visibility: {
@@ -33,9 +34,12 @@ const issueColors: IssueColors = {
     documentation: "bg-yellow-300",
 };
 
-export default function GithubIndividualProject() {
-    const { state } = useLocation();
+export default function DetailsProject() {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const state = location.state || {};
     const { repo, commitCount, githubUserData } = state;
+
     const [repoInfo] = useState(repo);
     const [contributors, setContributors] = useState<ContributorShowProject[]>(
         []
@@ -43,7 +47,7 @@ export default function GithubIndividualProject() {
     const [languages, setLanguages] = useState<Language>({});
     const [commits, setCommits] = useState<CommitShowProject[]>([]);
     const [issues, setIssues] = useState<IssueShowProject[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     function getFormattedDate(date: string) {
         const newDate = new Date(date);
@@ -62,6 +66,11 @@ export default function GithubIndividualProject() {
     }
 
     useEffect(() => {
+        if (!repoInfo || !githubUserData) {
+            navigate("/github");
+            return;
+        }
+
         const API_TOKEN = githubUserData.access_token;
         const URLS = [
             repoInfo.contributors_url,
@@ -105,7 +114,7 @@ export default function GithubIndividualProject() {
 
     const getVisibilityIcon = () => {
         return icons.visibility[
-            repoInfo.visibility as keyof typeof icons.visibility
+            repoInfo?.visibility as keyof typeof icons.visibility
         ];
     };
 
@@ -181,7 +190,7 @@ export default function GithubIndividualProject() {
                                     <p className="font-semibold text-gray-800">
                                         Visibility :{" "}
                                     </p>
-                                    <span>{repoInfo.visibility}</span>
+                                    <span>{repoInfo?.visibility}</span>
                                 </div>
                             </li>
                             <li className="flex items-center gap-2">
@@ -192,12 +201,12 @@ export default function GithubIndividualProject() {
                                     <p className="font-semibold text-gray-800">
                                         Issues :{" "}
                                     </p>
-                                    <span>{repoInfo.open_issues_count}</span>
+                                    <span>{repoInfo?.open_issues_count}</span>
                                 </div>
                             </li>
                             <li className="flex items-center gap-2">
                                 <i
-                                    className={`${icons.commits} text-green-300`}
+                                    className={`${icons?.commits} text-green-300`}
                                 ></i>
                                 <div className="flex items-center gap-2">
                                     <p className="font-semibold text-gray-800">

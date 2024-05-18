@@ -11,7 +11,7 @@ import TodoList from "./pages/TodoList";
 import Calendar from "./pages/Calendar";
 import Github from "./pages/Github";
 import Note from "./pages/Note";
-import GithubIndividualProject from "./components/GithubDataManager/DetailsProject";
+import DetailsProject from "./components/GithubDataManager/DetailsProject";
 import GithubLoginPage from "./pages/GithubLoginPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
@@ -48,7 +48,7 @@ export default function App() {
                             />
                             <Route
                                 path="github/viewRepo/:id"
-                                element={<GithubIndividualProject />}
+                                element={<DetailsProject />}
                             />
                             <Route path="/new-note/:id" element={<Note />} />
                             <Route

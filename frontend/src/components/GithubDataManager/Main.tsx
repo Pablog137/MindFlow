@@ -1,5 +1,5 @@
 import Aside from "../Aside";
-import RepoCard from "./CardProject";
+import RepoCard from "./RepoCard";
 import Spinner from "../Spinner";
 import SearchRepo from "./SearchProject";
 import GithubLogin from "./GithubDataUser";
