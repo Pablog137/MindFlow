@@ -2,7 +2,7 @@ import { useEffect, useRef, useMemo } from "react";
 import "../../styles/components/Note/Editor.css";
 import Header from "./Header";
 import { setLocalStorage, getLocalStorage } from "../../helpers/localstorage";
-import { SearchPageContext } from "../AppStructureContainer";
+import { NotesManagementContext } from "../AppStructureContainer";
 import { useContext } from "react";
 import { useParams } from "react-router-dom";
 
@@ -13,7 +13,7 @@ type Props = {
 export default function Editor({ colMain }: Props) {
     const { id } = useParams();
     const timeoutIdRef = useRef<number>();
-    const { setNotePages, notePages } = useContext<any>(SearchPageContext);
+    const { setNotePages, notePages } = useContext<any>(NotesManagementContext);
 
     useEffect(() => {
         // Guardar en localStorage antes de salir de la página

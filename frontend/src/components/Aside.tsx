@@ -1,7 +1,7 @@
 import AsideElement from "./AsideElement";
 import { elements } from "../data/lists";
 import Search from "./Dashboard/Search";
-import { SearchPageContext } from "./AppStructureContainer";
+import { NotesManagementContext } from "./AppStructureContainer";
 import { useContext } from "react";
 import { isAdmin } from "../helpers/localstorage";
 
@@ -11,7 +11,7 @@ type Props = {
 };
 
 export default function Aside({ isAsideOpen, type }: Props) {
-    const { notePages, createNewNote } = useContext(SearchPageContext);
+    const { notePages, createNewNote } = useContext(NotesManagementContext);
     const handleCreateNewNote = () => {
         const newNoteId = createNewNote();
         setTimeout(() => {

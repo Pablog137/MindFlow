@@ -15,7 +15,7 @@ type ComponentProps = {
     logo: string;
 };
 
-type SearchPageContextType = {
+type NotesManagementContext = {
     toggleModal: () => void;
     isModalOpen: boolean;
     notePages: Note[];
@@ -27,7 +27,7 @@ type Props = {
     MainComponent: (props: ComponentProps) => JSX.Element;
 };
 
-export const SearchPageContext = createContext<SearchPageContextType>({
+export const NotesManagementContext = createContext<NotesManagementContext>({
     toggleModal: () => {},
     isModalOpen: false,
     notePages: [],
@@ -71,7 +71,7 @@ export default function AppStructure({ MainComponent }: Props) {
     return (
         <>
             <Navbar isAsideOpen={isAsideOpen} toggleAside={toggleAside} />
-            <SearchPageContext.Provider
+            <NotesManagementContext.Provider
                 value={{
                     toggleModal,
                     isModalOpen,
@@ -98,7 +98,7 @@ export default function AppStructure({ MainComponent }: Props) {
                     toggleModal={toggleModal}
                     listElements={listElements}
                 />
-            </SearchPageContext.Provider>
+            </NotesManagementContext.Provider>
         </>
     );
 }
