@@ -13,7 +13,7 @@ type Props = {
 export default function Editor({ colMain }: Props) {
     const { id } = useParams();
     const timeoutIdRef = useRef<number>();
-    const { setNotePages, notePages } = useContext(SearchPageContext);
+    const { setNotePages, notePages } = useContext<any>(SearchPageContext);
 
     useEffect(() => {
         // Guardar en localStorage antes de salir de la página

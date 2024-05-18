@@ -7,9 +7,10 @@ import { isAdmin } from "../helpers/localstorage";
 
 type Props = {
     isAsideOpen: boolean;
+    type?: string;
 };
 
-export default function Aside({ isAsideOpen }: Props) {
+export default function Aside({ isAsideOpen, type }: Props) {
     const { notePages, createNewNote } = useContext(SearchPageContext);
     const handleCreateNewNote = () => {
         const newNoteId = createNewNote();
@@ -37,6 +38,9 @@ export default function Aside({ isAsideOpen }: Props) {
                                     text={element.text}
                                     icon={element.icon}
                                     url={element.url}
+                                    isSelected={
+                                        element.url.substring(1) === type
+                                    }
                                 />
                             )
                     )}
@@ -47,7 +51,14 @@ export default function Aside({ isAsideOpen }: Props) {
                                     href={`/new-note/${note.id}`}
                                     className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 >
-                                    <i className="fa-solid fa-book text-xl md:text-2xl text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                                    <i
+                                        className={`fa-solid fa-book text-xl md:text-2xl transition duration-75  dark:group-hover:text-white ${
+                                            note.id.toString() === type
+                                                ? "text-gray-900"
+                                                : "group-hover:text-gray-900  text-gray-500 dark:text-gray-400"
+                                        }
+                        `}
+                                    ></i>
                                     <span className="flex-1 whitespace-nowrap ms-3 hidden lg:flex">
                                         {note.title}
                                     </span>

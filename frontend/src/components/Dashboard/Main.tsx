@@ -12,7 +12,7 @@ export default function Main({ isAsideOpen, colsAside, colMain, logo }: Props) {
         <>
             <>
                 <div className={colsAside}>
-                    <Aside isAsideOpen={isAsideOpen} />
+                    <Aside isAsideOpen={isAsideOpen} type={"dashboard"} />
                 </div>
                 <div
                     className={`text-white  bg-[#161922] px-6 md:px-12 pt-20 md:pt-40 flex flex-col items-center height ${colMain}`}

@@ -5,7 +5,7 @@ interface TodoListTask {
     content: string;
     due_date: string | null;
     closed_at: string | null;
-    created_at?: string ;
+    created_at: string ;
 }
 
 interface CalendarTask {
@@ -14,7 +14,7 @@ interface CalendarTask {
     date: string;
     tag: Tag;
     closed_at: string | null;
-    created_at?: string ;
+    created_at: string ;
 }
 
 

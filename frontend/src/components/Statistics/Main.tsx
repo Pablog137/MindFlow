@@ -44,7 +44,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     return (
         <>
             <div className={colsAside}>
-                <Aside isAsideOpen={isAsideOpen} />
+                <Aside isAsideOpen={isAsideOpen} type={"statistics"} />
             </div>
             <div
                 className={`text-white bg-[#161922] px-6 md:px-12 pt-10 md:pt-14 height ${colMain}`}

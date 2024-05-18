@@ -55,7 +55,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     return (
         <>
             <div className={colsAside}>
-                <Aside isAsideOpen={isAsideOpen} />
+                <Aside isAsideOpen={isAsideOpen} type={"github"} />
             </div>
             <div className={`bg-[#161922] ${colMain}`}>
                 {isLoading ? (
