@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import logo from "../assets/img/logo-64.png";
 import { PASSWORD_MIN_LENGTH } from "../common/utils/constants";
+import Spinner from "../components/Spinner";
 
 export default function CreateNewPassword() {
     const [password, setPassword] = useState("");
@@ -10,6 +11,7 @@ export default function CreateNewPassword() {
     });
     const [showMessage, setShowMessage] = useState(false);
     const [email, setEmail] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const queryString = window.location.search;
@@ -33,6 +35,7 @@ export default function CreateNewPassword() {
     };
 
     const apiRequest = async () => {
+        setIsLoading(true);
         fetch("http://localhost:8000/api/resetPassword", {
             method: "POST",
             headers: {
@@ -57,6 +60,7 @@ export default function CreateNewPassword() {
                     type: data.type,
                 });
                 setShowMessage(true);
+                setIsLoading(false);
             });
     };
 
@@ -115,7 +119,7 @@ export default function CreateNewPassword() {
                         </button>
                     </div>
                 </form>
-                {/* <div className="mt-10">{showSpinner && <Spinner />}</div> */}
+                <div className="mt-10">{isLoading && <Spinner />}</div>
             </div>
         </div>
     );

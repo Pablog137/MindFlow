@@ -11,7 +11,7 @@ export default function Login() {
     const [showError, setShowError] = useState(false);
     const errorMessage = errors.email || errors.password;
     const [serverError, setServerError] = useState("");
-    const [showSpinner, setShowSpinner] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
     const { login } = useContext(AuthContext);
@@ -25,7 +25,7 @@ export default function Login() {
 
     const loginAPI = async () => {
         try {
-            setShowSpinner(true);
+            setIsLoading(true);
             const res = await fetch(
                 import.meta.env.VITE_SERVER + "/api/login",
                 {
@@ -37,7 +37,7 @@ export default function Login() {
                 }
             );
             const data = await res.json();
-            setShowSpinner(false);
+            setIsLoading(false);
             if (data.message) {
                 setServerError(data.message);
                 return;
@@ -101,7 +101,7 @@ export default function Login() {
                             </label>
                             <span className="">
                                 <a
-                                    href="#"
+                                    href="/forgotPassword"
                                     className="text-purple-300 text-xs font-bold"
                                 >
                                     Forgot password?
@@ -138,7 +138,7 @@ export default function Login() {
                         </p>
                     </div>
                 </form>
-                <div className="mt-10">{showSpinner && <Spinner />}</div>
+                <div className="mt-10">{isLoading && <Spinner />}</div>
             </div>
         </div>
     );

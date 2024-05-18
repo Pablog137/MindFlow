@@ -5,6 +5,8 @@ use Illuminate\Support\ServiceProvider;
 
 return [
 
+    "IP_ADDRESS" => env("APP_IP_ADDRESS", "localhost:5173"),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
