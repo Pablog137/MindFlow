@@ -5,7 +5,7 @@ use Illuminate\Support\ServiceProvider;
 
 return [
 
-    "IP_ADDRESS" => env("APP_IP_ADDRESS", "localhost:5173"),
+    "BASE_URL" => env("APP_BASE_URL", "localhost:5173"),
 
     /*
     |--------------------------------------------------------------------------

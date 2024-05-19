@@ -82,7 +82,8 @@ class ApiAuthController extends Controller
 
     public function sendPasswordRecoveryEmail(Request $request)
     {
-        $resetLink = "http://localhost:5173/new-password?email=" . $request->email;
+        $baseUrl = env('APP_BASE_URL');
+        $resetLink = "http://" . $baseUrl . "/new-password?email=" . $request->email;
         $datos = [
             'email' => $request->email,
             'resetLink' => $resetLink
