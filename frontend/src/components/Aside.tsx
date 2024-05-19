@@ -15,6 +15,13 @@ export default function Aside({ isAsideOpen, type }: Props) {
         NotesManagementContext
     );
 
+    const handleTitleLength = (title: string) => {
+        if (title.length > 12) {
+            return title.substring(0, 12) + "...";
+        }
+        return title;
+    };
+
     return (
         <aside
             id="logo-sidebar"
@@ -56,7 +63,7 @@ export default function Aside({ isAsideOpen, type }: Props) {
                         `}
                                     ></i>
                                     <span className="flex-1 whitespace-nowrap ms-3 hidden lg:flex">
-                                        {note.title}
+                                        {handleTitleLength(note.title)}
                                     </span>
                                 </a>
                             </li>
@@ -64,7 +71,7 @@ export default function Aside({ isAsideOpen, type }: Props) {
                     <li className="p-2">
                         <a
                             onClick={handleCreateNewNote}
-                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
                         >
                             <i className="fa-solid fa-plus text-xl md:text-2xl text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
                             <span className="flex-1 whitespace-nowrap ms-3 hidden lg:flex">
