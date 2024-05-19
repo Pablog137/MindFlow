@@ -76,7 +76,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
 
     return (
         <>
-            <div className={colsAside + " h-screen"}>
+            <div className={colsAside + " h-full"}>
                 <Aside isAsideOpen={isAsideOpen} type={"calendar"} />
             </div>
             <DragContext.Provider

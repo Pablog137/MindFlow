@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Repo, IconRepo } from "../../data/github";
+import { IconRepo } from "../../data/github";
 import { getGithubUserData } from "../../helpers/localstorage";
 
 const icons: IconRepo = {

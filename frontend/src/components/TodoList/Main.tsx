@@ -62,7 +62,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     return (
         <>
             <DndProvider backend={HTML5Backend}>
-                <div className={colsAside}>
+                <div className={colsAside + " h-full"}>
                     <Aside isAsideOpen={isAsideOpen} type={"todo-list"} />
                 </div>
                 <TaskContext.Provider

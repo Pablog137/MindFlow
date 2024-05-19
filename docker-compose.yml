@@ -5,15 +5,19 @@ services:
     laravel-app:
         restart: always
         build:
+            context: .
             dockerfile: Dockerfile
         ports:
             - "8000:80"
-        depends_on:
-            - mysql
         volumes:
-            - laravel-app-volume:/path/to/laravel/app
-        links:
-            - mysql
+            - laravel-app-volume:/var/www/html
+        environment:
+            DB_CONNECTION: mysql
+            DB_HOST: mindflowdb.cb8kowws2br7.us-east-1.rds.amazonaws.com
+            DB_PORT: 3306
+            DB_DATABASE: mindflow
+            DB_USERNAME: admin
+            DB_PASSWORD: proyectomindflow    
         networks:
             - default
 
@@ -25,27 +29,13 @@ services:
         depends_on:
             - laravel-app
         ports:
-            - "80:80"
+            - "3000:80"
         volumes:
-            - react-app-volume:/path/to/react/app
-        links:
-            - laravel-app
+            - react-app-volume:/usr/src/app
         networks:
             - default
         stdin_open: true
         tty: true
-
-    mysql:
-        image: mysql:5.7
-        container_name: mysql
-        restart: always
-        environment:
-            MYSQL_ROOT_PASSWORD: PasswordRoot
-            MYSQL_DATABASE: mindflow
-        volumes:
-            - mysql-volume:/var/lib/mysql
-        networks:
-            - default
 
 networks:
     default:
@@ -53,4 +43,3 @@ networks:
 volumes:
     laravel-app-volume:
     react-app-volume:
-    mysql-volume:

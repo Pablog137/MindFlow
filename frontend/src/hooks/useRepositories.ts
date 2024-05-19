@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import { Repo } from "../data/github";
 import { getGithubUserData } from "../helpers/localstorage";
 
 const useRepositories = () => {
@@ -35,7 +34,7 @@ const useRepositories = () => {
             })
             .then((data) => {
                 const reposWithData = data.items.filter(
-                    (repo) => repo.language !== null && hasCommits(repo)
+                    (repo: Repo) => repo.language !== null && hasCommits(repo)
                 );
                 setRepositories(reposWithData);
                 setFilteredRepositories(reposWithData);

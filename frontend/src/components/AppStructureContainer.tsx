@@ -7,22 +7,12 @@ import { createContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { setLocalStorage, getLocalStorage } from "../helpers/localstorage";
 
-type ComponentProps = {
-    isAsideOpen: boolean;
-    colsAside: string;
-    colMain: string;
-};
-
 type NotesManagementContext = {
     toggleModal: () => void;
     isModalOpen: boolean;
     notePages: Note[];
     createNewNote: () => void;
     setNotePages: (content: []) => void;
-};
-
-type Props = {
-    MainComponent: (props: ComponentProps) => JSX.Element;
 };
 
 export const NotesManagementContext = createContext<NotesManagementContext>({
@@ -32,7 +22,7 @@ export const NotesManagementContext = createContext<NotesManagementContext>({
     createNewNote: () => {},
     setNotePages: () => {},
 });
-export default function AppStructure({ MainComponent }: Props) {
+export default function AppStructure({ MainComponent }: any) {
     const [isAsideOpen, setIsAsideOpen] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [listElements, setListElements] = useState<ElementNav[]>([]);

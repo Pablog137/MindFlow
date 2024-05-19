@@ -53,6 +53,7 @@ export default function ModalCreateTask({ status }: Props) {
             due_date: dueDate,
             status: status.toLowerCase() as Status,
             closed_at: null,
+            created_at: new Date().toISOString(),
         };
         // create task
         addTask({ ...newTask, id: Math.random() });

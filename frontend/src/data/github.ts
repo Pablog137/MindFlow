@@ -42,20 +42,6 @@ type Commit = {
     img: string;
 };
 
-// Show projects
-
-export type Repo = {
-    id: number;
-    name: string;
-    updated_at: string;
-    visibility: string;
-    open_issues_count: number;
-    created_at: string;
-    pushed_at: string;
-    url: string;
-    language?: string;
-};
-
 export type IconRepo = {
     visibility: {
         public: string;

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Repo } from "../../data/github";
 import { MouseEventHandler } from "react";
 
 type Props = {
