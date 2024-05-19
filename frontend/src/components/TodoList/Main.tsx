@@ -74,7 +74,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                         setTasks,
                     }}
                 >
-                    <div className={` text-white bg-[#161922]  ${colMain}`}>
+                    <div className={` text-white bg-[#161922] h-screen ${colMain}`}>
                         {isLoading ? (
                             <div className="col-start-6 flex justify-center items-center h-screen ">
                                 <Spinner />

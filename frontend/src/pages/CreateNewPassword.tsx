@@ -36,7 +36,8 @@ export default function CreateNewPassword() {
 
     const apiRequest = async () => {
         setIsLoading(true);
-        fetch("http://localhost:8000/api/resetPassword", {
+        const url = "/api/resetPassword";
+        fetch(`${import.meta.env.VITE_SERVER + url}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

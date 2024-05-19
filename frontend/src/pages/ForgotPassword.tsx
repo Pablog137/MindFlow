@@ -58,7 +58,8 @@ export default function ForgotPassword() {
         setIsLoading(true);
         localStorage.setItem("emailCount", (emailCount + 1).toString());
         setEmailCount(emailCount + 1);
-        fetch("http://localhost:8000/api/sendPasswordRecoveryEmail", {
+        const url = "/api/sendPasswordRecoveryEmail";
+        fetch(`${import.meta.env.VITE_SERVER + url}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

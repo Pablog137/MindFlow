@@ -83,7 +83,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                 value={{ setIsDraggingInUse, isDraggingInUse }}
             >
                 <DndProvider backend={HTML5Backend}>
-                    <div className={`p-3 sm:p-6 ${colMain} bg-[#161922] `}>
+                    <div className={`p-3 sm:p-6 ${colMain} h-screen bg-[#161922] `}>
                         {isLoading ? (
                             <div className="flex justify-center items-center h-full">
                                 <Spinner />

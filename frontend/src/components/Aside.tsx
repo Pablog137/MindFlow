@@ -22,7 +22,7 @@ export default function Aside({ isAsideOpen, type }: Props) {
     return (
         <aside
             id="logo-sidebar"
-            className={`h-screen pt-6 transition-transform ${
+            className={`h-full pt-6 transition-transform ${
                 isAsideOpen ? "-translate-x-0" : "-translate-x-full"
             } bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 pt-10`}
             aria-label="Sidebar"

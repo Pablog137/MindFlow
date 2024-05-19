@@ -37,14 +37,12 @@ export default function GithubLogin({
 
     async function getAccessToken(codeParam: string) {
         setIsLoading(true);
-        await fetch(
-            "http://localhost:8000/api/getAccessToken?code=" + codeParam,
-            {
-                headers: {
-                    Authorization: `Bearer ${getLocalStorage("token")}`,
-                },
-            }
-        )
+        const url = "/api/getAccessToken?code=" + codeParam;
+        await fetch(import.meta.env.VITE_SERVER + url, {
+            headers: {
+                Authorization: `Bearer ${getLocalStorage("token")}`,
+            },
+        })
             .then((res) => res.json())
             .then((data) => {
                 setIsLoading(false);
