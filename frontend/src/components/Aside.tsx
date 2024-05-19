@@ -11,13 +11,9 @@ type Props = {
 };
 
 export default function Aside({ isAsideOpen, type }: Props) {
-    const { notePages, createNewNote } = useContext(NotesManagementContext);
-    const handleCreateNewNote = () => {
-        const newNoteId = createNewNote();
-        setTimeout(() => {
-            window.location.href = "/new-note/" + newNoteId;
-        }, 0);
-    };
+    const { notePages, handleCreateNewNote } = useContext(
+        NotesManagementContext
+    );
 
     return (
         <aside

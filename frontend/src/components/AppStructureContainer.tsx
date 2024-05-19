@@ -11,7 +11,7 @@ type NotesManagementContext = {
     toggleModal: () => void;
     isModalOpen: boolean;
     notePages: Note[];
-    createNewNote: () => void;
+    handleCreateNewNote: () => void;
     setNotePages: (content: []) => void;
 };
 
@@ -19,7 +19,7 @@ export const NotesManagementContext = createContext<NotesManagementContext>({
     toggleModal: () => {},
     isModalOpen: false,
     notePages: [],
-    createNewNote: () => {},
+    handleCreateNewNote: () => {},
     setNotePages: () => {},
 });
 export default function AppStructure({ MainComponent }: any) {
@@ -37,6 +37,13 @@ export default function AppStructure({ MainComponent }: any) {
         setLocalStorage("notePages", JSON.stringify([...notePages, newNote]));
 
         return id;
+    };
+
+    const handleCreateNewNote = () => {
+        const newNoteId = createNewNote();
+        setTimeout(() => {
+            window.location.href = "/new-note/" + newNoteId;
+        }, 0);
     };
 
     useEffect(() => {
@@ -64,7 +71,7 @@ export default function AppStructure({ MainComponent }: any) {
                     toggleModal,
                     isModalOpen,
                     notePages,
-                    createNewNote,
+                    handleCreateNewNote,
                     setNotePages,
                 }}
             >
