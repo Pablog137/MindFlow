@@ -33,7 +33,7 @@ return [
     'github' => [
         'client_id' => env('GITHUB_CLIENT_ID'),
         'client_secret' => env('GITHUB_CLIENT_SECRET'),
-        'redirect' => 'http://localhost:5173/github/loading',
+        'redirect' => env('GITHUB_REDIRECT_URI'),
     ],
 
 ];

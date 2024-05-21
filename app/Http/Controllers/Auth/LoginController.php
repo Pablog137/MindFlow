@@ -55,15 +55,5 @@ class LoginController extends Controller
             ]
         ]);
     }
-    // public function redirectToGitHub()
-    // {
-    //     return Socialite::driver('github')->redirect();
-    // }
-
-    // public function handleGitHubCallback()
-    // {
-    //     $user = Socialite::driver('github')->user();
-    //     Auth::loginUsingId($user->id);
-
-    // }
+ 
 }
