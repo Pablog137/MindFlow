@@ -5,9 +5,6 @@ import react from "@vitejs/plugin-react-swc";
 export default defineConfig({
     plugins: [react()],
     server: {
-        port: 3000, // Development server port
-    },
-    preview: {
-        port: 80, // Production preview server port
+        port: 80, // Development server port
     },
 });
