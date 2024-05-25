@@ -28,44 +28,44 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        $admin =  User::factory()->create([
-            'name' => 'admin',
-            'email' => 'pablogutierrezvaldin@gmail.com',
-            'password' => bcrypt('admin777'),
-            "user_type" => "admin",
-        ]);
-        User::factory()->create([
-            'name' => 'prueba',
-            'email' => 'pablogutierrezvaldin2@gmail.com',
-            'password' => bcrypt('prueba777'),
-            "user_type" => "user",
-        ]);
+        // $admin =  User::factory()->create([
+        //     'name' => 'admin',
+        //     'email' => 'pablogutierrezvaldin@gmail.com',
+        //     'password' => bcrypt('admin777'),
+        //     "user_type" => "admin",
+        // ]);
+        // User::factory()->create([
+        //     'name' => 'prueba',
+        //     'email' => 'pablogutierrezvaldin2@gmail.com',
+        //     'password' => bcrypt('prueba777'),
+        //     "user_type" => "user",
+        // ]);
 
-        User::factory()->count(30)->state(['user_type' => 'user'])->create();
-        User::factory()->count(20)->state(['user_type' => 'premium'])->create();
-        User::factory()->count(3)->state(['user_type' => 'admin'])->create();
-        Payment::factory()->count(20)->create();
-
-
-        TodoList::factory()->count(1)->create();
-
-        TodoListTask::factory()->count(15)->create();
-
-        Calendar::factory()->count(1)->create();
-        CalendarTask::factory()->count(10)->create();
-
-        $gestor =  User::factory()->create([
-            'name' => 'gestor',
-            'email' => 'gestor@educastur.es',
-            'password' => bcrypt('gestor'),
-        ]);
+        // User::factory()->count(30)->state(['user_type' => 'user'])->create();
+        // User::factory()->count(20)->state(['user_type' => 'premium'])->create();
+        // User::factory()->count(3)->state(['user_type' => 'admin'])->create();
+        // Payment::factory()->count(20)->create();
 
 
-        $role = Role::create(['name' => 'admin']);
-        $role2 = Role::create(['name' => 'gestor']);
+        // TodoList::factory()->count(1)->create();
+
+        // TodoListTask::factory()->count(15)->create();
+
+        // Calendar::factory()->count(1)->create();
+        // CalendarTask::factory()->count(10)->create();
+
+        // $gestor =  User::factory()->create([
+        //     'name' => 'gestor',
+        //     'email' => 'gestor@educastur.es',
+        //     'password' => bcrypt('gestor'),
+        // ]);
 
 
-        $admin->assignRole($role);
-        $gestor->assignRole($role2);
+        // $role = Role::create(['name' => 'admin']);
+        // $role2 = Role::create(['name' => 'gestor']);
+
+
+        // $admin->assignRole($role);
+        // $gestor->assignRole($role2);
     }
 }

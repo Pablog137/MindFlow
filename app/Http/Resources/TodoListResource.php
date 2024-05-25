@@ -17,7 +17,6 @@ class TodoListResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "title" => $this->title,
             "user_id" => $this->user_id,
             "todo_list_tasks" => TodoListTaskResource::collection($this->whenLoaded("todoListTasks"))
         ];

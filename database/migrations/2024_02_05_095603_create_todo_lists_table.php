@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('todo_lists', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
             $table->foreignId('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
@@ -29,6 +28,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('todo_lists');
     }
-
-
 };

@@ -24,12 +24,10 @@ class UpdateTodoListRequest extends FormRequest
         $method = $this->method();
         if ($method === 'PUT') {
             return [
-                'title' => "required|string|max:255",
                 'user_id' => "required|integer|exists:users,id"
             ];
         } else {
             return [
-                "title" => "sometimes|string|max:255",
                 "user_id" => "sometimes|integer|exists:users,id"
             ];
         }

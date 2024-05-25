@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
+use App\Models\Calendar;
+use App\Models\TodoList;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -30,6 +32,14 @@ class ApiAuthController extends Controller
             $request['remember_token'] = Str::random(10);
             $user = User::create($request->toArray());
             Auth::login($user);
+            TodoList::create([
+                'id' => $user->id,
+                'user_id' => $user->id,
+            ]);
+            Calendar::create([
+                'id' => $user->id,
+                'user_id' => $user->id,
+            ]);
             $token = $user->createToken('Token');
             $response = [
                 'user' => [

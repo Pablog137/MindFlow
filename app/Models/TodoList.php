@@ -9,7 +9,7 @@ class TodoList extends Model
 {
     use HasFactory;
     protected $table = 'todo_lists';
-    protected $fillable = ['title', 'user_id'];
+    protected $fillable = [ 'user_id'];
 
     public function user(){
         return $this->belongsTo(User::class);
