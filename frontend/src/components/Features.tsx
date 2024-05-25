@@ -22,7 +22,7 @@ export default function Features() {
                 id="features"
             >
                 <div className="col-span-12 mt-12 md:mt-20 flex justify-center items-center">
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl text-center font-bold">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl text-center font-bold pb-10">
                         In perfect sync across all your devices
                     </h1>
                 </div>
@@ -59,7 +59,7 @@ export default function Features() {
                 <div className="col-span-12 lg:col-span-7 flex justify-center items-center p-3">
                     <div className="image-container">
                         <img
-                            src={`../../public/images/${selectedImage}.png`}
+                            src={`/images/${selectedImage}.png`}
                             alt={selectedImage}
                             className={`fade-enter ${
                                 isAnimating ? "fade-exit-active" : ""

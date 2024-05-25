@@ -1,10 +1,10 @@
 import { useState } from "react";
 import logo from "../assets/img/logo-64.png";
 import Spinner from "../components/Spinner";
+import { createCookie, getCookie } from "../helpers/localstorage";
 
-const getLocalStorage = (key: string): number => {
-    const storedValue = localStorage.getItem(key);
-    return storedValue ? parseInt(storedValue, 10) : 0;
+const getPasswordResetAttempts = () => {
+    return getCookie("emailCount") ? parseInt(getCookie("emailCount")) : 0;
 };
 
 export default function ForgotPassword() {
@@ -16,8 +16,8 @@ export default function ForgotPassword() {
     const [isLoading, setIsLoading] = useState(false);
     const [showMessage, setShowMessage] = useState(false);
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-    const [emailCount, setEmailCount] = useState<number>(
-        getLocalStorage("emailCount")
+    const [passwordResetAttempts, setPasswordResetAttempts] = useState<number>(
+        getPasswordResetAttempts()
     );
 
     const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
@@ -56,8 +56,8 @@ export default function ForgotPassword() {
     const apiRequest = async () => {
         setShowMessage(false);
         setIsLoading(true);
-        localStorage.setItem("emailCount", (emailCount + 1).toString());
-        setEmailCount(emailCount + 1);
+        createCookie("emailCount", (passwordResetAttempts + 1).toString(), 1);
+        setPasswordResetAttempts(passwordResetAttempts + 1);
         const url = "/api/sendPasswordRecoveryEmail";
         fetch(`${import.meta.env.VITE_SERVER + url}`, {
             method: "POST",
@@ -97,7 +97,7 @@ export default function ForgotPassword() {
                         {message.message}
                     </div>
                 )}
-                {emailCount < 2 ? (
+                {passwordResetAttempts < 2 ? (
                     <form
                         action=""
                         onSubmit={submitForm}
