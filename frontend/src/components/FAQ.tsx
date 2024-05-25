@@ -10,7 +10,7 @@ export const Faq = () => {
     };
 
     return (
-        <section id="faqs" className="grid grid-cols-12">
+        <section id="faqs" className="grid grid-cols-12 pb-10">
             <div className="col-start-3 col-end-11 flex text-white flex-col items-center gap-10 my-20">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl text-center font-bold mb-8">
                     FAQs

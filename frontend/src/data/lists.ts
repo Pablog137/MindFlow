@@ -29,16 +29,16 @@ export const elements = [
 
 export const links = [
     {
-        name: "Features",
-        url: "#features",
-    },
-    {
         name: "Why MindFlow",
         url: "#why-us",
     },
     {
         name: "Pricing",
         url: "#pricing",
+    },
+    {
+        name: "Features",
+        url: "#features",
     },
     {
         name: "FAQs",
