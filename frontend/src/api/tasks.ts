@@ -17,7 +17,6 @@ export default async function getTasksForUser(url: string) {
         throw new Error("Failed to fetch data");
     }
     const data = await response.json();
-    console.log(data);
     return data;
 }
 
@@ -41,8 +40,6 @@ export const manageTaskAPI = async (
         import.meta.env.VITE_SERVER + url,
         requestOptions
     );
-    // const data = await response.json();
-    // console.log(data);
     if (!response.ok) {
         throw new Error("Failed to fetch data");
     }

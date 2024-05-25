@@ -43,7 +43,9 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
         fetchData();
     }, []);
 
-    const addTask = (task: TodoListTask) => setTasks([...tasks, task]);
+    const addTask = (task: TodoListTask) => {
+        setTasks([...tasks, task]);
+    };
 
     const removeTask = (id: number) =>
         setTasks(tasks.filter((task) => task.id !== id));
@@ -74,7 +76,9 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                         setTasks,
                     }}
                 >
-                    <div className={` text-white bg-[#161922] h-screen ${colMain}`}>
+                    <div
+                        className={` text-white bg-[#161922] h-screen ${colMain}`}
+                    >
                         {isLoading ? (
                             <div className="col-start-6 flex justify-center items-center h-screen ">
                                 <Spinner />

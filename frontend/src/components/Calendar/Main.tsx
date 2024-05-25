@@ -53,6 +53,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
             return task;
         });
         setTasks(newTasks);
+        manageTaskAPI(`/api/calendar-tasks/${id}`, { date: date }, "PATCH");
     };
 
     const deleteTask = (id: number) => {

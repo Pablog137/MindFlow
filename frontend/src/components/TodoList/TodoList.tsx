@@ -3,6 +3,7 @@ import TodoListItem from "./TodoListItem";
 import { useDrop } from "react-dnd";
 import { TaskContext } from "./Main";
 import { useContext } from "react";
+import { manageTaskAPI } from "../../api/tasks";
 
 type Props = {
     status: string;
@@ -15,13 +16,13 @@ export default function TodoList({ status, tasks }: Props) {
     const [{ isOver }, drop] = useDrop({
         accept: "CARD",
         drop: (task: TodoListTask) =>
-            addTaskToList(task.id, status.toLowerCase() as Status),
+            changeStatus(task.id, status.toLowerCase() as Status),
         collect: (monitor) => ({
             isOver: !!monitor.isOver(),
         }),
     });
 
-    const addTaskToList = (id: number, status: Status) => {
+    const changeStatus = (id: number, status: Status) => {
         const newTasks = tasks.map((task) => {
             if (task.id === id) {
                 return { ...task, status, closed_at: null };
@@ -29,6 +30,7 @@ export default function TodoList({ status, tasks }: Props) {
             return task;
         });
         setTasks(newTasks);
+        manageTaskAPI(`/api/todo-list-tasks/${id}`, { status }, "PATCH");
     };
 
     return (
