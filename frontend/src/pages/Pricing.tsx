@@ -69,7 +69,7 @@ export default function Pricing() {
                             Free
                         </h5>
 
-                        <ul className="text-gray-700 text-base">
+                        <ul className="text-gray-700 text-base list-none">
                             <ListElement text="All app features" />
                             <ListElement text="Create up to 5 pages" />
                         </ul>
@@ -100,7 +100,7 @@ export default function Pricing() {
                             {convertPrice()}
                         </h5>
 
-                        <ul className="text-gray-700 text-base">
+                        <ul className="text-gray-700 text-base list-none">
                             <ListElement text="All app features" />
                             <ListElement text="Unlimited pages" />
                             <ListElement text="Access to graphs and analytics" />

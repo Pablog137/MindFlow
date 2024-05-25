@@ -21,17 +21,17 @@ export default function Features() {
                 className="text-white grid grid-cols-12 justify-center mb-32 mx-10 md:mx-20 lg:mx-40"
                 id="features"
             >
-                <div className="col-span-12 mt-20 md:mt-40 flex justify-center items-center">
+                <div className="col-span-12 mt-20 md:mt-28 flex justify-center items-center">
                     <h1 className="text-2xl sm:text-3xl md:text-4xl text-center font-bold mb-8">
                         In perfect sync across all your devices
                     </h1>
                 </div>
                 <div className="col-span-12 lg:col-span-5 flex items-center justify-center flex-col mt-12 p-3">
-                    <h5 className="text-md sm:text-lg md:text-xl font-medium text-center">
-                        Experience the freedom of using our app on any device!
-                        Our app is designed to be fully responsive, ensuring a
-                        smooth and consistent experience whether you're on your
-                        phone, tablet, or desktop.
+                    <h5 className="text-md sm:text-lg md:text-xl font-medium text-center pb-4">
+                        Enjoy the freedom of using MindFlow on any device! Fully
+                        responsive, our app ensures a smooth and consistent
+                        experience whether you're on your phone, tablet, or
+                        desktop.
                     </h5>
                     <div className="flex gap-5 justify-center items-center">
                         <button

@@ -33,9 +33,10 @@ export default function WhyUs() {
                                 </div>
                                 <blockquote>
                                     <p className="text-xl sm:text-2xl font-semibold text-white dark:text-white text-center">
-                                        “MindFlow gives me the peace of mind
-                                        knowing I am doing exactly what I need
-                                        to do, exactly when I need to do it.”
+                                        “With MindFlow, I have the peace of mind
+                                        knowing I'm always on top of my tasks,
+                                        doing exactly what needs to be done,
+                                        exactly when it needs to be done.”
                                     </p>
                                 </blockquote>
                                 <figcaption className="flex items-center mt-6 space-x-3 rtl:space-x-reverse justify-center">

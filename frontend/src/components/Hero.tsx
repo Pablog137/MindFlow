@@ -12,8 +12,9 @@ export default function Hero() {
                 </div>
                 <div className="col-span-12 flex justify-center items-center mt-12 p-3">
                     <h5 className="text-md sm:text-lg md:text-xl text-center font-medium">
-                        Become focused, organized, and calm with MindFlow. The
-                        world’s #1 <br /> task manager and to-do list app.
+                        Achieve focus, organization, and tranquility with
+                        MindFlow. <br /> The world's leading task manager and
+                        to-do list app.
                     </h5>
                 </div>
                 <div className="col-span-12 flex justify-center items-center mt-12">
