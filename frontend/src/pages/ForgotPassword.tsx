@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../assets/img/logo-64.png";
 import Spinner from "../components/Spinner";
 import { createCookie, getCookie } from "../helpers/localstorage";
@@ -19,6 +19,20 @@ export default function ForgotPassword() {
     const [passwordResetAttempts, setPasswordResetAttempts] = useState<number>(
         getPasswordResetAttempts()
     );
+
+    useEffect(() => {
+        const passwordResetAttempts = getPasswordResetAttempts();
+        setPasswordResetAttempts(passwordResetAttempts);
+        if (passwordResetAttempts >= 2) {
+            setIsButtonDisabled(true);
+            setShowMessage(true);
+            setMessage({
+                message:
+                    "You have exceeded the number of password reset attempts for today.",
+                type: "error",
+            });
+        }
+    }, []);
 
     const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
