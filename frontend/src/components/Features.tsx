@@ -18,15 +18,15 @@ export default function Features() {
     return (
         <>
             <div
-                className="text-white grid grid-cols-12 justify-center mb-32 mx-10 md:mx-20 lg:mx-40"
+                className="text-white grid grid-cols-12 justify-center mb-20 mx-10 md:mx-20 lg:mx-40"
                 id="features"
             >
-                <div className="col-span-12 mt-20 md:mt-28 flex justify-center items-center">
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl text-center font-bold mb-8">
+                <div className="col-span-12 mt-12 md:mt-20 flex justify-center items-center">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl text-center font-bold">
                         In perfect sync across all your devices
                     </h1>
                 </div>
-                <div className="col-span-12 lg:col-span-5 flex items-center justify-center flex-col mt-12 p-3">
+                <div className="col-span-12 lg:col-span-5 flex items-center justify-center flex-col p-3">
                     <h5 className="text-md sm:text-lg md:text-xl font-medium text-center pb-4">
                         Enjoy the freedom of using MindFlow on any device! Fully
                         responsive, our app ensures a smooth and consistent
@@ -56,7 +56,7 @@ export default function Features() {
                         </button>
                     </div>
                 </div>
-                <div className="col-span-12 lg:col-span-7 flex justify-center items-center mt-12 p-3">
+                <div className="col-span-12 lg:col-span-7 flex justify-center items-center p-3">
                     <div className="image-container">
                         <img
                             src={`../../public/images/${selectedImage}.png`}

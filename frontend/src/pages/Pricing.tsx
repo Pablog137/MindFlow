@@ -55,7 +55,7 @@ export default function Pricing() {
             </div>
             <div className="p-2 sm:p-0 sm:col-span-6 col-span-12 flex justify-end">
                 <div
-                    className="lg:w-1/2 w-full rounded-xl p-4 overflow-hidden shadow-lg border-t-8 border-purple-400 flex flex-col justify-between "
+                    className="lg:w-3/5 w-full rounded-xl p-4 overflow-hidden shadow-lg border-t-8 border-purple-400 flex flex-col justify-between "
                     style={{ backgroundColor: "#2D2D2D" }}
                 >
                     <div className="px-6 py-4">
@@ -86,7 +86,7 @@ export default function Pricing() {
             </div>
             <div className="p-2 sm:p-0 sm:col-span-6 col-span-12 flex justify-start">
                 <div
-                    className="lg:w-1/2 w-full rounded-xl p-4 overflow-hidden shadow-lg border-t-8 border-purple-400 flex flex-col justify-between"
+                    className="lg:w-3/5 w-full rounded-xl p-4 overflow-hidden shadow-lg border-t-8 border-purple-400 flex flex-col justify-between"
                     style={{ backgroundColor: "#2D2D2D" }}
                 >
                     <div className="px-6 py-4">
