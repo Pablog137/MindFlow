@@ -24,6 +24,10 @@ export const getUserData = () => {
     return JSON.parse(user);
 };
 
+export const removeLocalStorage = (key: string) => {
+    localStorage.removeItem(key);
+}
+
 export const createCookie = (cname: string, cvalue: string, exdays: number) => {
     const d = new Date();
     d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);

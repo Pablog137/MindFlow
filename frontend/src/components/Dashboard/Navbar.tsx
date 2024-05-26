@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import logo from "../../assets/img/logo-32.png";
 import { getUserData } from "../../helpers/localstorage";
-import { useContext } from "react";
+import useAuth from "../../hooks/useAuth";
 import { AuthContext } from "../../context/AuthContext";
 
 type Props = {
@@ -12,12 +12,11 @@ type Props = {
 export default function Navbar({ isAsideOpen, toggleAside }: Props) {
     const [showProfile, setShowProfile] = useState(false);
     const [userData] = useState(getUserData());
-
-    const { logout } = useContext(AuthContext);
+    const { setIsAuthenticated } = useContext(AuthContext);
+    const { logout } = useAuth({ setIsAuthenticated });
 
     const handleSignOut = () => {
         logout();
-        window.location.href = "/";
     };
     return (
         <nav className="w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">

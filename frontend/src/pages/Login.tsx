@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { setLocalStorage } from "../helpers/localstorage.ts";
 import Spinner from "../components/Spinner.tsx";
 import { AuthContext } from "../context/AuthContext.tsx";
+import useAuth from "../hooks/useAuth.ts";
 
 export default function Login() {
     const { values, errors, handleChange, handleSubmit } = useForm("login");
@@ -14,7 +15,6 @@ export default function Login() {
     const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
-    const { login } = useContext(AuthContext);
 
     const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -22,6 +22,9 @@ export default function Login() {
         const isValid = handleSubmit(e);
         isValid && loginAPI();
     };
+
+    const { setIsAuthenticated } = useContext(AuthContext);
+    const { login } = useAuth({ setIsAuthenticated });
 
     const loginAPI = async () => {
         try {

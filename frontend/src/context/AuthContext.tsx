@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { getLocalStorage, setLocalStorage } from "../helpers/localstorage";
+import { getLocalStorage } from "../helpers/localstorage";
 
 interface AuthProviderProps {
     children: React.ReactNode;
@@ -7,15 +7,13 @@ interface AuthProviderProps {
 
 interface Context {
     isAuthenticated: boolean;
-    login: () => void;
-    logout: () => void;
+    setIsAuthenticated: (value: boolean) => void;
     userType: string;
     changeUserType: (newType: string) => void;
 }
 const AuthContext = createContext<Context>({
     isAuthenticated: false,
-    login: () => {},
-    logout: () => {},
+    setIsAuthenticated: () => {},
     userType: "user",
     changeUserType: () => {},
 });
@@ -26,23 +24,18 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     );
     const [userType, setUserType] = useState("");
 
-    const login = () => {
-        setIsAuthenticated(true);
-        setLocalStorage("isAuthenticated", "true");
-    };
-
     const changeUserType = (newType: string) => {
         setUserType(newType);
     };
 
-    const logout = () => {
-        setIsAuthenticated(false);
-        setLocalStorage("isAuthenticated", "false");
-    };
-
     return (
         <AuthContext.Provider
-            value={{ isAuthenticated, login, logout, userType, changeUserType }}
+            value={{
+                isAuthenticated,
+                setIsAuthenticated,
+                userType,
+                changeUserType,
+            }}
         >
             {children}
         </AuthContext.Provider>
