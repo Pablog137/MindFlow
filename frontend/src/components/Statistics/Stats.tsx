@@ -4,7 +4,13 @@ import CustomBarChart from "../Charts/CustomBarChart";
 import CustomPieChart from "../Charts/CustomPieChart";
 import Spinner from "../Spinner";
 
-const difficultyLevels = ["Easy", "Medium", "Hard"];
+// const difficultyLevels = ["Easy", "Medium", "Hard"];
+
+const difficultyLevels: { [key: number]: string } = {
+    1: "Easy",
+    2: "Medium",
+    3: "Hard",
+};
 
 type Props = {
     period: string;
@@ -52,6 +58,7 @@ export default function Stats({ period, type, tasksData }: Props) {
                 startDate = null;
         }
 
+        startDate?.setHours(0, 0, 0);
         return startDate;
     };
 
@@ -62,6 +69,9 @@ export default function Stats({ period, type, tasksData }: Props) {
         const dayOfMonth = date.getDate();
         const dayOfWeek = date.getDay() === 0 ? 7 : date.getDay();
         const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
+        const currentMinutes = date.getMinutes();
+        const currentHours = date.getHours();
+        const currentSeconds = date.getSeconds();
         let endDate = null;
 
         switch (period) {
@@ -85,6 +95,7 @@ export default function Stats({ period, type, tasksData }: Props) {
                 endDate = null;
         }
 
+        endDate?.setHours(currentHours, currentMinutes, currentSeconds);
         return endDate;
     };
 
@@ -133,7 +144,8 @@ export default function Stats({ period, type, tasksData }: Props) {
 
                 if (
                     created_at_date >= periodStartDate &&
-                    created_at_date <= periodEndDate
+                    created_at_date <= periodEndDate &&
+                    task.closed_at === null
                 ) {
                     let key: string;
                     if (type === "todoList" && "difficulty" in task) {
@@ -179,52 +191,72 @@ export default function Stats({ period, type, tasksData }: Props) {
     const getNewTasksDataForBarChart = (): number[] => {
         const newTasksData = [];
         if (periodStartDate && periodEndDate) {
-            const currentDate = new Date(periodStartDate);
+            const currentTime = new Date().toLocaleString("en-US", {
+                timeZone: "Europe/Madrid",
+            });
+            const currentDate = new Date(currentTime);
 
-            while (currentDate <= periodEndDate) {
-                const currentDateISOString = currentDate
-                    .toISOString()
-                    .split("T")[0];
+            periodEndDate.setHours(
+                currentDate.getHours(),
+                currentDate.getMinutes(),
+                currentDate.getSeconds()
+            );
+
+            const startDate = new Date(periodStartDate);
+            const endDate = new Date(periodEndDate);
+            newTasksData.push(0);
+            while (startDate <= endDate) {
                 const newTasksCount =
                     tasksData?.filter((task) => {
-                        const taskDate = new Date(task.created_at)
-                            .toISOString()
-                            .split("T")[0];
-                        return taskDate === currentDateISOString;
+                        const taskDate = new Date(task.created_at);
+                        const currentEndDate = new Date(startDate);
+                        currentEndDate.setHours(23, 59, 59);
+                        return (
+                            taskDate >= startDate && taskDate <= currentEndDate
+                        );
                     }).length || 0;
                 newTasksData.push(newTasksCount);
-                currentDate.setDate(currentDate.getDate() + 1);
+                startDate.setDate(startDate.getDate() + 1);
             }
         }
-
         return newTasksData;
     };
 
     const getClosedTasksDataForBarChart = (): number[] => {
-        const closedTasksData = [];
+        const newTasksData = [];
         if (periodStartDate && periodEndDate) {
-            const currentDate = new Date(periodStartDate);
+            const currentTime = new Date().toLocaleString("en-US", {
+                timeZone: "Europe/Madrid",
+            });
+            const currentDate = new Date(currentTime);
 
-            while (currentDate <= periodEndDate) {
-                const currentDateISOString = currentDate
-                    .toISOString()
-                    .split("T")[0];
-                const closedTasksCount =
+            periodEndDate.setHours(
+                currentDate.getHours(),
+                currentDate.getMinutes(),
+                currentDate.getSeconds()
+            );
+
+            const startDate = new Date(periodStartDate);
+            const endDate = new Date(periodEndDate);
+            newTasksData.push(0);
+            while (startDate <= endDate) {
+                const newTasksCount =
                     tasksData?.filter((task) => {
                         if (task.closed_at) {
-                            const taskDate = new Date(task.closed_at)
-                                ?.toISOString()
-                                .split("T")[0];
-                            return taskDate === currentDateISOString;
+                            const taskDate = new Date(task.closed_at);
+                            const currentEndDate = new Date(startDate);
+                            currentEndDate.setHours(23, 59, 59);
+                            return (
+                                taskDate >= startDate &&
+                                taskDate <= currentEndDate
+                            );
                         }
-                        return false;
                     }).length || 0;
-                closedTasksData.push(closedTasksCount);
-                currentDate.setDate(currentDate.getDate() + 1);
+                newTasksData.push(newTasksCount);
+                startDate.setDate(startDate.getDate() + 1);
             }
         }
-
-        return closedTasksData;
+        return newTasksData;
     };
 
     return isLoading ? (

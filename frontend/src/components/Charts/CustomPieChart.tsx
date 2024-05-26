@@ -1,9 +1,9 @@
 import { PieChart } from "@mui/x-charts";
 
 const difficultyLevels: any = {
-    easy: "#2E96FF",
-    medium: "#02B2AF",
-    hard: "#B800D8",
+    Easy: "#33d926",
+    Medium: "#dafa05",
+    Hard: "#fc2c03",
 };
 const tagTypes: any = {
     Work: "#2E96FF",
@@ -19,6 +19,29 @@ type Props = {
 
 export default function CustomPieChart({ prepareChartData, type }: Props) {
     const data = prepareChartData();
+
+    type PieValueType = {
+        id: string;
+        value: number;
+        color: string;
+    };
+
+    const addColor = () => {
+        let coloredData: PieValueType[] = [];
+        if (type === "todoList") {
+            coloredData = data.map((item) => ({
+                ...item,
+                color: difficultyLevels[item.id],
+            }));
+        } else if (type === "calendarTasks") {
+            coloredData = data.map((item) => ({
+                ...item,
+                color: tagTypes[item.id],
+            }));
+        }
+        return coloredData;
+    };
+
     return (
         <>
             <div className="grid grid-cols-12 items-center w-full">
@@ -33,7 +56,7 @@ export default function CustomPieChart({ prepareChartData, type }: Props) {
                             <PieChart
                                 series={[
                                     {
-                                        data: data,
+                                        data: addColor(),
                                         highlightScope: {
                                             faded: "global",
                                             highlighted: "item",

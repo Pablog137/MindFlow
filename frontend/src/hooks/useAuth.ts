@@ -40,7 +40,7 @@ export default function useAuth({
             console.error("Error al cerrar sesión:", error);
         } finally {
             removeUserData();
-            window.location.href = "/";
+            // window.location.href = "/";
         }
     };
 

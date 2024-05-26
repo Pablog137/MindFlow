@@ -13,7 +13,7 @@ type Props = {
 };
 
 export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
-    const [period, setPeriod] = useState<Period>("lastWeek");
+    const [period, setPeriod] = useState<Period>("thisWeek");
     const [type, setType] = useState<Type>("todoList");
     const [isLoading, setIsLoading] = useState(false);
     const [tasksData, setTasksData] = useState<(TodoListTask | CalendarTask)[]>(
