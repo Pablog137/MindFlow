@@ -59,7 +59,7 @@ export default function DetailsProject() {
     return (
         <>
             <i
-                className="fa-regular fa-circle-left text-white text-xl pt-5 ps-5"
+                className="fa-regular fa-circle-left text-white text-xl pt-5 ps-5 cursor-pointer"
                 onClick={navigateToMainPage}
             ></i>
 
