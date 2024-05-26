@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 type Props = {
     isModalOpen: boolean;
     toggleModal: () => void;
-    listElements: ElementNav[];
+    listElements: any[];
 };
 
 export default function ModalSearch({
@@ -11,13 +11,42 @@ export default function ModalSearch({
     toggleModal,
     listElements,
 }: Props) {
+    const modalRef = useRef<HTMLDivElement>(null);
     const [showIcon, setShowIcon] = useState(-1);
     const [searchValue, setSearchValue] = useState("");
 
-    const filteredResults = listElements.filter((element) =>
-        element.text.startsWith(searchValue)
-    );
+    const filteredResults = listElements.filter((element) => {
+        if (element.text) {
+            return element.text
+                .toLowerCase()
+                .startsWith(searchValue.toLowerCase());
+        } else if (element.title) {
+            return element.title
+                .toLowerCase()
+                .startsWith(searchValue.toLowerCase());
+        }
+    });
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                modalRef.current &&
+                !modalRef.current.contains(event.target as Node)
+            ) {
+                toggleModal();
+            }
+        };
+
+        if (isModalOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isModalOpen, toggleModal]);
     return (
         <>
             {isModalOpen && (
@@ -26,6 +55,7 @@ export default function ModalSearch({
                     tabIndex={-1}
                     aria-hidden="true"
                     className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-y-auto overflow-x-hidden z-50 bg-white rounded-lg shadow-md p-3 w-full md:max-w-lg"
+                    ref={modalRef}
                 >
                     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                         <div className="grid grid-cols-12 items-center pt-1 px-2 border-b rounded-t dark:border-gray-600">
@@ -64,7 +94,6 @@ export default function ModalSearch({
                                 <span className="sr-only">Close modal</span>
                             </button>
                         </div>
-                        {/* TODO Bring Data from API (Pages asociated to the user)*/}
                         <ul className="max-h-[35vh] overflow-y-auto p-1">
                             {filteredResults.map((element, index) => {
                                 return (
@@ -75,18 +104,22 @@ export default function ModalSearch({
                                         onMouseLeave={() => setShowIcon(-1)}
                                     >
                                         <a
-                                            href={element.url}
+                                            href={
+                                                element.url ||
+                                                `/new-note/${element.id}`
+                                            }
                                             className="flex items-center justify-between p-1 gap-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                         >
-                                                <i
-                                                    className={
-                                                        element.icon +
-                                                        " text-lg text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                                                    }
-                                                ></i>
-                                                <span className="flex-1 whitespace-nowrap ms-3 lg:flex">
-                                                    {element.text}
-                                                </span>
+                                            <i
+                                                className={`${
+                                                    (element as ElementNav)
+                                                        .icon ||
+                                                    "fa-solid fa-book"
+                                                } text-lg text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white`}
+                                            ></i>
+                                            <span className="flex-1 whitespace-nowrap ms-3 lg:flex">
+                                                {element.title || element.text}
+                                            </span>
                                             {showIcon === index && (
                                                 <i className="fa-regular fa-square-caret-left text-gray-700"></i>
                                             )}

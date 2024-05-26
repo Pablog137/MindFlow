@@ -56,7 +56,7 @@ export default function GithubLogin({
     return (
         <>
             <div className={colsAside}>
-                <Aside isAsideOpen={isAsideOpen} />
+                <Aside isAsideOpen={isAsideOpen} type="github" />
             </div>
             <div className={`bg-[#161922] ${colMain} h-screen`}>
                 <div className="flex flex-col mt-40 justify-center items-center text-white">

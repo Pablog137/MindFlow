@@ -15,6 +15,7 @@ type NotesManagementContext = {
     setNotePages: (content: []) => void;
 };
 
+
 export const NotesManagementContext = createContext<NotesManagementContext>({
     toggleModal: () => {},
     isModalOpen: false,
@@ -26,9 +27,7 @@ export default function AppStructure({ MainComponent }: any) {
     const [isAsideOpen, setIsAsideOpen] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [listElements, setListElements] = useState<ElementNav[]>([]);
-    const [notePages, setNotePages] = useState<
-        { id: string; title: string; content: string }[]
-    >([]);
+    const [notePages, setNotePages] = useState<Note[]>([]);
 
     const createNewNote = () => {
         const id = uuidv4();
@@ -90,7 +89,7 @@ export default function AppStructure({ MainComponent }: any) {
                 <ModalSearch
                     isModalOpen={isModalOpen}
                     toggleModal={toggleModal}
-                    listElements={listElements}
+                    listElements={[...listElements, ...notePages]}
                 />
             </NotesManagementContext.Provider>
         </>

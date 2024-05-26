@@ -21,7 +21,6 @@ export default function Aside({ isAsideOpen, type }: Props) {
         }
         return title;
     };
-
     return (
         <aside
             id="logo-sidebar"
