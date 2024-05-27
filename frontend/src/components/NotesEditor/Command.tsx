@@ -5,33 +5,31 @@ type Props = {
     type: string;
     content: ReactElement | string;
     addCommandToSelected: (command: string) => void;
-    removeCommandFromSelected: (command: string) => void;
-    isSelected: boolean;
+    removeCommandFromSelected: () => void;
+    selectedCommand: string | null;
 };
 
 export default function Command({
-    executeCommand,
     type,
     content,
     addCommandToSelected,
-    isSelected,
+    selectedCommand,
     removeCommandFromSelected,
 }: Props) {
     const handleClick = () => {
-        if (isSelected) {
-            executeCommand(type);
-            removeCommandFromSelected(type);
+        if (selectedCommand === type) {
+            removeCommandFromSelected();
         } else {
-            executeCommand(type);
             addCommandToSelected(type);
         }
     };
+
     return (
         <li>
             <button
                 onClick={handleClick}
                 className={`p-2 lg:p-3 font-serif font-bold hover:bg-gray-200 hover:rounded-md ${
-                    isSelected ? "bg-gray-400 rounded-md hover:bg-gray-400" : ""
+                    selectedCommand === type ? "bg-gray-400 rounded-md" : ""
                 }`}
             >
                 {content}
