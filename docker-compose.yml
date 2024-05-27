@@ -9,15 +9,11 @@ services:
             dockerfile: Dockerfile
         ports:
             - "8000:80"
+        depends_on:
+            - mysql
         volumes:
             - laravel-app-volume:/var/www/html
-        environment:
-            DB_CONNECTION: mysql
-            DB_HOST: mindflowdb.cb8kowws2br7.us-east-1.rds.amazonaws.com
-            DB_PORT: 3306
-            DB_DATABASE: mindflow
-            DB_USERNAME: admin
-            DB_PASSWORD: proyectomindflow    
+
         networks:
             - default
 
@@ -36,10 +32,21 @@ services:
             - default
         stdin_open: true
         tty: true
-
+    mysql: 
+        container_name: mysql
+        image: mysql:5.7
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: PasswordRoot
+        volumes:
+            - mysql-volume:/var/lib/mysql
+        networks:
+                - default
 networks:
     default:
 
 volumes:
     laravel-app-volume:
     react-app-volume:
+    mysql-volume:
