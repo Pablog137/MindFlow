@@ -1,5 +1,5 @@
 import Command from "./Command";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { commandsData } from "../../data/Commands";
 
 export default function Header() {
@@ -9,21 +9,54 @@ export default function Header() {
         document.execCommand(command);
     };
 
-    const addCommandToSelected = (commandType: string) => {
-        // Revert the previous command if there is one
-        if (selectedCommand) {
-            document.execCommand(selectedCommand);
+    interface CommandStates {
+        [key: string]: boolean;
+    }
+    const handleCommandClick = (commandType: string, persistent: boolean) => {
+        if (persistent) {
+            if (selectedCommand === commandType) {
+                document.execCommand(commandType);
+                setSelectedCommand(null);
+            } else {
+                if (selectedCommand) {
+                    document.execCommand(selectedCommand);
+                }
+                setSelectedCommand(commandType);
+                executeCommand(commandType);
+            }
+        } else {
+            executeCommand(commandType);
+            if (selectedCommand) {
+                document.execCommand(selectedCommand);
+                setSelectedCommand(null);
+            }
         }
-        setSelectedCommand(commandType);
-        executeCommand(commandType);
     };
+    useEffect(() => {
+        const checkCommandState = () => {
+            const commandStates: CommandStates = commandsData.reduce(
+                (acc, command) => {
+                    if (command.persistent) {
+                        acc[command.type] = document.queryCommandState(
+                            command.type
+                        );
+                    }
+                    return acc;
+                },
+                {} as CommandStates
+            );
 
-    const removeCommandFromSelected = () => {
-        if (selectedCommand) {
-            document.execCommand(selectedCommand);
-        }
-        setSelectedCommand(null);
-    };
+            const activeCommand = Object.keys(commandStates).find(
+                (cmd) => commandStates[cmd]
+            );
+            setSelectedCommand(activeCommand || null);
+        };
+
+        document.addEventListener("selectionchange", checkCommandState);
+        return () => {
+            document.removeEventListener("selectionchange", checkCommandState);
+        };
+    }, []);
 
     return (
         <header className="p-4 my-5 md:mt-10 flex items-center text-sm md:text-md lg:text-lg justify-around">
@@ -31,11 +64,10 @@ export default function Header() {
                 {commandsData.map((command, index) => (
                     <Command
                         key={index}
-                        executeCommand={executeCommand}
                         type={command.type}
                         content={command.content}
-                        addCommandToSelected={addCommandToSelected}
-                        removeCommandFromSelected={removeCommandFromSelected}
+                        persistent={command.persistent}
+                        handleCommandClick={handleCommandClick}
                         selectedCommand={selectedCommand}
                     />
                 ))}
