@@ -43,6 +43,7 @@ services:
             - mysql-volume:/var/lib/mysql
         networks:
                 - default
+        restart: always
 networks:
     default:
 
