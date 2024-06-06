@@ -1,6 +1,6 @@
 import { TagColors } from "../../common/utils/enum";
 import { useDrag } from "react-dnd";
-import { DragContext } from "./Main";
+import { CalendarContext } from "./Main";
 import { useContext, useEffect } from "react";
 
 type Props = {
@@ -8,7 +8,9 @@ type Props = {
 };
 
 export default function Task({ task }: Props) {
-    const { setIsDraggingInUse } = useContext(DragContext) as DragContextType;
+    const { setIsDraggingInUse } = useContext(
+        CalendarContext
+    ) as DragContextType;
     const [{ isDragging }, drag] = useDrag({
         type: "TASK",
         item: { id: task.id },

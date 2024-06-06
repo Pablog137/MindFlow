@@ -6,11 +6,10 @@ import DeleteTask from "./DeleteTask";
 import { useDrop } from "react-dnd";
 
 type Props = {
-    addTask: (Task: CalendarTask) => void;
     deleteTask: (id: number) => void;
 };
 
-export default function CalendarHeader({ addTask, deleteTask }: Props) {
+export default function CalendarHeader({ deleteTask }: Props) {
     const { monthIndex, setMonthIndex } = useContext(GlobalContext);
 
     function handlePrevMonth() {
@@ -72,7 +71,7 @@ export default function CalendarHeader({ addTask, deleteTask }: Props) {
                 <DeleteTask drop={drop} />
             </div>
 
-            <AddTask addTask={addTask} />
+            <AddTask />
         </header>
     );
 }

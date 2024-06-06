@@ -15,7 +15,19 @@ type Props = {
     colMain: string;
 };
 
-export const DragContext = createContext({});
+interface CalendarContext {
+    setIsDraggingInUse: (condition: boolean) => void;
+    isDraggingInUse: boolean;
+    tasks: CalendarTask[];
+    addTask: (task: CalendarTask) => void;
+    handleNewError: (errorMessage: string) => void;
+    setTasks: (newTasks: CalendarTask[]) => void;
+    updateTaskState: (tempId: number, createdTask: CalendarTask) => void;
+    revertLastState: (tempId: number) => void;
+}
+export const CalendarContext = createContext<CalendarContext>(
+    {} as CalendarContext
+);
 
 export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     const [currentMonth, setCurrentMonth] = useState(getMonth());
@@ -23,6 +35,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     const [tasks, setTasks] = useState<CalendarTask[]>([]);
     const [isDraggingInUse, setIsDraggingInUse] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string>("");
 
     useEffect(() => {
         setCurrentMonth(getMonth(monthIndex));
@@ -75,26 +88,48 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
         setTasks([...tasks, task]);
     };
 
+    const handleNewError = (errorMessage: string) => {
+        setError(errorMessage);
+    };
+
+    const updateTaskState = (tempId: number, createdTask: CalendarTask) => {
+        setTasks((prevTasks) =>
+            prevTasks.map((task) => (task.id === tempId ? createdTask : task))
+        );
+    };
+
+    const revertLastState = (tempId: number) => {
+        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== tempId));
+    };
+
     return (
         <>
             <div className={colsAside + " h-full"}>
                 <Aside isAsideOpen={isAsideOpen} type={"calendar"} />
             </div>
-            <DragContext.Provider
-                value={{ setIsDraggingInUse, isDraggingInUse }}
+            <CalendarContext.Provider
+                value={{
+                    setIsDraggingInUse,
+                    isDraggingInUse,
+                    tasks,
+                    addTask,
+                    setTasks,
+                    handleNewError,
+                    updateTaskState,
+                    revertLastState,
+                }}
             >
                 <DndProvider backend={HTML5Backend}>
-                    <div className={`p-3 sm:p-6 ${colMain} h-screen bg-[#161922] `}>
+                    <div
+                        className={`p-3 sm:p-6 ${colMain} h-screen bg-[#161922] `}
+                    >
                         {isLoading ? (
                             <div className="flex justify-center items-center h-full">
                                 <Spinner />
                             </div>
                         ) : (
                             <>
-                                <CalendarHeader
-                                    addTask={addTask}
-                                    deleteTask={deleteTask}
-                                />
+                                <CalendarHeader deleteTask={deleteTask} />
                                 <Month
                                     month={currentMonth}
                                     tasks={tasks}
@@ -104,7 +139,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                         )}
                     </div>
                 </DndProvider>
-            </DragContext.Provider>
+            </CalendarContext.Provider>
         </>
     );
 }

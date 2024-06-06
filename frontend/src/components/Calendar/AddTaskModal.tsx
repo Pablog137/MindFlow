@@ -1,13 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { TaskTag } from "../../common/utils/enum";
 import FORM_CONTANTS from "../../common/utils/constants";
-import { manageTaskAPI } from "../../api/tasks";
+import { createCalendarTaskAPI } from "../../api/tasks";
+import { CalendarContext } from "./Main";
 
-type Props = {
-    addTask: (task: CalendarTask) => void;
-};
-
-export default function AddTask({ addTask }: Props) {
+export default function AddTask() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [tagText, setTagText] = useState("");
     const [tag, setTag] = useState<Tag | null>(null);
@@ -16,6 +13,8 @@ export default function AddTask({ addTask }: Props) {
     const [errorMessage, setErrorMessage] = useState("");
     const [feedbackMessage, setFeedbackMessage] = useState(false);
     const [hasSubmitted, setHasSubmitted] = useState(false);
+    const { updateTaskState, revertLastState, handleNewError, addTask } =
+        useContext(CalendarContext);
 
     useEffect(() => {
         if (hasSubmitted) validateForm();
@@ -79,8 +78,9 @@ export default function AddTask({ addTask }: Props) {
         if (!validateForm()) {
             return;
         }
+        const tempId = Date.now();
         const newTasks = {
-            id: Math.floor(Math.random() * 1000),
+            id: tempId,
             tag: tag?.Type as TaskTag,
             content: description,
             date: date,
@@ -89,7 +89,14 @@ export default function AddTask({ addTask }: Props) {
         };
 
         addTask(newTasks);
-        manageTaskAPI("/api/calendar-tasks", newTasks, "POST");
+        createCalendarTaskAPI(
+            "/api/calendar-tasks",
+            newTasks,
+            "POST",
+            updateTaskState,
+            revertLastState,
+            handleNewError
+        );
         toggleModal();
         resetForm();
     };

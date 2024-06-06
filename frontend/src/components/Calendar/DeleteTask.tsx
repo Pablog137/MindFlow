@@ -1,4 +1,4 @@
-import { DragContext } from "./Main";
+import { CalendarContext } from "./Main";
 import { useContext } from "react";
 import "../../styles/components/Calendar/DeleteTask.css";
 
@@ -8,7 +8,7 @@ type Props = {
 
 const DeleteTask = ({ drop }: Props) => {
     const { isDraggingInUse, setIsDraggingInUse } = useContext(
-        DragContext
+        CalendarContext
     ) as DragContextType;
 
     const handleDrop = () => {
