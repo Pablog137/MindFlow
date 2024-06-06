@@ -3,7 +3,7 @@ import RatingStar from "./RatingStar";
 import { TaskContext } from "./Main";
 import { useContext } from "react";
 import FORM_CONTANTS from "../../common/utils/constants";
-import { manageTaskAPI } from "../../api/tasks";
+import { createTaskAPI } from "../../api/tasks";
 
 type Props = {
     status: string;
@@ -18,6 +18,8 @@ export default function ModalCreateTask({ status }: Props) {
     const [errorMessage, setErrorMessage] = useState("");
     const [feedbackMessage, setFeedbackMessage] = useState(false);
     const [hasSubmitted, setHasSubmitted] = useState(false);
+    const { updateTaskState, revertLastState, handleNewError } =
+        useContext(TaskContext);
 
     useEffect(() => {
         if (hasSubmitted) validateForm();
@@ -47,7 +49,10 @@ export default function ModalCreateTask({ status }: Props) {
         if (!validateForm()) {
             return;
         }
+        const tempId = Date.now();
+
         const newTask = {
+            id: tempId,
             content,
             difficulty: difficultyLevel,
             due_date: dueDate,
@@ -55,9 +60,15 @@ export default function ModalCreateTask({ status }: Props) {
             closed_at: null,
             created_at: new Date().toISOString(),
         };
-        // create task
-        addTask({ ...newTask, id: Math.random() });
-        manageTaskAPI("/api/todo-list-tasks", newTask, "POST");
+        addTask(newTask);
+        createTaskAPI(
+            "/api/todo-list-tasks",
+            newTask,
+            "POST",
+            updateTaskState,
+            revertLastState,
+            handleNewError
+        );
         resetForm();
         toggleModal();
     };
