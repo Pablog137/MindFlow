@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { getGithubUserData } from "../helpers/localstorage";
 
 const useRepositories = () => {
@@ -12,8 +12,13 @@ const useRepositories = () => {
         getGithubUserData()
     );
 
-    const callRepositoriesRequest = useCallback(() => {
-        console.log("callRepositoriesRequest");
+    useEffect(() => {
+        if (githubUserData && githubUserData.username) {
+            callRepositoriesRequest();
+        }
+    }, [githubUserData]);
+
+    const callRepositoriesRequest = () => {
         const URL = `https://api.github.com/search/repositories?q=user:${githubUserData.username}`;
         setIsLoading(true);
         fetch(URL, {
@@ -44,13 +49,7 @@ const useRepositories = () => {
                 console.error("Failed to fetch repositories:", error);
                 setIsLoading(false);
             });
-    }, [githubUserData]);
-
-    useEffect(() => {
-        if (githubUserData && githubUserData.username) {
-            callRepositoriesRequest();
-        }
-    }, [githubUserData, callRepositoriesRequest]);
+    };
 
     function hasCommits(repo: Repo) {
         const updated_at = new Date(repo.updated_at);

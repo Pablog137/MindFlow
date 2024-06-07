@@ -77,6 +77,7 @@ export function useRepoDetails(state: any, icons: any): RepoDetails {
                 setLanguages(languagesData);
                 setCommits(commitsData);
                 setIssues(issuesData);
+                console.log(issuesData)
                 setIsLoading(false);
             } catch (error) {
                 console.error("Error fetching data:", error);
