@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { IssueShowProject } from "../../data/github";
+import FORM_CONTANTS from "../../common/utils/constants";
 
 type Props = {
     issue: IssueShowProject;
@@ -18,6 +19,7 @@ export default function EditIssue({
 }: Props) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [title, setTitle] = useState(issue.title);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
@@ -28,9 +30,17 @@ export default function EditIssue({
         setTitle(issue.title);
     };
 
+    const handleOnChangeTitle = (newTitle: string) => {
+        setTitle(newTitle);
+        setErrorMessage("");
+    };
+
     const handleOnSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (title.trim() === "" || issue.title === title) return;
+        if (title.trim() === "") {
+            setErrorMessage(FORM_CONTANTS.ERROR_MESSAGE_FILL_FIELDS);
+            return;
+        }
         const updatedIssues = issues.map((i) => {
             if (i.id === issue.id) {
                 return { ...i, title: title };
@@ -121,11 +131,31 @@ export default function EditIssue({
                                         name="title"
                                         className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         onChange={(e) =>
-                                            setTitle(e.target.value)
+                                            handleOnChangeTitle(e.target.value)
                                         }
                                         value={title}
                                     />
                                 </div>
+                                {errorMessage && (
+                                    <div
+                                        className="col-span-2 flex items-center justify-center p-3 mb-3 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+                                        role="alert"
+                                    >
+                                        <svg
+                                            className="flex-shrink-0 inline w-4 h-4 me-3"
+                                            aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                        >
+                                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                        </svg>
+                                        <span className="sr-only">Info</span>
+                                        <div>
+                                            <p>{errorMessage}</p>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                             <div className="flex justify-evenly">
                                 <button
