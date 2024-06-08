@@ -1,9 +1,17 @@
 import Command from "./Command";
 import { useState, useEffect } from "react";
 import { commandsData } from "../../data/Commands";
+import DeleteNote from "./DeleteNote";
 
 export default function Header() {
     const [selectedCommand, setSelectedCommand] = useState<string | null>(null);
+    const [id, setId] = useState<string | null>(null);
+    // Get id from url
+    useEffect(() => {
+        const url = window.location.href;
+        const idFromUrl = url.split("/").pop();
+        setId(idFromUrl || null);
+    }, []);
 
     const executeCommand = (command: string) => {
         document.execCommand(command);
@@ -71,6 +79,7 @@ export default function Header() {
                         selectedCommand={selectedCommand}
                     />
                 ))}
+                {id !== null ? <DeleteNote id={id} /> : null}
             </ul>
         </header>
     );
