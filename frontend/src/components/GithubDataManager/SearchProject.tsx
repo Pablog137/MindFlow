@@ -17,7 +17,7 @@ export default function SearchRepo({ originalRepos, setRepos }: Props) {
     const onChangeSearchValue = (newValue: string) => {
         setSearchValue(newValue);
         const searchResults = originalRepos.filter((repo) =>
-            repo.name.startsWith(newValue)
+            repo.name.toLowerCase().startsWith(newValue.toLocaleLowerCase())
         );
         setRepos(searchResults);
     };
