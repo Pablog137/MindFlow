@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { getLocalStorage } from "../helpers/localstorage";
+import { getLocalStorage, getUserType } from "../helpers/localstorage";
 
 interface AuthProviderProps {
     children: React.ReactNode;
@@ -22,7 +22,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     const [isAuthenticated, setIsAuthenticated] = useState(
         getLocalStorage("isAuthenticated") === "true" ? true : false
     );
-    const [userType, setUserType] = useState("");
+    const [userType, setUserType] = useState(getUserType());
 
     const changeUserType = (newType: string) => {
         setUserType(newType);

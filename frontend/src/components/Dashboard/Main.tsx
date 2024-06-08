@@ -2,6 +2,7 @@ import Aside from "../Aside";
 import logo from "../../assets/img/logo-64.png";
 import { useContext } from "react";
 import { NotesManagementContext } from "../AppStructureContainer";
+import { AuthContext } from "../../context/AuthContext";
 type Props = {
     isAsideOpen: boolean;
     colsAside: string;
@@ -9,8 +10,10 @@ type Props = {
 };
 
 export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
-    const { handleCreateNewNote } = useContext(NotesManagementContext);
-
+    const { handleCreateNewNote, notePages } = useContext(
+        NotesManagementContext
+    );
+    const { userType } = useContext(AuthContext);
     return (
         <>
             <>
@@ -36,14 +39,26 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                         </h5>
                     </div>
                     <div className="border-b border-white w-full mt-20"></div>
-                    <div className="flex justify-center mt-10">
-                        <button
-                            onClick={handleCreateNewNote}
-                            className="bg-purple-400 hover:bg-purple-700 text-white font-semibold px-8 py-2 rounded-md"
-                        >
-                            New note
-                        </button>
-                    </div>
+                    {userType === "user" && notePages.length < 3 && (
+                        <div className="flex justify-center mt-10">
+                            <button
+                                onClick={handleCreateNewNote}
+                                className="bg-purple-400 hover:bg-purple-700 text-white font-semibold px-8 py-2 rounded-md"
+                            >
+                                New note
+                            </button>
+                        </div>
+                    )}
+                    {userType !== "user" && (
+                        <div className="flex justify-center mt-10">
+                            <button
+                                onClick={handleCreateNewNote}
+                                className="bg-purple-400 hover:bg-purple-700 text-white font-semibold px-8 py-2 rounded-md"
+                            >
+                                New note
+                            </button>
+                        </div>
+                    )}
                 </div>
             </>
         </>

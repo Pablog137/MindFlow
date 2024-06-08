@@ -4,6 +4,7 @@ import Search from "./Dashboard/Search";
 import { NotesManagementContext } from "./AppStructureContainer";
 import { useContext } from "react";
 import { isAdmin } from "../helpers/localstorage";
+import { AuthContext } from "../context/AuthContext";
 
 type Props = {
     isAsideOpen: boolean;
@@ -14,6 +15,7 @@ export default function Aside({ isAsideOpen, type }: Props) {
     const { notePages, handleCreateNewNote } = useContext(
         NotesManagementContext
     );
+    const { userType } = useContext(AuthContext);
 
     const handleTitleLength = (title: string) => {
         if (title.length > 12) {
@@ -67,17 +69,34 @@ export default function Aside({ isAsideOpen, type }: Props) {
                                 </a>
                             </li>
                         ))}
-                    <li className="p-2">
-                        <a
-                            onClick={handleCreateNewNote}
-                            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
-                        >
-                            <i className="fa-solid fa-plus text-xl md:text-2xl text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                            <span className="flex-1 whitespace-nowrap ms-3 hidden lg:flex">
-                                New note
-                            </span>
-                        </a>
-                    </li>
+
+                    {userType === "user" && notePages.length < 3 && (
+                        <li className="p-2">
+                            <a
+                                onClick={handleCreateNewNote}
+                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
+                            >
+                                <i className="fa-solid fa-plus text-xl md:text-2xl text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                                <span className="flex-1 whitespace-nowrap ms-3 hidden lg:flex">
+                                    New note
+                                </span>
+                            </a>
+                        </li>
+                    )}
+
+                    {userType !== "user" && (
+                        <li className="p-2">
+                            <a
+                                onClick={handleCreateNewNote}
+                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
+                            >
+                                <i className="fa-solid fa-plus text-xl md:text-2xl text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                                <span className="flex-1 whitespace-nowrap ms-3 hidden lg:flex">
+                                    New note
+                                </span>
+                            </a>
+                        </li>
+                    )}
                 </ul>
             </div>
         </aside>

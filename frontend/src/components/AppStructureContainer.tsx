@@ -18,6 +18,7 @@ type NotesManagementContext = {
         e: React.MouseEvent<HTMLButtonElement>,
         id?: string
     ) => void;
+    // countNotes: number;
 };
 
 export const NotesManagementContext = createContext<NotesManagementContext>({
@@ -35,7 +36,6 @@ export default function AppStructure({ MainComponent }: any) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [listElements, setListElements] = useState<ElementNav[]>([]);
     const [notePages, setNotePages] = useState<Note[]>([]);
-    const [countNotes, setCountNotes] = useState(0);
 
     const createNewNote = () => {
         const id = uuidv4();
@@ -47,13 +47,10 @@ export default function AppStructure({ MainComponent }: any) {
     };
 
     const handleCreateNewNote = () => {
-        if (countNotes < 3) {
-            const newNoteId = createNewNote();
-            setCountNotes(countNotes + 1);
-            setTimeout(() => {
-                window.location.href = "/new-note/" + newNoteId;
-            }, 0);
-        }
+        const newNoteId = createNewNote();
+        setTimeout(() => {
+            window.location.href = "/new-note/" + newNoteId;
+        }, 0);
     };
     const handleDeleteTask = (
         e: React.MouseEvent<HTMLButtonElement>,
@@ -67,7 +64,6 @@ export default function AppStructure({ MainComponent }: any) {
             const newData = data.filter((note: any) => note.id !== id);
             localStorage.setItem("notePages", JSON.stringify(newData));
             setNotePages(newData);
-            setCountNotes(countNotes - 1);
             navigate("/dashboard");
         }
     };
@@ -77,7 +73,6 @@ export default function AppStructure({ MainComponent }: any) {
         const notePages = getLocalStorage("notePages");
         if (notePages !== null) {
             setNotePages(JSON.parse(notePages));
-            setCountNotes(JSON.parse(notePages).length);
         }
     }, []);
 

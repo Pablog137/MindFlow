@@ -18,6 +18,17 @@ export const isAdmin = () => {
     return userParsed.user_type === "admin";
 };
 
+export const getUserType = (): string => {
+    const user = getLocalStorage("user");
+    if (!user) return "user";
+    const userParsed = JSON.parse(user);
+    return userParsed.user_type;
+};
+
+export const clearLocalStorage = () => {
+    localStorage.clear();
+};
+
 export const getUserData = () => {
     const user = getLocalStorage("user");
     if (!user) return null;
@@ -26,7 +37,7 @@ export const getUserData = () => {
 
 export const removeLocalStorage = (key: string) => {
     localStorage.removeItem(key);
-}
+};
 
 export const createCookie = (cname: string, cvalue: string, exdays: number) => {
     const d = new Date();
@@ -50,5 +61,3 @@ export const getCookie = (cname: string) => {
     }
     return "";
 };
-
-
