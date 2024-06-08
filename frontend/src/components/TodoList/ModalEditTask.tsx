@@ -242,7 +242,7 @@ export default function ModalEditTask({
                                     type="submit"
                                     className="text-white bg-purple-500 hover:bg-purple-700 inline-flex items-center  focus:ring-4 focus:outline-none font-semibold rounded-lg text-sm px-5 py-2.5 text-center"
                                 >
-                                    Create Task
+                                    Edit Task
                                 </button>
                             </div>
                         </form>

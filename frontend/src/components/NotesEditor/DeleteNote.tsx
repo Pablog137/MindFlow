@@ -1,27 +1,18 @@
-import { useNavigate } from "react-router-dom";
-import { getLocalStorage } from "../../helpers/localstorage";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import RemoveItem from "../UI-Items/RemoveItem";
+import { NotesManagementContext } from "../AppStructureContainer";
 
 export default function DeleteNote({ id }: { id: string }) {
-    const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const handleDeleteTask = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        const notePages = getLocalStorage("notePages");
-        if (notePages) {
-            const data = JSON.parse(notePages);
-            const newData = data.filter((note: any) => note.id !== id);
-            localStorage.setItem("notePages", JSON.stringify(newData));
-            navigate("/dashboard");
-        }
-    };
+    const { handleDeleteTask } = useContext(NotesManagementContext);
 
     return (
         <RemoveItem
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
             handleDelete={handleDeleteTask}
+            type="note"
+            id={id}
         />
     );
 }

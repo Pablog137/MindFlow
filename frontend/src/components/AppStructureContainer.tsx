@@ -6,6 +6,7 @@ import { elements } from "../data/lists";
 import { createContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { setLocalStorage, getLocalStorage } from "../helpers/localstorage";
+import { useNavigate } from "react-router-dom";
 
 type NotesManagementContext = {
     toggleModal: () => void;
@@ -13,8 +14,11 @@ type NotesManagementContext = {
     notePages: Note[];
     handleCreateNewNote: () => void;
     setNotePages: (content: []) => void;
+    handleDeleteTask: (
+        e: React.MouseEvent<HTMLButtonElement>,
+        id?: string
+    ) => void;
 };
-
 
 export const NotesManagementContext = createContext<NotesManagementContext>({
     toggleModal: () => {},
@@ -22,12 +26,16 @@ export const NotesManagementContext = createContext<NotesManagementContext>({
     notePages: [],
     handleCreateNewNote: () => {},
     setNotePages: () => {},
+    handleDeleteTask: () => {},
 });
 export default function AppStructure({ MainComponent }: any) {
+    const navigate = useNavigate();
+
     const [isAsideOpen, setIsAsideOpen] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [listElements, setListElements] = useState<ElementNav[]>([]);
     const [notePages, setNotePages] = useState<Note[]>([]);
+    const [countNotes, setCountNotes] = useState(0);
 
     const createNewNote = () => {
         const id = uuidv4();
@@ -39,16 +47,38 @@ export default function AppStructure({ MainComponent }: any) {
     };
 
     const handleCreateNewNote = () => {
-        const newNoteId = createNewNote();
-        setTimeout(() => {
-            window.location.href = "/new-note/" + newNoteId;
-        }, 0);
+        if (countNotes < 3) {
+            const newNoteId = createNewNote();
+            setCountNotes(countNotes + 1);
+            setTimeout(() => {
+                window.location.href = "/new-note/" + newNoteId;
+            }, 0);
+        }
+    };
+    const handleDeleteTask = (
+        e: React.MouseEvent<HTMLButtonElement>,
+        id?: string
+    ) => {
+        e.preventDefault();
+        if (!id) return;
+        const notePages = getLocalStorage("notePages");
+        if (notePages) {
+            const data = JSON.parse(notePages);
+            const newData = data.filter((note: any) => note.id !== id);
+            localStorage.setItem("notePages", JSON.stringify(newData));
+            setNotePages(newData);
+            setCountNotes(countNotes - 1);
+            navigate("/dashboard");
+        }
     };
 
     useEffect(() => {
         setListElements(elements);
         const notePages = getLocalStorage("notePages");
-        notePages !== null && setNotePages(JSON.parse(notePages));
+        if (notePages !== null) {
+            setNotePages(JSON.parse(notePages));
+            setCountNotes(JSON.parse(notePages).length);
+        }
     }, []);
 
     const toggleModal = () => setIsModalOpen(!isModalOpen);
@@ -72,6 +102,7 @@ export default function AppStructure({ MainComponent }: any) {
                     notePages,
                     handleCreateNewNote,
                     setNotePages,
+                    handleDeleteTask,
                 }}
             >
                 <div

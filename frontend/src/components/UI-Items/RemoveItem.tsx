@@ -3,14 +3,25 @@ import { Tooltip } from "@mui/material";
 type Props = {
     isModalOpen: boolean;
     setIsModalOpen: (isOpen: boolean) => void;
-    handleDelete: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    handleDelete: (e: React.MouseEvent<HTMLButtonElement>, id?: string) => void;
+    type: string;
+    id?: string;
 };
 
 export default function RemoveItem({
     isModalOpen,
     setIsModalOpen,
     handleDelete,
+    type,
+    id,
 }: Props) {
+    const onDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+        if (type === "note") {
+            handleDelete(e, id);
+        } else {
+            handleDelete(e);
+        }
+    };
     return (
         <>
             <Tooltip title="Delete" arrow>
@@ -78,7 +89,8 @@ export default function RemoveItem({
                                 </button>
                                 <button
                                     type="submit"
-                                    onClick={handleDelete}
+                                    // onClick={handleDelete}
+                                    onClick={onDelete}
                                     className="py-2 px-3 text-xs sm:text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
                                 >
                                     Yes, I'm sure

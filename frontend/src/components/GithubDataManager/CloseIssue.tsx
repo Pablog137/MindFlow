@@ -43,6 +43,7 @@ export default function CloseIssue({
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
             handleDelete={handleCloseIssue}
+            type="issue"
         />
     );
 }
