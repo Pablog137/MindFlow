@@ -9,3 +9,6 @@ export default FORM_CONTANTS;
 
 export const PASSWORD_MIN_LENGTH = 6;
 export const NAME_MIN_LENGTH = 3;
+
+export const NOTE_LIMIT_USER = 3;
+export const NOTE_LIMIT_PREMIUM = 10;
