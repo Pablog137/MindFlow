@@ -24,7 +24,6 @@ class CreatePaymentRequest extends FormRequest
         return [
             'payment_date' => 'required|date',
             'expiration_date' => 'required|date',
-            'user_id' => 'required|integer|exists:users,id'
         ];
     }
 }

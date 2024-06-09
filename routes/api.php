@@ -48,9 +48,7 @@ Route::middleware('auth:sanctum')->group(function () {
     ])->only(['index', 'show', 'store', 'update', 'destroy']);
 
     // Payments
-    Route::apiResource('payments', PaymentController::class)->parameters([
-        'payments' => 'id'
-    ])->only(['index', 'show', 'store', 'update', 'destroy']);
+    Route::post('payments', [PaymentController::class, 'store']);
 
     // TodoLists
     Route::apiResource('todo-lists', TodoListController::class)->parameters([
