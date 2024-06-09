@@ -1,7 +1,8 @@
 import { useContext } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { getLocalStorage } from "../helpers/localstorage";
+import NotFound from "../pages/NotFound";
 
 export default function ProtectedRouteForuser() {
     const { isAuthenticated, userType } = useContext(AuthContext);
@@ -10,6 +11,6 @@ export default function ProtectedRouteForuser() {
         userType === "user" ? (
         <Outlet />
     ) : (
-        <Navigate to="/*" />
+        <NotFound />
     );
 }

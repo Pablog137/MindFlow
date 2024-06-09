@@ -2,14 +2,17 @@ import giftImg from "../assets/img/gift-64.png";
 import moneyImg from "../assets/img/money-64.png";
 import ListElement from "../components/UI-Items/ListElement";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { currencies } from "../data/Currencies";
 import { ChangeEvent } from "react";
+import ListWrongElement from "../components/UI-Items/ListWrongElement";
+import { AuthContext } from "../context/AuthContext";
 
-const BASE_PRICE = 3.99;
+const BASE_PRICE = 1.99;
 
 export default function Pricing() {
     const [currency, setCurrency] = useState(currencies[0]);
+    const { isAuthenticated, userType } = useContext(AuthContext);
 
     const onChangeCurrency = (e: ChangeEvent<HTMLSelectElement>) => {
         const currencyFound = currencies.find(
@@ -70,18 +73,28 @@ export default function Pricing() {
                         </h5>
 
                         <ul className="text-gray-700 text-base list-none">
-                            <ListElement text="All app features" />
-                            <ListElement text="Create up to 5 pages" />
+                            <ListElement text="Free access to many app features" />
+                            <ListElement text="Create up to 3 note pages" />
+                            <ListWrongElement text="No access to graphs and analytics" />
                         </ul>
                     </div>
-                    <div className="flex justify-center mt-4">
-                        <Link
-                            to="register"
-                            className="bg-purple-500 hover:bg-purple-700 text-white font-semibold p-3 rounded-full "
-                        >
-                            Choose plan
-                        </Link>
-                    </div>
+                    {!isAuthenticated && (
+                        <div className="flex justify-center mt-4">
+                            <Link
+                                to="/register"
+                                className="bg-purple-500 hover:bg-purple-700 text-white font-semibold p-3 rounded-full "
+                            >
+                                Choose plan
+                            </Link>
+                        </div>
+                    )}
+                    {isAuthenticated && userType === "user" && (
+                        <div className="flex justify-center mt-4">
+                            <button className="bg-purple-500 text-white font-semibold p-3 rounded-full ">
+                                Current plan
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="p-2 sm:p-0 sm:col-span-6 col-span-12 flex justify-start">
@@ -102,17 +115,32 @@ export default function Pricing() {
 
                         <ul className="text-gray-700 text-base list-none">
                             <ListElement text="All app features" />
-                            <ListElement text="Unlimited pages" />
+                            <ListElement text="Create up to 10 note pages" />
                             <ListElement text="Access to graphs and analytics" />
                         </ul>
                     </div>
                     <div className="flex justify-center mt-4">
-                        <Link
-                            to="register"
-                            className="bg-purple-500 hover:bg-purple-700 text-white font-semibold p-3 rounded-full "
-                        >
-                            Choose plan
-                        </Link>
+                        {!isAuthenticated && (
+                            <Link
+                                to="/register"
+                                className="bg-purple-500 hover:bg-purple-700 text-white font-semibold p-3 rounded-full "
+                            >
+                                Choose plan
+                            </Link>
+                        )}
+                        {isAuthenticated && userType === "user" && (
+                            <Link
+                                to="/payment"
+                                className="bg-purple-500 hover:bg-purple-700 text-white font-semibold p-3 rounded-full "
+                            >
+                                Choose plan
+                            </Link>
+                        )}
+                        {isAuthenticated && userType === "premium" && (
+                            <button className="bg-purple-500  text-white font-semibold p-3 rounded-full ">
+                                Current plan
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>

@@ -63,8 +63,8 @@ class User extends Authenticatable
         return $this->hasOne(Calendar::class);
     }
 
-    public function notes()
-    {
-        return $this->hasMany(Note::class);
-    }
+    // public function notes()
+    // {
+    //     return $this->hasMany(Note::class);
+    // }
 }
