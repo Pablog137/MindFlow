@@ -10,6 +10,6 @@ export default function ProtectedRouteForuser() {
         userType === "user" ? (
         <Outlet />
     ) : (
-        <Navigate to="/login" />
+        <Navigate to="/*" />
     );
 }
