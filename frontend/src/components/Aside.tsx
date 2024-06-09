@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { isAdmin } from "../helpers/localstorage";
 import { AuthContext } from "../context/AuthContext";
 import { NOTE_LIMIT_PREMIUM, NOTE_LIMIT_USER } from "../common/utils/constants";
+import { Link } from "react-router-dom";
 
 type Props = {
     isAsideOpen: boolean;
@@ -73,17 +74,30 @@ export default function Aside({ isAsideOpen, type }: Props) {
 
                     {userType === "user" &&
                         notePages.length < NOTE_LIMIT_USER && (
-                            <li className="p-2">
-                                <a
-                                    onClick={handleCreateNewNote}
-                                    className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
-                                >
-                                    <i className="fa-solid fa-plus text-xl md:text-2xl text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                                    <span className="flex-1 whitespace-nowrap ms-3 hidden lg:flex">
-                                        New note
-                                    </span>
-                                </a>
-                            </li>
+                            <>
+                                <li className="p-2">
+                                    <a
+                                        onClick={handleCreateNewNote}
+                                        className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
+                                    >
+                                        <i className="fa-solid fa-plus text-xl md:text-2xl text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                                        <span className="flex-1 whitespace-nowrap ms-3 hidden lg:flex">
+                                            New note
+                                        </span>
+                                    </a>
+                                </li>
+                                <li className="p-2">
+                                    <Link
+                                        to="/payment"
+                                        className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
+                                    >
+                                        <i className="fa-solid fa-lock text-xl md:text-2xl text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                                        <span className="flex-1 whitespace-nowrap ms-3 hidden lg:flex">
+                                            Premium
+                                        </span>
+                                    </Link>
+                                </li>
+                            </>
                         )}
 
                     {userType === "premium" &&

@@ -56,24 +56,27 @@ export default function Payment() {
                 setServerError(data.error);
                 return;
             } else if (data.message) {
-                changeUserType("premium");
                 setFeedBackMessage(data.message);
             }
 
             setTimeout(() => {
                 navigate("/dashboard");
+                changeUserType("premium");
             }, 2000);
         } catch (error) {
             console.error(error);
         }
     };
+    const navigateToMainPage = () => {
+        navigate("/dashboard");
+    };
 
     return (
         <>
-            {/* <i
+            <i
                 className="fa-regular fa-circle-left text-white text-xl pt-5 ps-5 cursor-pointer"
                 onClick={navigateToMainPage}
-            ></i> */}
+            ></i>
 
             <div className="flex justify-center items-center min-h-screen">
                 <div className="text-white grid place-items-center px-6">

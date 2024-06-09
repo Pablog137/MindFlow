@@ -3,7 +3,10 @@ import logo from "../../assets/img/logo-64.png";
 import { useContext } from "react";
 import { NotesManagementContext } from "../AppStructureContainer";
 import { AuthContext } from "../../context/AuthContext";
-import { NOTE_LIMIT_PREMIUM, NOTE_LIMIT_USER } from "../../common/utils/constants";
+import {
+    NOTE_LIMIT_PREMIUM,
+    NOTE_LIMIT_USER,
+} from "../../common/utils/constants";
 type Props = {
     isAsideOpen: boolean;
     colsAside: string;
@@ -40,26 +43,28 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                         </h5>
                     </div>
                     <div className="border-b border-white w-full mt-20"></div>
-                    {userType === "user" && notePages.length < NOTE_LIMIT_USER && (
-                        <div className="flex justify-center mt-10">
-                            <button
-                                onClick={handleCreateNewNote}
-                                className="bg-purple-400 hover:bg-purple-700 text-white font-semibold px-8 py-2 rounded-md"
-                            >
-                                New note
-                            </button>
-                        </div>
-                    )}
-                    {userType === "premium" && notePages.length < NOTE_LIMIT_PREMIUM && (
-                        <div className="flex justify-center mt-10">
-                            <button
-                                onClick={handleCreateNewNote}
-                                className="bg-purple-400 hover:bg-purple-700 text-white font-semibold px-8 py-2 rounded-md"
-                            >
-                                New note
-                            </button>
-                        </div>
-                    )}
+                    {userType === "user" &&
+                        notePages.length < NOTE_LIMIT_USER && (
+                            <div className="flex justify-center mt-10">
+                                <button
+                                    onClick={handleCreateNewNote}
+                                    className="bg-purple-400 hover:bg-purple-700 text-white font-semibold px-8 py-2 rounded-md"
+                                >
+                                    New note
+                                </button>
+                            </div>
+                        )}
+                    {userType === "premium" &&
+                        notePages.length < NOTE_LIMIT_PREMIUM && (
+                            <div className="flex justify-center mt-10">
+                                <button
+                                    onClick={handleCreateNewNote}
+                                    className="bg-purple-400 hover:bg-purple-700 text-white font-semibold px-8 py-2 rounded-md"
+                                >
+                                    New note
+                                </button>
+                            </div>
+                        )}
                     {userType === "admin" && (
                         <div className="flex justify-center mt-10">
                             <button
