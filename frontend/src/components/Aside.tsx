@@ -3,7 +3,6 @@ import { elements } from "../data/lists";
 import Search from "./Dashboard/Search";
 import { NotesManagementContext } from "./AppStructureContainer";
 import { useContext } from "react";
-import { isAdmin } from "../helpers/localstorage";
 import { AuthContext } from "../context/AuthContext";
 import { NOTE_LIMIT_PREMIUM, NOTE_LIMIT_USER } from "../common/utils/constants";
 import { Link } from "react-router-dom";
@@ -38,7 +37,9 @@ export default function Aside({ isAsideOpen, type }: Props) {
                     <Search />
                     {elements.map(
                         (element, index) =>
-                            (!element.protected || isAdmin()) && (
+                            (!element.protected ||
+                                userType === "admin" ||
+                                userType === "premium") && (
                                 <AsideElement
                                     key={index}
                                     text={element.text}

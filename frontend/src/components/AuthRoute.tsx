@@ -1,14 +1,16 @@
-import { isAdmin } from "../helpers/localstorage";
+import { AuthContext } from "../context/AuthContext";
 import NotFound from "../pages/NotFound";
-import React from "react";
-
+import React, { useContext } from "react";
 
 interface AuthRouteProps {
     children: React.ReactNode;
 }
 
 const AuthRoute: React.FC<AuthRouteProps> = ({ children }) => {
-    return isAdmin() ? <>{children}</> : <NotFound />;
+    const { userType } = useContext(AuthContext);
+    const hasPrivileges = userType === "admin" || userType === "premium";
+
+    return hasPrivileges ? <>{children}</> : <NotFound />;
 };
 
 export default AuthRoute;
