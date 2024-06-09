@@ -1,9 +1,10 @@
 import logo from "../assets/img/logo-64.png";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner.tsx";
 import usePayment from "../hooks/usePayment.ts";
 import { getLocalStorage } from "../helpers/localstorage.ts";
+import { AuthContext } from "../context/AuthContext.tsx";
 
 export default function Payment() {
     const {
@@ -17,6 +18,7 @@ export default function Payment() {
     const errorMessage = errors.cardNumber || errors.cvv || errors.expiryDate;
     const [serverError, setServerError] = useState("");
     const [showSpinner, setShowSpinner] = useState(false);
+    const { changeUserType } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -54,8 +56,10 @@ export default function Payment() {
                 setServerError(data.error);
                 return;
             } else if (data.message) {
+                changeUserType("premium");
                 setFeedBackMessage(data.message);
             }
+
             setTimeout(() => {
                 navigate("/dashboard");
             }, 2000);
