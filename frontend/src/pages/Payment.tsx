@@ -75,7 +75,7 @@ export default function Payment() {
                 <div className="text-white grid place-items-center px-6">
                     <img src={logo} alt="Logo" />
                     <h1 className="text-3xl text-center font-bold py-8 md:p-10">
-                        Create an account
+                        Online Payment
                     </h1>
                     {errorMessage && showError && (
                         <div className="w-full text-red-400 text-sm text-center p-3 mb-5 rounded border border-red-900 bg-red-950">

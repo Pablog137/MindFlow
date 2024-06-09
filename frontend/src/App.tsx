@@ -20,6 +20,7 @@ import AuthRoute from "./components/AuthRoute";
 import ForgotPassword from "./pages/ForgotPassword";
 import CreateNewPassword from "./pages/CreateNewPassword";
 import Payment from "./pages/Payment";
+import ProtectedRouteForuser from "./components/ProtectedRouteForUse";
 
 export default function App() {
     return (
@@ -38,9 +39,11 @@ export default function App() {
                             element={<CreateNewPassword />}
                         />
                         <Route path="/register" element={<Register />} />
+                        <Route element={<ProtectedRouteForuser />}>
+                            <Route path="/payment" element={<Payment />} />
+                        </Route>
 
                         <Route element={<ProtectedRoute />}>
-                            <Route path="/payment" element={<Payment />} />
                             <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/todo-list" element={<TodoList />} />
                             <Route path="/calendar" element={<Calendar />} />
