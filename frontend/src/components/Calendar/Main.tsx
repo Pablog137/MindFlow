@@ -20,7 +20,7 @@ interface CalendarContext {
     isDraggingInUse: boolean;
     tasks: CalendarTask[];
     addTask: (task: CalendarTask) => void;
-    handleNewError: (errorMessage: string) => void;
+    // handleNewError: (errorMessage: string) => void;
     setTasks: (newTasks: CalendarTask[]) => void;
     updateTaskState: (tempId: number, createdTask: CalendarTask) => void;
     revertLastState: (tempId: number) => void;
@@ -35,7 +35,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     const [tasks, setTasks] = useState<CalendarTask[]>([]);
     const [isDraggingInUse, setIsDraggingInUse] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string>("");
+    // const [error, setError] = useState<string>("");
 
     useEffect(() => {
         setCurrentMonth(getMonth(monthIndex));
@@ -88,9 +88,9 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
         setTasks([...tasks, task]);
     };
 
-    const handleNewError = (errorMessage: string) => {
-        setError(errorMessage);
-    };
+    // const handleNewError = (errorMessage: string) => {
+    //     setError(errorMessage);
+    // };
 
     const updateTaskState = (tempId: number, createdTask: CalendarTask) => {
         setTasks((prevTasks) =>
@@ -114,7 +114,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                     tasks,
                     addTask,
                     setTasks,
-                    handleNewError,
+                    // handleNewError,
                     updateTaskState,
                     revertLastState,
                 }}

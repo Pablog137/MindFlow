@@ -51,7 +51,7 @@ export const createTaskAPI = async (
     method: string,
     updateTaskState: (tempId: number, createdTask: TodoListTask) => void,
     revertLastState: (tempId: number) => void,
-    handleNewError: (error: string) => void
+    // handleNewError: (error: string) => void
 ) => {
     try {
         const token = getLocalStorage("token");
@@ -73,7 +73,7 @@ export const createTaskAPI = async (
         updateTaskState(newTask.id, createdTask.data);
     } catch (error: any) {
         console.error("Error : " + error);
-        handleNewError(error.message);
+        // handleNewError(error.message);
         // Revertir el estado si la llamada a la API falla
         revertLastState(newTask.id);
     }
@@ -85,7 +85,7 @@ export const createCalendarTaskAPI = async (
     method: string,
     updateTaskState: (tempId: number, createdTask: CalendarTask) => void,
     revertLastState: (tempId: number) => void,
-    handleNewError: (error: string) => void
+    // handleNewError: (error: string) => void
 ) => {
     try {
         const token = getLocalStorage("token");
@@ -107,7 +107,7 @@ export const createCalendarTaskAPI = async (
         updateTaskState(newTask.id, createdTask.data);
     } catch (error: any) {
         console.error("Error : " + error);
-        handleNewError(error.message);
+        // handleNewError(error.message);
         // Revertir el estado si la llamada a la API falla
         revertLastState(newTask.id);
     }

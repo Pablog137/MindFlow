@@ -18,7 +18,7 @@ export default function ModalCreateTask({ status }: Props) {
     const [errorMessage, setErrorMessage] = useState("");
     const [feedbackMessage, setFeedbackMessage] = useState(false);
     const [hasSubmitted, setHasSubmitted] = useState(false);
-    const { updateTaskState, revertLastState, handleNewError } =
+    const { updateTaskState, revertLastState } =
         useContext(TaskContext);
 
     useEffect(() => {
@@ -67,7 +67,7 @@ export default function ModalCreateTask({ status }: Props) {
             "POST",
             updateTaskState,
             revertLastState,
-            handleNewError
+            // handleNewError
         );
         resetForm();
         toggleModal();

@@ -17,7 +17,7 @@ interface TaskContext {
     addTask: (task: TodoListTask) => void;
     removeTask: (id: number) => void;
     editTask: (id: number, task: any) => void;
-    handleNewError: (errorMessage: string) => void;
+    // handleNewError: (errorMessage: string) => void;
     setTasks: (newTasks: TodoListTask[]) => void;
     updateTaskState: (tempId: number, createdTask: TodoListTask) => void;
     revertLastState: (tempId: number) => void;
@@ -28,7 +28,7 @@ export const TaskContext = createContext<TaskContext>({} as TaskContext);
 export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
     const [tasks, setTasks] = useState<TodoListTask[]>([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string>("");
+    // const [error, setError] = useState<string>("");
 
     useEffect(() => {
         setIsLoading(true);
@@ -51,9 +51,9 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
         setTasks([...tasks, task]);
     };
 
-    const handleNewError = (errorMessage: string) => {
-        setError(errorMessage);
-    };
+    // const handleNewError = (errorMessage: string) => {
+    //     setError(errorMessage);
+    // };
 
     const updateTaskState = (tempId: number, createdTask: TodoListTask) => {
         setTasks((prevTasks) =>
@@ -91,7 +91,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                         addTask,
                         removeTask,
                         editTask,
-                        handleNewError,
+                        // handleNewError,
                         setTasks,
                         updateTaskState,
                         revertLastState,

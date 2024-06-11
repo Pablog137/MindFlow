@@ -13,7 +13,7 @@ export default function AddTask() {
     const [errorMessage, setErrorMessage] = useState("");
     const [feedbackMessage, setFeedbackMessage] = useState(false);
     const [hasSubmitted, setHasSubmitted] = useState(false);
-    const { updateTaskState, revertLastState, handleNewError, addTask } =
+    const { updateTaskState, revertLastState, addTask } =
         useContext(CalendarContext);
 
     useEffect(() => {
@@ -95,7 +95,7 @@ export default function AddTask() {
             "POST",
             updateTaskState,
             revertLastState,
-            handleNewError
+            // handleNewError
         );
         toggleModal();
         resetForm();
