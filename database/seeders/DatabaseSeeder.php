@@ -28,25 +28,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        User::factory()->create([
-            'name' => 'admin',
-            'email' => 'pablogutierrezvaldin@gmail.com',
-            'password' => bcrypt('admin666'),
-            "user_type" => "admin",
-        ]);
-        User::factory()->create([
-            'name' => 'premium',
-            'email' => 'premium@gmail.com',
-            'password' => bcrypt('admin666'),
-            "user_type" => "premium",
-        ]);
-        User::factory()->create([
-            'name' => 'user',
-            'email' => 'user@gmail.com',
-            'password' => bcrypt('admin666'),
-            "user_type" => "user",
-        ]);
-
+    
         // User::factory()->count(30)->state(['user_type' => 'user'])->create();
         // User::factory()->count(20)->state(['user_type' => 'premium'])->create();
         // User::factory()->count(3)->state(['user_type' => 'admin'])->create();
