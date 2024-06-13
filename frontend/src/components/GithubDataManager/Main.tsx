@@ -33,10 +33,10 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                 />
             ) : (
                 <>
-                    <div className={colsAside}>
+                    <div className={colsAside + " h-full"}>
                         <Aside isAsideOpen={isAsideOpen} type={"github"} />
                     </div>
-                    <div className={`bg-[#161922] ${colMain}`}>
+                    <div className={`bg-[#161922] ${colMain + " h-full"} `}>
                         {isLoading ? (
                             <div className="col-start-6 flex justify-center items-center h-screen">
                                 <Spinner />
@@ -51,7 +51,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                                 </div>
                                 {filteredRepositories.length > 0 ? (
                                     <div
-                                        className={`px-8 pt-10 md:px-20 md:pt-20 grid grid-cols-12 gap-6 height`}
+                                        className={`px-8 pt-10 md:px-20 md:pt-20 grid grid-cols-12 gap-6 `}
                                     >
                                         {filteredRepositories.map(
                                             (card, index) => (

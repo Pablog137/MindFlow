@@ -6,7 +6,6 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { NOTE_LIMIT_PREMIUM, NOTE_LIMIT_USER } from "../common/utils/constants";
 import { Link } from "react-router-dom";
-
 type Props = {
     isAsideOpen: boolean;
     type?: string;
@@ -24,16 +23,17 @@ export default function Aside({ isAsideOpen, type }: Props) {
         }
         return title;
     };
+
     return (
         <aside
             id="logo-sidebar"
-            className={`h-full pt-6 transition-transform ${
+            className={`h-full min-h-screen pt-6 transition-transform ${
                 isAsideOpen ? "-translate-x-0" : "-translate-x-full"
-            } bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 pt-10`}
+            } bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 pt-10 flex-shrink-0 overflow-y-auto`}
             aria-label="Sidebar"
         >
-            <div className="h-full md:px-3 xl:px-4 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
-                <ul className="font-medium flex flex-col items-center lg:items-start justify-start list-none">
+            <div className="h-full flex flex-col md:px-3 xl:px-4 pb-4 bg-white dark:bg-gray-800">
+                <ul className="font-medium flex flex-col items-center lg:items-start justify-start list-none flex-grow">
                     <Search />
                     {elements.map(
                         (element, index) =>

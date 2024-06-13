@@ -121,7 +121,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
             >
                 <DndProvider backend={HTML5Backend}>
                     <div
-                        className={`p-3 sm:p-6 ${colMain} h-screen bg-[#161922] `}
+                        className={`p-3 sm:p-6 ${colMain} h-full bg-[#161922] `}
                     >
                         {isLoading ? (
                             <div className="flex justify-center items-center h-full">

@@ -72,12 +72,12 @@ export default function Editor({ colMain }: Props) {
     };
     return (
         <div
-            className={`text-white bg-[#161922] flex flex-col height ${colMain}`}
+            className={`text-white bg-[#161922] flex flex-col h-full ${colMain}`}
         >
             <Header />
 
             <div
-                className="h-screen p-4 md:p-8 lg:p-14 editable-div"
+                className="h-full p-4 md:p-8 lg:p-14 editable-div"
                 contentEditable="true"
                 dangerouslySetInnerHTML={{ __html: content }}
                 onInput={handleOnChangeContent}

@@ -47,7 +47,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                 <Aside isAsideOpen={isAsideOpen} type={"statistics"} />
             </div>
             <div
-                className={`text-white bg-[#161922] px-6 md:px-12 pt-10 md:pt-14 height ${colMain}`}
+                className={`text-white bg-[#161922] px-6 md:px-12 pt-10 md:pt-14 h-full ${colMain}`}
             >
                 {isLoading ? (
                     <div className="flex justify-center items-center h-full ">

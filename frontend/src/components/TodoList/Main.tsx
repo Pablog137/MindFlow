@@ -98,7 +98,7 @@ export default function Main({ isAsideOpen, colsAside, colMain }: Props) {
                     }}
                 >
                     <div
-                        className={` text-white bg-[#161922] h-screen ${colMain}`}
+                        className={` text-white bg-[#161922] h-full ${colMain}`}
                     >
                         {isLoading ? (
                             <div className="col-start-6 flex justify-center items-center h-screen ">
