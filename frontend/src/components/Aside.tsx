@@ -73,9 +73,9 @@ export default function Aside({ isAsideOpen, type }: Props) {
                             </li>
                         ))}
 
-                    {userType === "user" &&
-                        notePages.length < NOTE_LIMIT_USER && (
-                            <>
+                    {userType === "user" && (
+                        <>
+                            {notePages.length < NOTE_LIMIT_USER && (
                                 <li className="p-2">
                                     <a
                                         onClick={handleCreateNewNote}
@@ -87,19 +87,20 @@ export default function Aside({ isAsideOpen, type }: Props) {
                                         </span>
                                     </a>
                                 </li>
-                                <li className="p-2">
-                                    <Link
-                                        to="/payment"
-                                        className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
-                                    >
-                                        <i className="fa-solid fa-lock text-xl md:text-2xl text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                                        <span className="flex-1 whitespace-nowrap ms-3 hidden lg:flex">
-                                            Premium
-                                        </span>
-                                    </Link>
-                                </li>
-                            </>
-                        )}
+                            )}
+                            <li className="p-2">
+                                <Link
+                                    to="/payment"
+                                    className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
+                                >
+                                    <i className="fa-solid fa-lock text-xl md:text-2xl text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                                    <span className="flex-1 whitespace-nowrap ms-3 hidden lg:flex">
+                                        Premium
+                                    </span>
+                                </Link>
+                            </li>
+                        </>
+                    )}
 
                     {userType === "premium" &&
                         notePages.length < NOTE_LIMIT_PREMIUM && (
