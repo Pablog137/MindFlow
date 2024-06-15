@@ -16,7 +16,7 @@ type NotesManagementContext = {
     setNotePages: (content: []) => void;
     handleDeleteTask: (
         e: React.MouseEvent<HTMLButtonElement>,
-        id?: string
+        id?: string | number
     ) => void;
     // countNotes: number;
 };
@@ -54,7 +54,7 @@ export default function AppStructure({ MainComponent }: any) {
     };
     const handleDeleteTask = (
         e: React.MouseEvent<HTMLButtonElement>,
-        id?: string
+        id?: string | number
     ) => {
         e.preventDefault();
         if (!id) return;

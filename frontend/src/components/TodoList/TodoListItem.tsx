@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { useDrag } from "react-dnd";
 import Tooltip from "@mui/material/Tooltip";
 import { manageTaskAPI } from "../../api/tasks";
+import RemoveItem from "../UI-Items/RemoveItem";
 
 type Props = {
     task: TodoListTask;
@@ -17,6 +18,7 @@ const priorityColors = ["green", "yellow", "red"];
 
 export default function TodoListItem({ task, id, tasks }: Props) {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const { removeTask } = useContext(TaskContext);
 
     const [{ isDragging }, drag] = useDrag({
@@ -78,14 +80,21 @@ export default function TodoListItem({ task, id, tasks }: Props) {
                         </div>
                     </Tooltip>
                 )}
-                <Tooltip title="Delete" arrow>
+                {/* <Tooltip title="Delete" arrow>
                     <button>
                         <i
                             className="fa-solid fa-trash text-red-500 hover:text-red-300 hover:text-xl text-lg"
                             onClick={handleDeleteTask}
                         ></i>
                     </button>
-                </Tooltip>
+                </Tooltip> */}
+                <RemoveItem
+                    id={id}
+                    type="todolist"
+                    handleDelete={handleDeleteTask}
+                    isModalOpen={isDeleteModalOpen}
+                    setIsModalOpen={setIsDeleteModalOpen}
+                />
             </div>
             <ModalEditTask
                 toggleModal={toggleModal}

@@ -3,9 +3,9 @@ import { Tooltip } from "@mui/material";
 type Props = {
     isModalOpen: boolean;
     setIsModalOpen: (isOpen: boolean) => void;
-    handleDelete: (e: React.MouseEvent<HTMLButtonElement>, id?: string) => void;
+    handleDelete: (e: React.MouseEvent<HTMLButtonElement>, id?: string | number) => void;
     type: string;
-    id?: string;
+    id?: string | number;
 };
 
 export default function RemoveItem({
@@ -16,7 +16,9 @@ export default function RemoveItem({
     id,
 }: Props) {
     const onDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-        if (type === "note") {
+        if (type === "note" && typeof id === "string") {
+            handleDelete(e, id);
+        } else if (type === "task" && typeof id === "number") {
             handleDelete(e, id);
         } else {
             handleDelete(e);
