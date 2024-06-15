@@ -42,18 +42,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/getAccessToken', [LoginController::class, 'loginGithub']);
 
-    // Users
-    Route::apiResource('users', UserController::class)->parameters([
-        'users' => 'id'
-    ])->only(['index', 'show', 'store', 'update', 'destroy']);
-
     // Payments
     Route::post('payments', [PaymentController::class, 'store']);
-
-    // TodoLists
-    Route::apiResource('todo-lists', TodoListController::class)->parameters([
-        'todo-lists' => 'id'
-    ])->only(['index', 'show', 'store', 'update', 'destroy']);
 
     // TodoListTasks
     Route::apiResource('todo-list-tasks', TodoListTaskController::class)->parameters([
@@ -61,19 +51,30 @@ Route::middleware('auth:sanctum')->group(function () {
     ])->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::get('todo-list-tasks-without-closed', [TodoListTaskController::class, 'indexWithoutClosed']);
 
-    // Calendar
-    Route::apiResource('calendar', CalendarController::class)->parameters([
-        'calendar' => 'id'
-    ])->only(['index', 'show', 'store', 'update', 'destroy']);
-
     // Calendar Tasks
     Route::apiResource('calendar-tasks', CalendarTaskController::class)->parameters([
         'calendar-tasks' => 'id'
     ])->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::get('calendar-tasks-without-closed', [CalendarTaskController::class, 'indexWithoutClosed']);
+    
+    // Calendar
+    // Route::apiResource('calendar', CalendarController::class)->parameters([
+    //     'calendar' => 'id'
+    // ])->only(['index', 'show', 'store', 'update', 'destroy']);
+
+       // TodoLists
+    // Route::apiResource('todo-lists', TodoListController::class)->parameters([
+    //     'todo-lists' => 'id'
+    // ])->only(['index', 'show', 'store', 'update', 'destroy']);
 
     // Note
-    Route::apiResource('note', NoteController::class)->parameters([
-        'note' => 'id'
-    ])->only(['index', 'show', 'store', 'update', 'destroy']);
+    // Route::apiResource('note', NoteController::class)->parameters([
+    //     'note' => 'id'
+    // ])->only(['index', 'show', 'store', 'update', 'destroy']);
+
+       // Users
+    // Route::apiResource('users', UserController::class)->parameters([
+    //     'users' => 'id'
+    // ])->only(['index', 'show', 'store', 'update', 'destroy']);
+
 });
