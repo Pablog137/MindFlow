@@ -14,6 +14,7 @@ export default function Payment() {
         handleSubmit,
         feedBackMessage,
         setFeedBackMessage,
+        values,
     } = usePayment();
     const [showError, setShowError] = useState(false);
     const errorMessage = errors.cardNumber || errors.cvv || errors.expiryDate;
@@ -45,6 +46,11 @@ export default function Payment() {
                 import.meta.env.VITE_SERVER + "/api/payments",
                 {
                     method: "POST",
+                    body: JSON.stringify({
+                        cardNumber: values.cardNumber,
+                        cvv: values.cvv,
+                        expiry_date: values.expiryDate,
+                    }),
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${token}`,
@@ -80,7 +86,11 @@ export default function Payment() {
                 onClick={navigateToMainPage}
             ></i>
 
-            <div className={`flex justify-center items-center min-h-screen ${showModal && "opacity-40"}`}>
+            <div
+                className={`flex justify-center items-center min-h-screen ${
+                    showModal && "opacity-40"
+                }`}
+            >
                 <div className="text-white grid place-items-center px-6">
                     <img src={logo} alt="Logo" />
                     <h1 className="text-3xl text-center font-bold py-6 md:py-10 md:pb-6">

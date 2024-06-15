@@ -150,7 +150,7 @@ const usePayment = () => {
         handleChange,
         handleSubmit,
         feedBackMessage,
-        setFeedBackMessage
+        setFeedBackMessage,
     };
 };
 
