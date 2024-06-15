@@ -18,24 +18,38 @@ export default function CloseIssue({
     githubUserData,
 }: Props) {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const handleCloseIssue = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const closeIssuePatch = async () => {
+        const URL = `https://api.github.com/repos/${githubUserData.username}/${repoName}/issues/${issue.number}`;
+        try {
+            const response = await fetch(URL, {
+                method: "PATCH",
+                body: JSON.stringify({ state: "closed" }),
+                headers: {
+                    Authorization: `Bearer ${githubUserData.access_token}`,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error closing issue:", error);
+            throw error;
+        }
+    };
+
+    const handleCloseIssue = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         const updatedIssues = issues.filter((i) => i.id !== issue.id);
         setIssues(updatedIssues);
-        closeIssuePatch();
-    };
 
-    const closeIssuePatch = () => {
-        const URL = `https://api.github.com/repos/${githubUserData.username}/${repoName}/issues/${issue.number}`;
-        fetch(URL, {
-            method: "PATCH",
-            body: JSON.stringify({
-                state: "closed",
-            }),
-            headers: {
-                Authorization: `Bearer ${githubUserData.access_token}`,
-            },
-        }).then((res) => res.json());
+        try {
+            await closeIssuePatch();
+        } catch (error) {
+            setIssues([...issues, issue]);
+        }
     };
 
     return (
