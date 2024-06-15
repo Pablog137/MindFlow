@@ -5,6 +5,7 @@ import Spinner from "../components/Spinner.tsx";
 import usePayment from "../hooks/usePayment.ts";
 import { getLocalStorage } from "../helpers/localstorage.ts";
 import { AuthContext } from "../context/AuthContext.tsx";
+import ModalPayment from "../components/ModalPayment.tsx";
 
 export default function Payment() {
     const {
@@ -18,6 +19,7 @@ export default function Payment() {
     const errorMessage = errors.cardNumber || errors.cvv || errors.expiryDate;
     const [serverError, setServerError] = useState("");
     const [showSpinner, setShowSpinner] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const { changeUserType } = useContext(AuthContext);
 
     const navigate = useNavigate();
@@ -78,20 +80,27 @@ export default function Payment() {
                 onClick={navigateToMainPage}
             ></i>
 
-            <div className="flex justify-center items-center min-h-screen">
+            <div className={`flex justify-center items-center min-h-screen ${showModal && "opacity-40"}`}>
                 <div className="text-white grid place-items-center px-6">
                     <img src={logo} alt="Logo" />
-                    <h1 className="text-3xl text-center font-bold py-8 md:p-10">
+                    <h1 className="text-3xl text-center font-bold py-6 md:py-10 md:pb-6">
                         Online Payment
                     </h1>
+                    <button
+                        className="flex items-center gap-2 p-1 mb-2 rounded-sm font-bold text-sm"
+                        onClick={() => setShowModal(true)}
+                    >
+                        <span>View Details</span>
+                        <i className="fa-solid fa-circle-info text-yellow-200"></i>
+                    </button>
                     {errorMessage && showError && (
-                        <div className="w-full text-red-400 text-sm text-center p-3 mb-5 rounded border border-red-900 bg-red-950">
+                        <div className="w-full text-red-400 text-sm text-center p-3 mb-5 mt-3 rounded border border-red-900 bg-red-950">
                             {errorMessage}
                         </div>
                     )}
 
                     {serverError && (
-                        <div className="w-full text-red-400 text-sm text-center p-3 mb-5 rounded border border-red-900 bg-red-950">
+                        <div className="w-full text-red-400 text-sm text-center mt-3 p-3 mb-5 rounded border border-red-900 bg-red-950">
                             {serverError}
                         </div>
                     )}
@@ -159,6 +168,7 @@ export default function Payment() {
                     <div className="mt-10">{showSpinner && <Spinner />}</div>
                 </div>
             </div>
+            <ModalPayment showModal={showModal} setShowModal={setShowModal} />
         </>
     );
 }

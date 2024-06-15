@@ -12,3 +12,5 @@ export const NAME_MIN_LENGTH = 3;
 
 export const NOTE_LIMIT_USER = 3;
 export const NOTE_LIMIT_PREMIUM = 10;
+
+export const BASE_PRICE = 1.99;

@@ -7,8 +7,7 @@ import { currencies } from "../data/Currencies";
 import { ChangeEvent } from "react";
 import ListWrongElement from "../components/UI-Items/ListWrongElement";
 import { AuthContext } from "../context/AuthContext";
-
-const BASE_PRICE = 1.99;
+import { BASE_PRICE } from "../common/utils/constants";
 
 export default function Pricing() {
     const [currency, setCurrency] = useState(currencies[0]);
