@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { getLocalStorage } from "../helpers/localstorage";
+import { getCookie, getLocalStorage } from "../helpers/localstorage";
 
 export default function ProtectedRoute() {
     const { isAuthenticated } = useContext(AuthContext);
-    return isAuthenticated && getLocalStorage("token") ? (
+    return isAuthenticated && getCookie("isAuthenticated") && getLocalStorage("token") ? (
         <Outlet />
     ) : (
         <Navigate to="/login" />

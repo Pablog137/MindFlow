@@ -2,7 +2,7 @@ import logo from "../assets/img/logo-64.png";
 import useForm from "../hooks/useForm";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { clearLocalStorage, setLocalStorage } from "../helpers/localstorage.ts";
+import { clearLocalStorage, setCookie, setLocalStorage } from "../helpers/localstorage.ts";
 import Spinner from "../components/Spinner.tsx";
 import { AuthContext } from "../context/AuthContext.tsx";
 import useAuth from "../hooks/useAuth.ts";
@@ -48,7 +48,7 @@ export default function Login() {
             clearLocalStorage();
             setLocalStorage("token", data.token);
             setLocalStorage("user", JSON.stringify(data.user));
-            setLocalStorage("isAuthenticated", "true");
+            setCookie("isAuthenticated", "true");
             changeUserType(data.user.user_type);
             login();
             navigate("/dashboard");

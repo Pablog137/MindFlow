@@ -1,4 +1,8 @@
-import { removeLocalStorage, setLocalStorage } from "../helpers/localstorage";
+import {
+    createCookie,
+    removeLocalStorage,
+    setCookie,
+} from "../helpers/localstorage";
 
 export default function useAuth({
     setIsAuthenticated,
@@ -7,7 +11,7 @@ export default function useAuth({
 }) {
     const removeUserData = () => {
         setIsAuthenticated(false);
-        setLocalStorage("isAuthenticated", "false");
+        setCookie("isAuthenticated", "false");
         removeLocalStorage("githubData");
         removeLocalStorage("token");
         removeLocalStorage("user");
@@ -18,7 +22,8 @@ export default function useAuth({
 
     const login = () => {
         setIsAuthenticated(true);
-        setLocalStorage("isAuthenticated", "true");
+        // setLocalStorage("isAuthenticated", "true");
+        createCookie("isAuthenticated", "true", 3);
     };
 
     return { logout, login };

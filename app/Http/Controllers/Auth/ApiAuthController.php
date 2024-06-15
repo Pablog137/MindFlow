@@ -13,6 +13,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class ApiAuthController extends Controller
@@ -64,6 +65,21 @@ class ApiAuthController extends Controller
         }
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
+
+            $currentDate = now();
+            $hasActiveSubscription = DB::table('payments')
+                ->where('user_id', $user->id)
+                ->where('expiration_date', '>=', $currentDate)
+                ->exists();
+
+            if ($hasActiveSubscription) {
+                $user->user_type = 'premium';
+            } else {
+                $user->user_type = 'user';
+            }
+
+            $user->save();
+
             $token = $user->createToken('Token');
             $response = [
                 'user' => [

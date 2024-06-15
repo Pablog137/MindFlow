@@ -50,7 +50,6 @@ export default function CreateNewPassword() {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
                 if (data.type === "success") {
                     setPassword("");
                     setTimeout(() => {
