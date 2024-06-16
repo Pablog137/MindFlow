@@ -147,7 +147,7 @@ export default function ModalCreateTask({ status }: Props) {
                                         htmlFor="description"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        Priority level{" "}
+                                        Difficulty level{" "}
                                         <span className="text-red-700 text-sm">
                                             *
                                         </span>

@@ -135,7 +135,7 @@ export default function ModalEditTask({
                                         htmlFor="description"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        Priority level
+                                        Difficulty level
                                     </label>
                                     <div className="flex gap-2">
                                         <RatingStar
