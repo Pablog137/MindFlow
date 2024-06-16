@@ -71,11 +71,12 @@ class ApiAuthController extends Controller
                 ->where('user_id', $user->id)
                 ->where('expiration_date', '>=', $currentDate)
                 ->exists();
-
-            if ($hasActiveSubscription) {
-                $user->user_type = 'premium';
-            } else {
-                $user->user_type = 'user';
+            if ($user->user_type != 'admin') {
+                if ($hasActiveSubscription) {
+                    $user->user_type = 'premium';
+                } else {
+                    $user->user_type = 'user';
+                }
             }
 
             $user->save();
