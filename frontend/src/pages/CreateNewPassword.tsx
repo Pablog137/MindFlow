@@ -12,6 +12,7 @@ export default function CreateNewPassword() {
     });
     const [showMessage, setShowMessage] = useState(false);
     const [email, setEmail] = useState("");
+    const [token, setToken] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     useEffect(() => {
@@ -19,7 +20,9 @@ export default function CreateNewPassword() {
 
         const urlParams = new URLSearchParams(queryString);
         const email = urlParams.get("email");
+        const token = urlParams.get("token");
         if (email) setEmail(email);
+        if (token) setToken(token);
     }, []);
 
     const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
@@ -46,6 +49,7 @@ export default function CreateNewPassword() {
             body: JSON.stringify({
                 email,
                 password,
+                token,
             }),
         })
             .then((res) => res.json())

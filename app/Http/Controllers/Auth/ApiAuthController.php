@@ -109,14 +109,28 @@ class ApiAuthController extends Controller
     public function sendPasswordRecoveryEmail(Request $request)
     {
         $baseUrl = env('APP_BASE_URL');
-        $resetLink = $baseUrl . "new-password?email=" . $request->email;
-        $datos = [
-            'email' => $request->email,
-            'resetLink' => $resetLink
-        ];
-        if (!User::where('email', $request->email)->exists()) {
+        $email = $request->email;
+
+        if (!User::where('email', $email)->exists()) {
             return response()->json(['message' => 'The provided email does not exist.', "type" => "error"]);
         }
+
+        $token = Str::random(60);
+        $resetLink = $baseUrl . "new-password?email=" . $email . "&token=" . $token;
+
+        DB::table('password_reset_tokens')->where('email', $email)->delete();
+
+
+        DB::table('password_reset_tokens')->insert([
+            'email' => $email,
+            'token' => $token,
+            'created_at' => now(),
+        ]);
+
+        $datos = [
+            'email' => $email,
+            'resetLink' => $resetLink
+        ];
 
         try {
             Mail::send('emails.password_recovery', ['data' => $datos], function ($message) use ($datos) {
@@ -136,13 +150,25 @@ class ApiAuthController extends Controller
     {
         try {
             $request->validate([
-                'email' => 'required|email',
+                'token' => 'required|string',
                 'password' => ['required', 'string', 'min:6'],
             ]);
-            $user = User::where('email', $request->email)->first();
+            $tokenData = DB::table('password_reset_tokens')->where('token', $request->token)->first();
+            if (!$tokenData) {
+                return response()->json(['message' => 'Invalid or expired token.', "type" => "error"], 400);
+            }
+            $user = User::where('email', $tokenData->email)->first();
+            if (!$user) {
+                return response()->json(['message' => 'User not found.', "type" => "error"], 404);
+            }
+            if ($user->email !== $request->email) {
+                return response()->json(['message' => 'Token does not match the user.', "type" => "error"], 400);
+            }
+
             $user->password = Hash::make($request->password);
             $user->save();
-            return response()->json(['message' => 'Contraseña cambiada exitosamente', "type" => "success"]);
+            DB::table('password_reset_tokens')->where('token', $request->token)->delete();
+            return response()->json(['message' => 'Password successfully changed.', "type" => "success"]);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage(), "type" => "error"], 500);
         }
