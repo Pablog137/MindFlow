@@ -1,3 +1,23 @@
+# MindFlow
+
+MindFlow es una aplicación que busca gestionar las tareas y proyectos del día a día, manteniendo un seguimiento de las actividades e incrementando la productividad del usuario. 
+
+![image](https://github.com/user-attachments/assets/d7f5cc6c-f148-4531-a90a-f6b83068ea8a)
+
+MindFlow cuenta con distintas funcionalidades para lograr gestionar las tareas y proyectos. Entre ellas están :
+- TodoList
+- Calendar
+- Github Manager
+- Stadistics
+- Notebook
+
+
+La siguiente imagen muestra el todolist, permitiendonos crear diferentes tareas con etiquetas de dificultad y de fecha de vencimiento.
+Además nos asegura una gran experiencia de usuario permitiendonos hacer drag and drop, editar, eliminar y crear nuevas tareas.
+
+![image](https://github.com/user-attachments/assets/9d726733-2ac7-4e97-a3f7-6407d0b4f3f7)
+<p>&nbsp;</p>
+
 # Documentación Levante/Despliegue
 
 
